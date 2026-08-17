@@ -1,0 +1,10 @@
+[
+    {
+        "merged": "com.digihub.arrowescape.app-mergeDebugResources-35:/layout/activity_main.xml",
+        "source": "com.digihub.arrowescape.app-main-38:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-mergeDebugResources-35:/layout/activity_game.xml",
+        "source": "com.digihub.arrowescape.app-main-38:/layout/activity_game.xml"
+    }
+]

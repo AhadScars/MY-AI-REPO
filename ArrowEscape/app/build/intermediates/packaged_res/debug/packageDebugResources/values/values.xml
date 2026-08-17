@@ -1,0 +1,61 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="accent">#6C8CFF</color>
+    <color name="accent_pink">#FF7AB6</color>
+    <color name="bg_dark">#0F1220</color>
+    <color name="bg_soft">#171B2E</color>
+    <color name="black">#000000</color>
+    <color name="danger">#FF6B7A</color>
+    <color name="gold">#FFD56A</color>
+    <color name="ic_launcher_background">#1A2548</color>
+    <color name="muted">#A8B0D0</color>
+    <color name="panel">#E6161A30</color>
+    <color name="success">#4ADE80</color>
+    <color name="text">#F4F6FF</color>
+    <color name="white">#FFFFFF</color>
+    <string name="achievements">Achievements</string>
+    <string name="app_name">Arrow Escape</string>
+    <string name="back">Back</string>
+    <string name="coins">Coins</string>
+    <string name="game_over">Game Over</string>
+    <string name="hint_play">Tap arrows · Drag to pan · Pinch to zoom</string>
+    <string name="home">Home</string>
+    <string name="level">Level</string>
+    <string name="level_complete">Level Complete!</string>
+    <string name="level_select">Level Select</string>
+    <string name="music">Music</string>
+    <string name="next_level">Next Level</string>
+    <string name="out_of_hearts">Out of hearts!</string>
+    <string name="pause">Pause</string>
+    <string name="paused">Paused</string>
+    <string name="play">Play</string>
+    <string name="resume">Resume</string>
+    <string name="retry">Retry</string>
+    <string name="settings">Settings</string>
+    <string name="shake">Screen Shake</string>
+    <string name="sound">Sound Effects</string>
+    <string name="statistics">Statistics</string>
+    <string name="tagline">Clear every arrow. Plan every move.</string>
+    <style name="Theme.ArrowEscape" parent="Theme.Material3.Dark.NoActionBar">
+        <item name="colorPrimary">@color/accent</item>
+        <item name="colorSecondary">@color/accent_pink</item>
+        <item name="android:statusBarColor">@color/bg_dark</item>
+        <item name="android:navigationBarColor">@color/bg_dark</item>
+        <item name="android:windowBackground">@color/bg_dark</item>
+        <item name="android:colorBackground">@color/bg_dark</item>
+        <item name="android:textColorPrimary">@color/text</item>
+        <item name="android:fontFamily">sans-serif-medium</item>
+    </style>
+    <style name="Theme.ArrowEscape.Game" parent="Theme.ArrowEscape">
+        <item name="android:windowFullscreen">false</item>
+        <item name="android:windowLayoutInDisplayCutoutMode">shortEdges</item>
+    </style>
+    <style name="Widget.ArrowEscape.Button" parent="Widget.Material3.Button">
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">16sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:paddingTop">14dp</item>
+        <item name="android:paddingBottom">14dp</item>
+    </style>
+</resources>

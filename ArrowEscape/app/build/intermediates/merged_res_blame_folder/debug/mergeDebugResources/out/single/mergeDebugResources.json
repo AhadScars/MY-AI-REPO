@@ -1,0 +1,58 @@
+[
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/mipmap-anydpi-v26_ic_launcher.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/mipmap-anydpi-v26/ic_launcher.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/drawable_bg_chip.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/drawable/bg_chip.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/drawable_bg_menu_gradient.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/drawable/bg_menu_gradient.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/drawable_bg_panel.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/drawable/bg_panel.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/layout_activity_game.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/layout/activity_game.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/layout_activity_main.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/layout/activity_main.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/drawable_ic_launcher_foreground.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/drawable/ic_launcher_foreground.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/drawable_bg_stat_pill.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/drawable/bg_stat_pill.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/drawable_bg_btn_secondary.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/drawable/bg_btn_secondary.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/drawable_ic_launcher.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/drawable/ic_launcher.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/drawable_bg_btn_success.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/drawable/bg_btn_success.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/drawable_bg_btn_danger.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/drawable/bg_btn_danger.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/mipmap-anydpi-v26_ic_launcher_round.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/mipmap-anydpi-v26/ic_launcher_round.xml"
+    },
+    {
+        "merged": "com.digihub.arrowescape.app-debug-36:/drawable_bg_btn_primary.xml.flat",
+        "source": "com.digihub.arrowescape.app-main-38:/drawable/bg_btn_primary.xml"
+    }
+]
