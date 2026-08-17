@@ -1,0 +1,1819 @@
+# MASTER PROMPT — Build a Cursor-Like AI Code Editor for Windows
+
+You are a senior desktop application architect, AI engineer, full-stack developer, and developer-tools engineer.
+
+Your task is to design and build a production-quality **AI-powered code editor/IDE for Windows**, inspired by products such as Cursor, VS Code, and modern AI coding agents.
+
+The application should be a desktop application first, optimized for Windows 10/11, with a modern UI, fast startup, excellent developer experience, and an architecture that can scale from an MVP into a commercial product.
+
+Do not create a simple demo or toy application. Build the project using a modular architecture so additional AI providers, programming languages, agents, tools, plugins, and features can be added later.
+
+---
+
+# 1. PRODUCT VISION
+
+Build an application called:
+
+**Terminal - IDE**
+
+It should provide:
+
+* Modern code editor
+* File explorer
+* Tabs
+* Integrated terminal
+* Git integration
+* AI chat
+* AI code generation
+* AI code editing
+* Inline AI suggestions
+* Codebase understanding
+* Semantic code search
+* Multi-file AI modifications
+* AI agent mode
+* Diff preview
+* Accept/reject changes
+* Project indexing
+* Multiple AI providers
+* Local AI support
+* Settings
+* Keyboard shortcuts
+* Command palette
+* Windows-native desktop experience
+
+The final UX should feel like a professional developer tool rather than a web application wrapped inside a desktop window.
+
+---
+
+# 2. TARGET PLATFORM
+
+Primary platform:
+
+* Windows 10
+* Windows 11
+
+Architecture should allow future support for:
+
+* macOS
+* Linux
+
+Do not tightly couple business logic to Windows-specific APIs unless absolutely necessary.
+
+---
+
+# 3. CORE TECHNOLOGY STACK
+
+Use the following stack unless there is a strong technical reason to change it.
+
+## Desktop
+
+Use:
+
+* Electron
+* TypeScript
+
+## Frontend
+
+Use:
+
+* React
+* TypeScript
+* Vite
+* Tailwind CSS
+* shadcn/ui or equivalent accessible component system
+
+## Code Editor
+
+Use:
+
+* Monaco Editor
+
+The editor should support:
+
+* syntax highlighting
+* multiple languages
+* autocomplete
+* code folding
+* minimap
+* multiple cursors
+* diagnostics
+* selections
+* decorations
+* inline suggestions
+* diff editor
+
+## Application State
+
+Prefer:
+
+* Zustand
+
+Avoid unnecessary global state.
+
+Keep state separated into logical stores:
+
+* editorStore
+* workspaceStore
+* terminalStore
+* chatStore
+* aiStore
+* settingsStore
+* gitStore
+* indexingStore
+
+---
+
+# 4. DESKTOP ARCHITECTURE
+
+Use Electron with a secure architecture.
+
+Separate:
+
+### Main Process
+
+Responsible for:
+
+* application lifecycle
+* windows
+* filesystem operations
+* process management
+* terminal processes
+* Git operations
+* AI process orchestration
+* indexing
+* IPC
+* native Windows functionality
+
+### Renderer Process
+
+Responsible for:
+
+* UI
+* editor
+* chat interface
+* file explorer
+* tabs
+* settings
+* command palette
+* diff UI
+
+### Preload
+
+Expose only safe, explicitly defined APIs to the renderer.
+
+Do NOT expose unrestricted Node.js APIs to the renderer.
+
+Use:
+
+* contextIsolation: true
+* nodeIntegration: false
+* sandbox where practical
+
+Create strongly typed IPC contracts.
+
+---
+
+# 5. PROJECT STRUCTURE
+
+Use a scalable structure similar to:
+
+```text
+app/
+│
+├── electron/
+│   ├── main/
+│   │   ├── main.ts
+│   │   ├── window.ts
+│   │   ├── ipc/
+│   │   ├── filesystem/
+│   │   ├── terminal/
+│   │   ├── git/
+│   │   ├── ai/
+│   │   ├── indexing/
+│   │   └── security/
+│   │
+│   └── preload/
+│       └── preload.ts
+│
+├── src/
+│   ├── components/
+│   │   ├── editor/
+│   │   ├── explorer/
+│   │   ├── terminal/
+│   │   ├── chat/
+│   │   ├── git/
+│   │   ├── settings/
+│   │   ├── command-palette/
+│   │   └── common/
+│   │
+│   ├── features/
+│   │   ├── ai/
+│   │   ├── workspace/
+│   │   ├── editor/
+│   │   ├── terminal/
+│   │   ├── git/
+│   │   └── indexing/
+│   │
+│   ├── stores/
+│   ├── hooks/
+│   ├── services/
+│   ├── types/
+│   ├── utils/
+│   ├── constants/
+│   └── App.tsx
+│
+├── packages/
+│   ├── ai-core/
+│   ├── indexing/
+│   ├── protocol/
+│   ├── shared/
+│   └── types/
+│
+├── tests/
+│
+├── scripts/
+│
+├── package.json
+├── tsconfig.json
+├── vite.config.ts
+└── electron-builder.yml
+```
+
+Keep reusable functionality outside UI components.
+
+---
+
+# 6. MAIN UI
+
+Create a professional IDE layout.
+
+Default layout:
+
+```text
+┌───────────────────────────────────────────────────────────┐
+│ Logo │ File │ Edit │ View │ Terminal │ Help      Search   │
+├──────┬────────────────────────────────────────────┬───────┤
+│      │ Tabs                                       │       │
+│ Side │────────────────────────────────────────────│ AI    │
+│ Bar  │                                            │ Chat  │
+│      │              Monaco Editor                 │       │
+│      │                                            │       │
+│      │                                            │       │
+├──────┴────────────────────────────────────────────┴───────┤
+│ Terminal / Problems / Output / Debug Console              │
+└───────────────────────────────────────────────────────────┘
+```
+
+Allow panels to be:
+
+* resized
+* collapsed
+* reopened
+* moved where practical
+
+Persist layout between sessions.
+
+---
+
+# 7. FILE EXPLORER
+
+Implement a complete workspace explorer.
+
+Features:
+
+* Open folder
+* Open workspace
+* Create file
+* Create folder
+* Rename
+* Delete
+* Copy
+* Move
+* Refresh
+* Reveal in Explorer
+* Open in terminal
+* Search files
+* File icons
+* Folder expansion
+* Hidden-file support
+* Git status decorations
+
+Prevent accidental destructive operations.
+
+For delete operations:
+
+* show confirmation
+* provide clear affected path
+* never silently delete arbitrary files
+
+---
+
+# 8. MONACO EDITOR
+
+Integrate Monaco Editor deeply.
+
+Support:
+
+* JavaScript
+* TypeScript
+* Python
+* Java
+* C++
+* C#
+* Go
+* Rust
+* PHP
+* HTML
+* CSS
+* JSON
+* YAML
+* Markdown
+* SQL
+* Shell
+
+Architecture should allow additional languages.
+
+Implement:
+
+* tabs
+* dirty state
+* autosave option
+* manual save
+* save all
+* split editor
+* editor groups
+* keyboard shortcuts
+* breadcrumbs
+* minimap
+* line numbers
+* syntax highlighting
+* diagnostics
+
+---
+
+# 9. TERMINAL
+
+Implement an integrated terminal.
+
+Use:
+
+* node-pty
+
+Support:
+
+* PowerShell
+* CMD
+* Git Bash when available
+* WSL when available
+
+Features:
+
+* create terminal
+* kill terminal
+* restart terminal
+* multiple terminals
+* terminal tabs
+* terminal resize
+* current workspace directory
+* environment variables
+* shell selection
+
+The terminal must behave like a real terminal, not a fake command output component.
+
+---
+
+# 10. GIT
+
+Implement Git support.
+
+Features:
+
+* detect Git repository
+* current branch
+* changed files
+* staged files
+* unstaged files
+* stage
+* unstage
+* commit
+* checkout branch
+* create branch
+* pull
+* push
+* fetch
+* diff
+* merge conflict detection
+
+Display Git status in the explorer.
+
+Example:
+
+```text
+src/
+  app.ts        M
+  api.ts        A
+README.md       M
+```
+
+Use Git through a safe abstraction.
+
+Do not execute arbitrary shell strings constructed directly from user-controlled input.
+
+---
+
+# 11. AI PROVIDER ARCHITECTURE
+
+Do not hard-code one AI provider.
+
+Create an abstraction:
+
+```ts
+interface AIProvider {
+  id: string;
+  name: string;
+
+  chat(request: ChatRequest): AsyncIterable<AIChunk>;
+
+  complete(request: CompletionRequest): Promise<CompletionResponse>;
+
+  embed(request: EmbeddingRequest): Promise<EmbeddingResponse>;
+}
+```
+
+Support providers such as:
+
+* OpenAI
+* Anthropic
+* Google Gemini
+* OpenAI-compatible APIs
+* Ollama
+* Local models
+
+The user should be able to configure:
+
+* provider
+* model
+* API key
+* base URL
+* temperature
+* max tokens
+* context settings
+
+Never hard-code API keys.
+
+Store credentials securely using an appropriate OS credential mechanism.
+
+---
+
+# 12. AI CHAT
+
+Create a right-side AI chat panel.
+
+Features:
+
+* new conversation
+* conversation history
+* streaming responses
+* markdown
+* syntax-highlighted code
+* copy code
+* insert code
+* apply code
+* retry
+* stop generation
+* regenerate
+* model selection
+
+The chat should understand the current workspace.
+
+Example:
+
+User:
+
+"Why is authentication failing?"
+
+AI should be able to inspect relevant files after receiving permission/context.
+
+---
+
+# 13. CONTEXT SYSTEM
+
+Build a context engine.
+
+The AI should be able to receive context from:
+
+* current file
+* selected code
+* open files
+* workspace files
+* relevant search results
+* Git diff
+* terminal output
+* diagnostics
+* symbols
+* project configuration
+
+Create a structured context format.
+
+Example:
+
+```ts
+interface AIContext {
+  workspace?: WorkspaceContext;
+  files?: FileContext[];
+  selection?: SelectionContext;
+  diagnostics?: Diagnostic[];
+  terminalOutput?: string;
+  gitDiff?: string;
+}
+```
+
+Do not send the entire repository blindly to the AI.
+
+Context must be selected intelligently.
+
+---
+
+# 14. CODEBASE INDEXING
+
+Build a background indexing system.
+
+When a workspace opens:
+
+1. Discover files
+2. Ignore irrelevant files
+3. Parse supported files
+4. Extract metadata
+5. Chunk content
+6. Generate embeddings when configured
+7. Store searchable data
+
+Ignore:
+
+```text
+node_modules
+.git
+dist
+build
+out
+coverage
+.cache
+.tmp
+.env
+```
+
+Allow `.gitignore` rules to control indexing.
+
+Make exclusions configurable.
+
+---
+
+# 15. SEARCH SYSTEM
+
+Implement two levels of search.
+
+## Lexical Search
+
+Use fast text search.
+
+Support:
+
+* filename search
+* text search
+* regex
+* case-sensitive search
+* whole-word search
+
+## Semantic Search
+
+Use embeddings to find conceptually related code.
+
+Example:
+
+User asks:
+
+"Where is user authentication handled?"
+
+Search should find files even if they don't literally contain:
+
+"authentication"
+
+Store metadata such as:
+
+```text
+file
+path
+language
+symbol
+startLine
+endLine
+content
+embedding
+```
+
+Use SQLite or another local storage layer initially.
+
+Design the abstraction so a more powerful vector database can be introduced later.
+
+---
+
+# 16. AI AGENT
+
+This is one of the most important parts.
+
+Create an agent architecture.
+
+The agent should have:
+
+* system instructions
+* conversation history
+* context manager
+* tool registry
+* planning loop
+* execution loop
+* permission system
+* result summarization
+
+Example flow:
+
+```text
+User Request
+     ↓
+Understand Intent
+     ↓
+Gather Context
+     ↓
+Plan
+     ↓
+Call Tools
+     ↓
+Inspect Results
+     ↓
+Modify Files
+     ↓
+Run Tests
+     ↓
+Inspect Errors
+     ↓
+Fix
+     ↓
+Show Diff
+     ↓
+User Approval
+```
+
+---
+
+# 17. AI TOOLS
+
+Create a tool interface:
+
+```ts
+interface AITool {
+  name: string;
+  description: string;
+  inputSchema: unknown;
+
+  execute(input: unknown): Promise<ToolResult>;
+}
+```
+
+Implement tools such as:
+
+### File Tools
+
+* read_file
+* write_file
+* edit_file
+* create_file
+* delete_file
+* list_directory
+
+### Search Tools
+
+* search_files
+* search_symbols
+* semantic_search
+
+### Terminal Tools
+
+* run_command
+
+### Git Tools
+
+* git_status
+* git_diff
+* git_log
+* git_branch
+
+### Diagnostics
+
+* get_diagnostics
+
+### Project Tools
+
+* detect_project
+* inspect_package
+* inspect_dependencies
+
+Every tool call must be logged and visible to the user when appropriate.
+
+---
+
+# 18. PERMISSION SYSTEM
+
+Never allow the AI agent unrestricted access without user awareness.
+
+Classify tools:
+
+### Safe
+
+Examples:
+
+* read file
+* search files
+* list directory
+
+### Confirmation Required
+
+Examples:
+
+* write file
+* delete file
+* install package
+* git commit
+* run potentially destructive command
+
+### High Risk
+
+Examples:
+
+* recursive deletion
+* system-level modifications
+* changing security settings
+* executing downloaded binaries
+
+Ask for explicit confirmation.
+
+Provide options:
+
+* Allow once
+* Allow for this session
+* Always allow this tool
+* Deny
+
+---
+
+# 19. FILE EDITING ENGINE
+
+Do not make the AI rewrite entire files unnecessarily.
+
+Implement targeted edits.
+
+Preferred approach:
+
+```text
+Original File
+     ↓
+AI Proposed Patch
+     ↓
+Validate Patch
+     ↓
+Show Diff
+     ↓
+User Accept / Reject
+     ↓
+Apply
+```
+
+Use structured edit operations where possible.
+
+Support:
+
+* insert
+* replace
+* delete
+* multiple edits
+* multi-file edits
+
+Handle conflicts safely.
+
+Never silently overwrite user changes.
+
+---
+
+# 20. DIFF VIEW
+
+Create a professional diff interface.
+
+Display:
+
+```diff
+- old code
++ new code
+```
+
+Support:
+
+* file-level diff
+* inline diff
+* side-by-side diff
+* accept change
+* reject change
+* accept all
+* reject all
+
+Before applying AI modifications, verify that the original file version has not changed unexpectedly.
+
+---
+
+# 21. INLINE AI
+
+Implement inline AI editing.
+
+Example:
+
+User selects:
+
+```ts
+function login(user) {
+  // ...
+}
+```
+
+Then presses:
+
+```text
+Ctrl + K
+```
+
+Prompt:
+
+```text
+Add proper error handling and TypeScript types.
+```
+
+AI returns a proposed edit.
+
+Display the change inline.
+
+Allow:
+
+* Accept
+* Reject
+* Retry
+* Edit instruction
+
+---
+
+# 22. AI AUTOCOMPLETE
+
+Implement inline code suggestions.
+
+Example:
+
+```ts
+function calculateTotal(items) {
+    |
+}
+```
+
+AI predicts:
+
+```ts
+return items.reduce((total, item) => total + item.price, 0);
+```
+
+Support:
+
+* accept suggestion
+* partial accept
+* reject
+* next suggestion
+
+Do not block the editor while requesting suggestions.
+
+Use cancellation and debounce.
+
+---
+
+# 23. COMMAND PALETTE
+
+Implement:
+
+```text
+Ctrl + Shift + P
+```
+
+Commands should include:
+
+* Open Folder
+* New File
+* Save
+* Save All
+* Search Files
+* Search in Workspace
+* Toggle Terminal
+* Toggle AI Chat
+* New AI Chat
+* AI Edit Selection
+* AI Explain Selection
+* AI Generate Tests
+* Git Commit
+* Git Branch
+* Settings
+
+Make commands searchable.
+
+---
+
+# 24. KEYBOARD SHORTCUTS
+
+Support familiar shortcuts.
+
+Examples:
+
+```text
+Ctrl + P       Quick Open
+Ctrl + Shift + P   Command Palette
+Ctrl + S       Save
+Ctrl + Shift + S   Save As
+Ctrl + F       Find
+Ctrl + Shift + F   Search Workspace
+Ctrl + `       Toggle Terminal
+Ctrl + B       Toggle Sidebar
+Ctrl + K       AI Edit
+Ctrl + L       AI Chat
+Ctrl + W       Close Tab
+Ctrl + Shift + T   Reopen Tab
+```
+
+Make shortcuts configurable.
+
+---
+
+# 25. SETTINGS
+
+Create a complete settings system.
+
+Settings categories:
+
+### General
+
+* theme
+* language
+* startup behavior
+* autosave
+
+### Editor
+
+* font
+* font size
+* tab size
+* minimap
+* word wrap
+* formatting
+
+### AI
+
+* provider
+* model
+* API key
+* temperature
+* context size
+* autocomplete
+* agent permissions
+
+### Terminal
+
+* default shell
+* font
+* environment
+
+### Git
+
+* auto-fetch
+* Git executable path
+
+### Privacy
+
+* telemetry
+* indexing
+* AI data sharing
+
+Persist settings locally.
+
+---
+
+# 26. THEMING
+
+Create:
+
+* Dark theme
+* Light theme
+
+Default should be a polished dark developer theme.
+
+Avoid copying another product's exact branding.
+
+Use a consistent design system.
+
+---
+
+# 27. PERFORMANCE
+
+Performance is extremely important.
+
+Requirements:
+
+* fast startup
+* lazy-load heavy components
+* virtualize large file lists
+* debounce search
+* cancel outdated AI requests
+* stream AI responses
+* index in background
+* never freeze the renderer
+* avoid loading huge files entirely into React state
+* use worker threads/processes for expensive operations
+
+The UI should remain responsive while:
+
+* indexing
+* searching
+* AI generation
+* terminal commands
+* Git operations
+
+---
+
+# 28. SECURITY
+
+Implement strong security practices.
+
+Requirements:
+
+* no unrestricted Node.js in renderer
+* validate IPC input
+* sanitize file paths
+* prevent path traversal
+* protect secrets
+* do not log API keys
+* do not expose credentials to renderer unnecessarily
+* validate AI tool arguments
+* restrict agent capabilities
+* require approval for dangerous operations
+
+AI-generated shell commands must never automatically receive unlimited privileges.
+
+---
+
+# 29. LOCAL AI
+
+Add optional local model support.
+
+Support:
+
+* Ollama
+* OpenAI-compatible local endpoints
+
+The application should work without cloud AI when a local model is configured.
+
+Architecture:
+
+```text
+AIService
+   │
+   ├── OpenAIProvider
+   ├── AnthropicProvider
+   ├── GeminiProvider
+   ├── OllamaProvider
+   └── CustomProvider
+```
+
+---
+
+# 30. DATABASE
+
+Use SQLite initially.
+
+Store:
+
+* workspace metadata
+* indexed files
+* chunks
+* embeddings metadata
+* conversations
+* messages
+* settings
+* command history
+* indexing state
+
+Do not store sensitive API credentials as plain text.
+
+Create migrations.
+
+---
+
+# 31. LOGGING
+
+Implement structured application logging.
+
+Log:
+
+* app lifecycle
+* AI requests metadata
+* AI errors
+* indexing errors
+* Git errors
+* terminal errors
+* IPC errors
+
+Never log:
+
+* API keys
+* passwords
+* private tokens
+* full sensitive file contents
+
+Provide a way to open logs from the UI.
+
+---
+
+# 32. ERROR HANDLING
+
+Every major subsystem must have proper error handling.
+
+Do not show raw stack traces to normal users.
+
+Use:
+
+* friendly error message
+* technical details expandable
+* retry button
+* copy diagnostics
+
+Example:
+
+```text
+AI request failed
+
+The AI provider could not complete your request.
+
+[Retry]
+
+Technical details
+```
+
+---
+
+# 33. OFFLINE MODE
+
+The editor itself should work offline.
+
+Offline features:
+
+* file editing
+* file explorer
+* terminal
+* Git
+* local search
+* settings
+
+Cloud AI should gracefully fail when offline.
+
+Local AI should continue working if configured.
+
+---
+
+# 34. CRASH RECOVERY
+
+Implement recovery mechanisms.
+
+If application crashes:
+
+* restore open workspace
+* restore tabs where possible
+* restore unsaved buffers where possible
+* recover unsaved edits
+
+Never silently lose user work.
+
+---
+
+# 35. UPDATE SYSTEM
+
+Prepare architecture for automatic updates.
+
+Use a secure update mechanism suitable for Electron/Windows.
+
+Update flow:
+
+```text
+Check Update
+      ↓
+Download
+      ↓
+Verify
+      ↓
+Install
+      ↓
+Restart
+```
+
+Do not implement insecure arbitrary executable downloads.
+
+---
+
+# 36. WINDOWS INTEGRATION
+
+Support:
+
+* `.exe` installer
+* Start Menu shortcut
+* Desktop shortcut optional
+* file associations
+* context-menu integration where appropriate
+* "Open with [APP_NAME]"
+* deep links if required
+* Windows notifications
+
+Installer should support:
+
+* per-user installation
+* optional auto-launch
+* clean uninstall
+
+---
+
+# 37. TESTING
+
+Create automated tests.
+
+## Unit Tests
+
+Test:
+
+* AI context selection
+* tool validation
+* path validation
+* file patching
+* indexing
+* search
+* settings
+* Git abstraction
+
+## Integration Tests
+
+Test:
+
+* opening workspace
+* editing file
+* AI edit
+* applying patch
+* terminal
+* Git status
+
+## E2E Tests
+
+Test complete flows:
+
+```text
+Open App
+→ Open Project
+→ Edit File
+→ Ask AI
+→ AI Reads File
+→ AI Generates Change
+→ Show Diff
+→ Accept Change
+→ Save
+→ Run Test
+```
+
+---
+
+# 38. AI AGENT DEVELOPMENT RULES
+
+When implementing the project, follow these rules:
+
+1. Do not create fake functionality.
+2. Do not use placeholder buttons pretending features work.
+3. If a feature cannot be completed immediately, implement a clean abstraction and clearly document the limitation.
+4. Do not hard-code API keys.
+5. Do not silently execute dangerous commands.
+6. Do not overwrite files without validating their current state.
+7. Keep TypeScript strict.
+8. Avoid unnecessary dependencies.
+9. Prefer small modular services.
+10. Write reusable components.
+11. Add tests for important functionality.
+12. Keep security boundaries clear.
+13. Do not put business logic directly inside React components.
+14. Do not block the UI thread.
+15. Handle cancellation for long-running operations.
+
+---
+
+# 39. DEVELOPMENT PHASES
+
+Build the project incrementally.
+
+## Phase 1 — Foundation
+
+Implement:
+
+* Electron
+* React
+* TypeScript
+* Vite
+* secure IPC
+* basic window
+* theme
+* project structure
+
+## Phase 2 — Editor
+
+Implement:
+
+* Monaco
+* tabs
+* files
+* folders
+* save
+* workspace
+* explorer
+
+## Phase 3 — Terminal + Git
+
+Implement:
+
+* node-pty
+* PowerShell
+* Git
+* Git status
+* diff
+* branches
+
+## Phase 4 — AI Chat
+
+Implement:
+
+* provider abstraction
+* streaming
+* chat UI
+* API configuration
+* context selection
+
+## Phase 5 — AI Editing
+
+Implement:
+
+* selection-based editing
+* patch generation
+* diff
+* accept/reject
+* multi-file edits
+
+## Phase 6 — Codebase Intelligence
+
+Implement:
+
+* indexing
+* chunking
+* embeddings
+* semantic search
+* symbol search
+
+## Phase 7 — AI Agent
+
+Implement:
+
+* tool registry
+* planning
+* tool calls
+* permissions
+* execution loop
+* error recovery
+
+## Phase 8 — Inline AI
+
+Implement:
+
+* autocomplete
+* inline suggestions
+* Ctrl+K editing
+
+## Phase 9 — Production Hardening
+
+Implement:
+
+* crash recovery
+* logging
+* security
+* performance optimization
+* tests
+* installer
+* updater
+
+---
+
+# 40. MVP DEFINITION
+
+The first usable MVP must include:
+
+* Windows desktop application
+* Monaco editor
+* file explorer
+* open folder
+* tabs
+* save files
+* integrated terminal
+* Git status
+* AI chat
+* AI code generation
+* AI code editing
+* diff preview
+* accept/reject changes
+* basic codebase search
+* OpenAI-compatible provider
+* settings
+
+Do not attempt every advanced feature before the MVP works reliably.
+
+---
+
+# 41. CODE QUALITY
+
+Use:
+
+* strict TypeScript
+* ESLint
+* Prettier
+* clean naming
+* typed APIs
+* dependency injection where useful
+* interfaces around external services
+
+Avoid:
+
+* `any` unless justified
+* giant components
+* giant service files
+* circular dependencies
+* duplicated business logic
+* unsafe shell execution
+
+---
+
+# 42. AI RESPONSE STREAMING
+
+AI responses must stream.
+
+Use an abstraction that supports:
+
+```text
+Request
+  ↓
+Stream started
+  ↓
+Token/chunk
+  ↓
+Token/chunk
+  ↓
+Tool call
+  ↓
+Tool result
+  ↓
+More generation
+  ↓
+Complete
+```
+
+The UI should update progressively.
+
+Provide:
+
+* Stop button
+* Retry
+* Cancel
+* Error recovery
+
+---
+
+# 43. AGENT UI
+
+When AI performs actions, show them transparently.
+
+Example:
+
+```text
+AI Agent
+
+✓ Read src/auth/login.ts
+✓ Read src/auth/session.ts
+→ Searching for authentication middleware
+✓ Found 4 relevant files
+→ Editing src/auth/login.ts
+→ Running tests
+✓ Tests passed
+
+Changes ready for review
+
+[Accept All] [Reject All]
+```
+
+Users should understand what the agent is doing.
+
+---
+
+# 44. CODEBASE CONTEXT STRATEGY
+
+Do not simply send all files to the model.
+
+Use:
+
+```text
+User Request
+      ↓
+Current Selection
+      ↓
+Current File
+      ↓
+Symbol Context
+      ↓
+Lexical Search
+      ↓
+Semantic Search
+      ↓
+Related Files
+      ↓
+Git Changes
+      ↓
+Relevant Context
+      ↓
+LLM
+```
+
+Use token budgets.
+
+Prioritize relevant information.
+
+---
+
+# 45. COST CONTROL
+
+AI requests can become expensive.
+
+Implement:
+
+* context trimming
+* caching
+* request cancellation
+* configurable models
+* token estimation
+* request history
+* model selection
+* optional local models
+
+Show approximate token usage where practical.
+
+---
+
+# 46. OBSERVABILITY
+
+For development builds, provide diagnostics such as:
+
+```text
+AI Request
+Model: ...
+Input tokens: ...
+Output tokens: ...
+Duration: ...
+Tools used: ...
+```
+
+Make sure sensitive information is not exposed.
+
+---
+
+# 47. EXTENSIBILITY
+
+Design plugin-like abstractions for future support of:
+
+* MCP
+* custom AI providers
+* custom commands
+* language servers
+* themes
+* extensions
+* additional tools
+
+Do not implement a huge plugin marketplace initially.
+
+Build the internal architecture so it can be added later.
+
+---
+
+# 48. MCP SUPPORT
+
+Prepare for Model Context Protocol integration.
+
+Create an abstraction:
+
+```ts
+interface MCPServer {
+  id: string;
+  name: string;
+  transport: MCPTransport;
+  tools: MCPTool[];
+}
+```
+
+Allow future external tools such as:
+
+* databases
+* APIs
+* documentation
+* cloud services
+* project management
+* browser automation
+
+MCP tools must go through the same permission system as native tools.
+
+---
+
+# 49. LANGUAGE SERVER SUPPORT
+
+Prepare architecture for LSP.
+
+Eventually support:
+
+* diagnostics
+* go to definition
+* references
+* rename
+* hover
+* completion
+* symbols
+
+Do not tightly couple Monaco directly to individual languages.
+
+Create:
+
+```text
+LanguageServiceManager
+        │
+        ├── TypeScript
+        ├── Python
+        ├── Rust
+        ├── Go
+        └── C#
+```
+
+---
+
+# 50. FINAL UX REQUIREMENT
+
+The application should feel:
+
+* fast
+* minimal
+* professional
+* developer-focused
+* responsive
+* predictable
+* transparent about AI actions
+
+Avoid unnecessary animations.
+
+Avoid excessive rounded cards.
+
+Avoid making the application look like a generic SaaS dashboard.
+
+The editor should remain the primary focus.
+
+---
+
+# 51. IMPLEMENTATION PROCESS
+
+Do not generate the entire application in one giant response.
+
+Work incrementally.
+
+For each phase:
+
+1. Explain architecture briefly.
+2. Create required files.
+3. Implement the feature.
+4. Run/type-check/test it.
+5. Fix errors.
+6. Review security.
+7. Review performance.
+8. Continue to the next phase.
+
+After each major phase, provide:
+
+* files created
+* files modified
+* architecture decisions
+* commands to run
+* tests completed
+* known limitations
+* next phase
+
+---
+
+# 52. IMPORTANT RULE
+
+Before writing code, inspect the existing project.
+
+If files already exist:
+
+* do not blindly overwrite them
+* reuse existing architecture where appropriate
+* identify conflicts
+* migrate carefully
+
+If starting from an empty directory:
+
+* initialize the project cleanly
+* install only required dependencies
+* create the architecture described above
+
+Always prefer a working incremental implementation over generating huge amounts of untested code.
+
+---
+
+# 53. FIRST TASK
+
+Start by creating the project foundation.
+
+Implement:
+
+1. Electron
+2. React
+3. TypeScript
+4. Vite
+5. Tailwind
+6. secure preload
+7. typed IPC
+8. basic IDE shell
+9. sidebar
+10. editor area
+11. terminal panel placeholder with proper architecture
+12. AI panel placeholder with proper architecture
+13. settings foundation
+14. Zustand stores
+15. ESLint
+16. Prettier
+17. testing setup
+
+Then run:
+
+```bash
+npm install
+npm run typecheck
+npm run lint
+npm run build
+```
+
+Fix all errors before proceeding.
+
+After the foundation is stable, implement the Monaco editor and workspace/file-system layer.
+
+Do not jump directly to the AI agent before the core editor works reliably.
+
+---
+
+# 54. EXPECTED RESULT
+
+The final application should be a real Windows AI development environment capable of:
+
+```text
+Open Project
+      ↓
+Browse Files
+      ↓
+Edit Code
+      ↓
+Run Terminal Commands
+      ↓
+Use Git
+      ↓
+Ask AI
+      ↓
+AI Understands Codebase
+      ↓
+AI Proposes Changes
+      ↓
+Review Diff
+      ↓
+Accept Changes
+      ↓
+Run Tests
+      ↓
+AI Fixes Errors
+```
+
+Build it as a serious, extensible developer product rather than a simple Electron demo.

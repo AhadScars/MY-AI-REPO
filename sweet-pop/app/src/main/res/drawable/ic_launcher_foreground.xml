@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<vector xmlns:android="http://schemas.android.com/apk/res/android"
+    android:width="108dp"
+    android:height="108dp"
+    android:viewportWidth="108"
+    android:viewportHeight="108">
+    <!-- Glow -->
+    <path
+        android:fillColor="#44FF6BCB"
+        android:pathData="M54,28c14,0 26,12 26,26s-12,26 -26,26 -26,-12 -26,-26 12,-26 26,-26z" />
+    <!-- Main candy body -->
+    <path
+        android:fillColor="#FFFF6BCB"
+        android:pathData="M54,34c12,0 22,10 22,22s-10,22 -22,22 -22,-10 -22,-22 10,-22 22,-22z" />
+    <!-- Highlight -->
+    <path
+        android:fillColor="#66FFFFFF"
+        android:pathData="M44,40c4,-3 10,-4 14,-2 1,0.5 1,2 0,2.5 -4,2 -9,2.5 -13,0.5 -1,-0.5 -1.2,-1.5 -1,-1z" />
+    <!-- Wrapper twist left -->
+    <path
+        android:fillColor="#FFFFD56B"
+        android:pathData="M28,50 L36,46 L36,62 L28,58 Z" />
+    <!-- Wrapper twist right -->
+    <path
+        android:fillColor="#FFFFD56B"
+        android:pathData="M80,50 L72,46 L72,62 L80,58 Z" />
+    <!-- Sparkle -->
+    <path
+        android:fillColor="#FFFFFFFF"
+        android:pathData="M62,42 L63.5,45.5 L67,47 L63.5,48.5 L62,52 L60.5,48.5 L57,47 L60.5,45.5 Z" />
+</vector>

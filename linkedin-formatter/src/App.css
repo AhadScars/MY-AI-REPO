@@ -1,0 +1,352 @@
+.app {
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 1.5rem 1.25rem 2rem;
+}
+
+/* —— Header —— */
+.header {
+  margin-bottom: 1.5rem;
+}
+
+.brand {
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+}
+
+.logo {
+  width: 48px;
+  height: 48px;
+  border-radius: 10px;
+  background: #0a66c2;
+  color: #fff;
+  display: grid;
+  place-items: center;
+  flex-shrink: 0;
+  box-shadow: 0 4px 14px rgba(10, 102, 194, 0.35);
+}
+
+.brand h1 {
+  margin: 0;
+  font-size: 1.45rem;
+  font-weight: 700;
+  letter-spacing: -0.02em;
+  color: var(--text);
+}
+
+.tagline {
+  margin: 0.2rem 0 0;
+  font-size: 0.9rem;
+  color: var(--muted);
+}
+
+/* —— Layout —— */
+.main {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.25rem;
+  flex: 1;
+}
+
+@media (min-width: 900px) {
+  .main {
+    grid-template-columns: 1.15fr 0.85fr;
+    align-items: start;
+  }
+}
+
+.panel {
+  background: var(--surface);
+  border: 1px solid var(--border);
+  border-radius: 14px;
+  box-shadow: var(--shadow);
+}
+
+/* —— Editor —— */
+.editor-panel {
+  padding: 0.75rem;
+  display: flex;
+  flex-direction: column;
+  gap: 0.65rem;
+}
+
+.toolbar {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.45rem;
+  padding: 0.35rem;
+  background: var(--toolbar-bg);
+  border-radius: 10px;
+  border: 1px solid var(--border);
+}
+
+.tool-group {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  gap: 0.3rem;
+}
+
+.tool-divider {
+  width: 1px;
+  height: 28px;
+  background: var(--border);
+  margin: 0 0.15rem;
+}
+
+.tool-btn {
+  appearance: none;
+  border: 1px solid transparent;
+  background: transparent;
+  color: var(--text);
+  min-width: 36px;
+  height: 36px;
+  padding: 0 0.55rem;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  font-family: inherit;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.35rem;
+  transition: background 0.15s, border-color 0.15s, color 0.15s;
+}
+
+.tool-btn:hover {
+  background: var(--hover);
+  border-color: var(--border);
+}
+
+.tool-btn:active {
+  background: var(--active);
+}
+
+.tool-btn.italic-btn {
+  font-style: italic;
+}
+
+.tool-btn.ghost {
+  font-size: 0.8rem;
+  color: var(--muted);
+  min-width: auto;
+}
+
+.tool-btn.primary-outline {
+  border-color: var(--border);
+  background: var(--surface);
+  font-size: 0.85rem;
+  font-weight: 600;
+}
+
+.tool-btn.primary-outline:hover {
+  border-color: #0a66c2;
+  color: #0a66c2;
+}
+
+.underline-label {
+  text-decoration: underline;
+  text-underline-offset: 2px;
+  font-weight: 600;
+}
+
+.bullet-select {
+  height: 36px;
+  border-radius: 8px;
+  border: 1px solid var(--border);
+  background: var(--surface);
+  color: var(--text);
+  font-family: inherit;
+  font-size: 0.85rem;
+  padding: 0 0.5rem;
+  cursor: pointer;
+}
+
+.hint {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+  line-height: 1.45;
+  padding: 0 0.25rem;
+}
+
+.editor {
+  width: 100%;
+  min-height: 280px;
+  resize: vertical;
+  border: 1px solid var(--border);
+  border-radius: 10px;
+  padding: 1rem 1.1rem;
+  font-family: inherit;
+  font-size: 1rem;
+  line-height: 1.55;
+  color: var(--text);
+  background: var(--editor-bg);
+  outline: none;
+  transition: border-color 0.15s, box-shadow 0.15s;
+}
+
+.editor:focus {
+  border-color: #0a66c2;
+  box-shadow: 0 0 0 3px rgba(10, 102, 194, 0.15);
+}
+
+.editor::placeholder {
+  color: var(--placeholder);
+}
+
+.editor-footer {
+  display: flex;
+  flex-wrap: wrap;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.75rem;
+  padding: 0.15rem 0.25rem;
+}
+
+.char-count {
+  font-size: 0.8rem;
+  color: var(--muted);
+}
+
+.char-count.over {
+  color: #d11124;
+  font-weight: 600;
+}
+
+.copy-btn {
+  appearance: none;
+  border: none;
+  background: #0a66c2;
+  color: #fff;
+  font-family: inherit;
+  font-size: 0.9rem;
+  font-weight: 600;
+  padding: 0.65rem 1.15rem;
+  border-radius: 24px;
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.45rem;
+  box-shadow: 0 2px 8px rgba(10, 102, 194, 0.3);
+  transition: background 0.15s, transform 0.1s;
+}
+
+.copy-btn:hover {
+  background: #004182;
+}
+
+.copy-btn:active {
+  transform: scale(0.98);
+}
+
+/* —— Preview —— */
+.preview-panel {
+  padding: 1rem 1rem 1.15rem;
+  position: sticky;
+  top: 1rem;
+}
+
+.preview-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  margin-bottom: 0.85rem;
+  padding: 0 0.15rem;
+}
+
+.preview-header h2 {
+  margin: 0;
+  font-size: 0.95rem;
+  font-weight: 650;
+  color: var(--text);
+}
+
+.preview-badge {
+  font-size: 0.72rem;
+  font-weight: 600;
+  text-transform: uppercase;
+  letter-spacing: 0.04em;
+  color: #0a66c2;
+  background: rgba(10, 102, 194, 0.1);
+  padding: 0.25rem 0.55rem;
+  border-radius: 999px;
+}
+
+.preview-card {
+  border: 1px solid var(--border);
+  border-radius: 12px;
+  background: var(--surface);
+  overflow: hidden;
+}
+
+.preview-author {
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+  padding: 0.9rem 1rem 0.5rem;
+}
+
+.avatar {
+  width: 44px;
+  height: 44px;
+  border-radius: 50%;
+  background: linear-gradient(135deg, #0a66c2, #378fe9);
+  color: #fff;
+  font-size: 0.75rem;
+  font-weight: 700;
+  display: grid;
+  place-items: center;
+}
+
+.author-name {
+  font-weight: 650;
+  font-size: 0.92rem;
+  color: var(--text);
+}
+
+.author-meta {
+  font-size: 0.75rem;
+  color: var(--muted);
+}
+
+.preview-body {
+  padding: 0.35rem 1rem 1rem;
+  white-space: pre-wrap;
+  word-break: break-word;
+  font-size: 0.95rem;
+  line-height: 1.55;
+  color: var(--text);
+  min-height: 120px;
+}
+
+.preview-body .empty {
+  color: var(--placeholder);
+}
+
+.preview-actions {
+  display: flex;
+  justify-content: space-around;
+  border-top: 1px solid var(--border);
+  padding: 0.65rem 0.5rem;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: var(--muted);
+}
+
+/* —— Footer —— */
+.footer {
+  margin-top: 1.5rem;
+  text-align: center;
+}
+
+.footer p {
+  margin: 0;
+  font-size: 0.8rem;
+  color: var(--muted);
+}

@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <string name="app_name">Sweet Pop</string>
+    <string name="level_fmt">Level %1$d</string>
+    <string name="score_label">Score</string>
+    <string name="moves_label">Moves</string>
+    <string name="target_label">Target</string>
+    <string name="play">Play</string>
+    <string name="next_level">Next Level</string>
+    <string name="retry">Try Again</string>
+    <string name="menu">Menu</string>
+    <string name="sound_on">Sound On</string>
+    <string name="sound_off">Sound Off</string>
+    <string name="win_title">Sweet!</string>
+    <string name="lose_title">Out of Moves</string>
+    <string name="subtitle">Match · Cascade · Pop</string>
+    <string name="hint">Swap adjacent candies to make 3+ in a row</string>
+</resources>

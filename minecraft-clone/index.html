@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>BlockCraft — Minecraft Clone</title>
+    <link rel="stylesheet" href="/src/style.css" />
+  </head>
+  <body>
+    <div id="app">
+      <canvas id="game"></canvas>
+
+      <!-- Crosshair -->
+      <div id="crosshair">
+        <div class="ch-h"></div>
+        <div class="ch-v"></div>
+      </div>
+
+      <!-- HUD -->
+      <div id="hud">
+        <div id="top-bar">
+          <div class="stat">
+            <span class="label">Time</span>
+            <span id="time-label">Day 06:00</span>
+          </div>
+          <div class="stat">
+            <span class="label">Phase</span>
+            <span id="phase-label">Day</span>
+          </div>
+          <div class="stat">
+            <span class="label">Camera</span>
+            <span id="camera-label">FPP</span>
+          </div>
+          <div class="stat">
+            <span class="label">HP</span>
+            <span id="hp-label">♥♥♥♥♥♥♥♥♥♥</span>
+          </div>
+        </div>
+
+        <div id="hotbar">
+          <!-- filled by JS -->
+        </div>
+
+        <div id="hint">
+          <kbd>WASD</kbd> move · <kbd>Space</kbd> jump · <kbd>Mouse</kbd> look ·
+          <kbd>LMB</kbd> dig/hit · <kbd>RMB</kbd> place · <kbd>V</kbd> FPP/TPP ·
+          <kbd>1–9</kbd> slot · <kbd>Esc</kbd> unlock mouse
+        </div>
+      </div>
+
+      <!-- Start / pause overlay -->
+      <div id="overlay">
+        <div class="panel">
+          <h1>⛏ BlockCraft</h1>
+          <p class="subtitle">A mini Minecraft clone</p>
+          <ul class="features">
+            <li>Limited 48×48 block world</li>
+            <li>First / third person camera (V)</li>
+            <li>Cube animals — hit or kill them</li>
+            <li>Dig blocks &amp; place from hotbar</li>
+            <li>Sun &amp; moon · 20 min = full day</li>
+            <li>10 min day · 8 min night · sunrise/sunset</li>
+          </ul>
+          <button id="play-btn">Click to Play</button>
+          <p class="small">Click the game to lock the mouse</p>
+        </div>
+      </div>
+    </div>
+    <script type="module" src="/src/main.js"></script>
+  </body>
+</html>

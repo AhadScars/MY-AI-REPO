@@ -1,0 +1,245 @@
+export interface CommandDefinition {
+  id: string;
+  label: string;
+  category: string;
+  shortcut?: string;
+  keywords?: string[];
+}
+
+export const COMMANDS: CommandDefinition[] = [
+  {
+    id: 'workbench.action.files.openFolder',
+    label: 'Open Folder…',
+    category: 'File',
+    shortcut: 'Ctrl+O',
+    keywords: ['workspace', 'project'],
+  },
+  {
+    id: 'workbench.action.files.newUntitledFile',
+    label: 'New File',
+    category: 'File',
+    shortcut: 'Ctrl+N',
+  },
+  {
+    id: 'workbench.action.files.save',
+    label: 'Save',
+    category: 'File',
+    shortcut: 'Ctrl+S',
+  },
+  {
+    id: 'workbench.action.files.saveAll',
+    label: 'Save All',
+    category: 'File',
+    shortcut: 'Ctrl+K S',
+  },
+  {
+    id: 'workbench.action.quickOpen',
+    label: 'Go to File…',
+    category: 'Go',
+    shortcut: 'Ctrl+P',
+    keywords: ['search', 'files'],
+  },
+  {
+    id: 'workbench.action.showCommands',
+    label: 'Show All Commands',
+    category: 'View',
+    shortcut: 'Ctrl+Shift+P',
+  },
+  {
+    id: 'workbench.action.toggleSidebarVisibility',
+    label: 'Toggle Primary Side Bar',
+    category: 'View',
+    shortcut: 'Ctrl+B',
+  },
+  {
+    id: 'workbench.action.terminal.toggle',
+    label: 'Toggle Terminal Panel',
+    category: 'View',
+    shortcut: 'Ctrl+`',
+  },
+  {
+    id: 'workbench.action.terminal.new',
+    label: 'New Terminal',
+    category: 'Terminal',
+    shortcut: 'Ctrl+Shift+`',
+    keywords: ['shell', 'pty', 'console'],
+  },
+  {
+    id: 'workbench.action.terminal.rename',
+    label: 'Rename Active Terminal',
+    category: 'Terminal',
+    keywords: ['title', 'name'],
+  },
+  {
+    id: 'workbench.action.terminal.kill',
+    label: 'Kill Active Terminal',
+    category: 'Terminal',
+  },
+  {
+    id: 'workbench.action.toggleAiChat',
+    label: 'Toggle Sephora',
+    category: 'View',
+    shortcut: 'Ctrl+L',
+    keywords: ['assistant', 'chat'],
+  },
+  {
+    id: 'workbench.action.openSettings',
+    label: 'Open Settings',
+    category: 'Preferences',
+    shortcut: 'Ctrl+,',
+  },
+  {
+    id: 'ai.newChat',
+    label: 'New Sephora Chat',
+    category: 'AI',
+    keywords: ['conversation'],
+  },
+  {
+    id: 'ai.editSelection',
+    label: 'AI Edit Selection',
+    category: 'AI',
+    shortcut: 'Ctrl+K',
+  },
+  {
+    id: 'ai.explainSelection',
+    label: 'AI Explain Selection',
+    category: 'AI',
+  },
+  {
+    id: 'git.commit',
+    label: 'Git: Open Source Control',
+    category: 'Git',
+    keywords: ['scm', 'stage'],
+  },
+  {
+    id: 'git.push',
+    label: 'Git: Push',
+    category: 'Git',
+  },
+  {
+    id: 'git.pull',
+    label: 'Git: Pull',
+    category: 'Git',
+  },
+  {
+    id: 'git.branch',
+    label: 'Git: Checkout to…',
+    category: 'Git',
+  },
+  {
+    id: 'ai.toggleAgent',
+    label: 'AI: Toggle Agent Mode',
+    category: 'AI',
+    keywords: ['agent', 'tools', 'auto'],
+  },
+  {
+    id: 'actions.find',
+    label: 'Find in File',
+    category: 'Search',
+    shortcut: 'Ctrl+F',
+    keywords: ['search', 'locate'],
+  },
+  {
+    id: 'editor.action.startFindReplaceAction',
+    label: 'Replace in File',
+    category: 'Search',
+    shortcut: 'Ctrl+H',
+    keywords: ['find', 'substitute'],
+  },
+  {
+    id: 'workbench.action.findInFiles',
+    label: 'Search in Workspace',
+    category: 'Search',
+    shortcut: 'Ctrl+Shift+F',
+    keywords: ['grep', 'find files'],
+  },
+  {
+    id: 'workbench.action.debug.run',
+    label: 'Run File',
+    category: 'Run',
+    shortcut: 'F5',
+    keywords: ['execute', 'java', 'python', 'sql', 'start'],
+  },
+  {
+    id: 'workbench.action.debug.rerun',
+    label: 'Rerun File',
+    category: 'Run',
+    shortcut: 'Ctrl+F5',
+    keywords: ['restart', 'again', 'reload'],
+  },
+  {
+    id: 'workbench.action.debug.stop',
+    label: 'Stop Process',
+    category: 'Run',
+    shortcut: 'Shift+F5',
+    keywords: ['kill', 'server', 'port', 'spring'],
+  },
+  {
+    id: 'maven.showPanel',
+    label: 'Maven: Show Tool Window',
+    category: 'Maven',
+    keywords: ['dependencies', 'gradle', 'pom', 'install'],
+  },
+  {
+    id: 'maven.installDependencies',
+    label: 'Maven: Install Dependencies',
+    category: 'Maven',
+    keywords: ['download', 'resolve', 'pom'],
+  },
+  {
+    id: 'maven.reinstallDependencies',
+    label: 'Maven: Reinstall Dependencies',
+    category: 'Maven',
+    keywords: ['clean', 'reload', 'update'],
+  },
+  {
+    id: 'sql.openDatabase',
+    label: 'SQL: Open Database…',
+    category: 'SQL',
+    keywords: ['sqlite', 'db', 'database'],
+  },
+  {
+    id: 'sql.newDatabase',
+    label: 'SQL: New Database…',
+    category: 'SQL',
+    keywords: ['sqlite', 'create', 'db'],
+  },
+  {
+    id: 'sql.runQuery',
+    label: 'SQL: Run Query',
+    category: 'SQL',
+    shortcut: 'F5',
+    keywords: ['execute', 'sqlite', 'select'],
+  },
+  {
+    id: 'sql.showDatabase',
+    label: 'SQL: Show Database Panel',
+    category: 'SQL',
+    shortcut: 'Ctrl+Shift+Q',
+    keywords: ['tables', 'sqlite'],
+  },
+  {
+    id: 'sql.newQuery',
+    label: 'SQL: New Query File',
+    category: 'SQL',
+    keywords: ['untitled', 'editor'],
+  },
+  {
+    id: 'sql.initProjectDatabase',
+    label: 'SQL: Init Project Database',
+    category: 'SQL',
+    keywords: ['config', 'project', 'create', 'sqlite'],
+  },
+  {
+    id: 'sql.openInTerminal',
+    label: 'SQL: Open Database in Terminal',
+    category: 'SQL',
+    keywords: ['sqlite3', 'cli', 'shell'],
+  },
+  {
+    id: 'sql.editConfig',
+    label: 'SQL: Edit Project DB Config',
+    category: 'SQL',
+    keywords: ['databases.json', 'configuration'],
+  },
+];

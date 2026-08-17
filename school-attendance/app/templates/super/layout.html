@@ -1,0 +1,33 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>Main Admin</h1>
+      <span>All schools · licenses</span>
+    </div>
+    <nav>
+      <a class="nav-link {% if request.endpoint == 'super.dashboard' %}active{% endif %}"
+         href="{{ url_for('super.dashboard') }}">Dashboard</a>
+      <a class="nav-link {% if request.endpoint == 'super.schools' %}active{% endif %}"
+         href="{{ url_for('super.schools') }}">Schools</a>
+      <a class="nav-link {% if request.endpoint == 'super.licenses' %}active{% endif %}"
+         href="{{ url_for('super.licenses') }}">License keys</a>
+      <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+    </nav>
+    <div class="footer">Logged in as {{ session.name }}</div>
+  </aside>
+  <main class="main">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+          {% for cat, msg in messages %}
+            <div class="flash {{ cat }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+{% endblock %}

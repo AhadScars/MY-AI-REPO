@@ -1,0 +1,73 @@
+{% extends "school/layout.html" %}
+{% block title %}{{ school.name }} — Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Dashboard</h2>
+    <p>
+      Today’s attendance
+      {% if not licensed %}
+        · <span class="badge badge-warn">License expired</span>
+      {% else %}
+        · <span class="badge badge-yes">Licensed</span>
+      {% endif %}
+    </p>
+  </div>
+  <div class="actions">
+    <a class="btn" href="{{ url_for('school.mark_attendance') }}" target="_blank">Mark Attendance</a>
+    <a class="btn btn-ghost" href="{{ url_for('school.attendance') }}">Attendance</a>
+    <a class="btn btn-ghost" href="{{ url_for('school.export_excel', date=date) }}">Export Excel</a>
+  </div>
+</div>
+
+<form method="get" class="actions" style="margin-bottom:1rem;">
+  <input type="date" name="date" value="{{ date }}" />
+  <button class="btn btn-sm" type="submit">View date</button>
+</form>
+
+<div class="stats">
+  <div class="stat"><div class="label">Total</div><div class="value">{{ summary.total }}</div></div>
+  <div class="stat present"><div class="label">Present</div><div class="value">{{ summary.present }}</div></div>
+  <div class="stat absent"><div class="label">Absent</div><div class="value">{{ summary.absent }}</div></div>
+  <div class="stat in"><div class="label">Still in</div><div class="value">{{ summary.still_in }}</div></div>
+  <div class="stat out"><div class="label">Checked out</div><div class="value">{{ summary.checked_out }}</div></div>
+</div>
+
+<div class="card">
+  <h3>Checked in today — {{ date }}</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Class</th>
+          <th>Time in</th>
+          <th>Time out</th>
+          <th>Present</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td class="mono">{{ r.student_id }}</td>
+          <td>{{ r.name }}</td>
+          <td><span class="class-chip">{{ r.class_name }}</span></td>
+          <td>{{ r.time_in or '—' }}</td>
+          <td>{{ r.time_out or '—' }}</td>
+          <td><span class="badge badge-yes">Yes</span></td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" class="muted">
+            No check-ins yet today.
+            Use <a href="{{ url_for('school.mark_attendance') }}" target="_blank">Mark Attendance</a>
+            or open <a href="{{ url_for('school.attendance') }}">Attendance</a> for the full list.
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

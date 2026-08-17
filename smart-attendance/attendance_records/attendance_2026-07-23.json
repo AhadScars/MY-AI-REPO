@@ -1,0 +1,96 @@
+{
+  "date": "2026-07-23",
+  "entries": [
+    {
+      "name": "Demo Student",
+      "student_id": "",
+      "class_name": "",
+      "check_in": "06:54:15",
+      "check_out": "",
+      "status": "On-Time",
+      "source": "face",
+      "snapshot_in": "",
+      "snapshot_out": "",
+      "notes": "migrated",
+      "updated_at": "2026-07-23T13:07:24"
+    },
+    {
+      "name": "Ali Khan",
+      "student_id": "",
+      "class_name": "",
+      "check_in": "06:54:15",
+      "check_out": "",
+      "status": "On-Time",
+      "source": "face",
+      "snapshot_in": "",
+      "snapshot_out": "",
+      "notes": "migrated",
+      "updated_at": "2026-07-23T13:07:24"
+    },
+    {
+      "name": "Abdul Ahad",
+      "student_id": "ID-Abd",
+      "class_name": "Demo",
+      "check_in": "12:36:23",
+      "check_out": "13:09:16",
+      "status": "Late",
+      "source": "face",
+      "snapshot_in": "",
+      "snapshot_out": "snapshots\\2026-07-23\\Abdul_Ahad_checkout_130916.jpg",
+      "notes": "migrated",
+      "updated_at": "2026-07-23T13:09:16"
+    },
+    {
+      "name": "rehan",
+      "student_id": "",
+      "class_name": "",
+      "check_in": "12:38:42",
+      "check_out": "",
+      "status": "Late",
+      "source": "face",
+      "snapshot_in": "",
+      "snapshot_out": "",
+      "notes": "migrated",
+      "updated_at": "2026-07-23T13:07:24"
+    },
+    {
+      "name": "rehn",
+      "student_id": "ID-reh",
+      "class_name": "Demo",
+      "check_in": "12:44:32",
+      "check_out": "13:47:40",
+      "status": "Late",
+      "source": "face",
+      "snapshot_in": "",
+      "snapshot_out": "snapshots\\2026-07-23\\rehn_checkout_134740.jpg",
+      "notes": "migrated",
+      "updated_at": "2026-07-23T13:47:40"
+    },
+    {
+      "name": "Test User Alpha",
+      "student_id": "",
+      "class_name": "",
+      "check_in": "08:50:00",
+      "check_out": "16:00:00",
+      "status": "On-Time",
+      "source": "face",
+      "snapshot_in": "",
+      "snapshot_out": "",
+      "notes": "",
+      "updated_at": "2026-07-23T13:07:24"
+    },
+    {
+      "name": "Ghost Student",
+      "student_id": "",
+      "class_name": "",
+      "check_in": "",
+      "check_out": "",
+      "status": "Absent",
+      "source": "manual",
+      "snapshot_in": "",
+      "snapshot_out": "",
+      "notes": "marked absent",
+      "updated_at": "2026-07-23T13:07:24"
+    }
+  ]
+}

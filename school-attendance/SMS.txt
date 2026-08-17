@@ -1,0 +1,7 @@
+# School Attendance SMS log — one line per check-in / check-out
+Student Usman Ali arrived at school at 09:23
+Student Usman Ali leave school at 09:23
+Student Hina Nawaz arrived at school at 14:55
+Student Hina Nawaz leave school at 14:56
+Student Tariq Khan leave school at 15:03
+To: 9140980834 | Student Yusuf Raza arrived at school at 09:43

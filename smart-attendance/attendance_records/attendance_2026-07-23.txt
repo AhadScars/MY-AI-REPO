@@ -1,0 +1,15 @@
+SMART ATTENDANCE SYSTEM - DAILY RECORD
+Date: 2026-07-23
+Schedule: On-Time until 09:15:00  |  Late after
+========================================================================================
+No.  Name                ID        Check-In   Check-Out  Status      Source  
+----------------------------------------------------------------------------------------
+1    Demo Student        -         06:54:15   -          On-Time     face    
+2    Ali Khan            -         06:54:15   -          On-Time     face    
+3    Abdul Ahad          ID-Abd    12:36:23   13:09:16   Late        face    
+4    rehan               -         12:38:42   -          Late        face    
+5    rehn                ID-reh    12:44:32   13:47:40   Late        face    
+6    Test User Alpha     -         08:50:00   16:00:00   On-Time     face    
+7    Ghost Student       -         -          -          Absent      manual  
+----------------------------------------------------------------------------------------
+Summary: Present=6  Late=3  Absent=1  Total=7

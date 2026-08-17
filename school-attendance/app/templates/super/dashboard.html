@@ -1,0 +1,78 @@
+{% extends "super/layout.html" %}
+{% block title %}Main Admin Dashboard{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Dashboard</h2>
+    <p>Subscription platform overview</p>
+  </div>
+  <a class="btn" href="{{ url_for('super.licenses') }}">Generate license</a>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="label">Schools</div><div class="value">{{ stats.schools }}</div></div>
+  <div class="stat present"><div class="label">Active</div><div class="value">{{ stats.active }}</div></div>
+  <div class="stat in"><div class="label">Licensed</div><div class="value">{{ stats.licensed }}</div></div>
+  <div class="stat out"><div class="label">Unused keys</div><div class="value">{{ stats.unused_keys }}</div></div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h3>Recent schools</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Name</th><th>User</th><th>Students</th><th>License</th></tr>
+        </thead>
+        <tbody>
+          {% for s in schools[:8] %}
+          <tr>
+            <td>{{ s.name }}</td>
+            <td class="mono">{{ s.username }}</td>
+            <td>{{ s.student_count }}</td>
+            <td>
+              {% if s.licensed %}
+                <span class="badge badge-yes">Valid</span>
+              {% else %}
+                <span class="badge badge-no">Expired</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="4" class="muted">No schools yet</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+  <div class="card">
+    <h3>Recent license keys</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Key</th><th>Days</th><th>Status</th></tr>
+        </thead>
+        <tbody>
+          {% for k in licenses %}
+          <tr>
+            <td class="mono">{{ k.key_code }}</td>
+            <td>{{ k.days_valid }}</td>
+            <td>
+              {% if k.is_revoked %}
+                <span class="badge badge-no">Revoked</span>
+              {% elif k.school_id %}
+                <span class="badge badge-info">Used</span>
+              {% else %}
+                <span class="badge badge-yes">Available</span>
+              {% endif %}
+            </td>
+          </tr>
+          {% else %}
+          <tr><td colspan="3" class="muted">No keys</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+{% endblock %}

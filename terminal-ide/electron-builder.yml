@@ -1,0 +1,60 @@
+appId: com.terminalide.app
+productName: Terminal - IDE
+copyright: Copyright © 2026 Terminal IDE Team
+
+directories:
+  output: release
+  buildResources: resources
+
+files:
+  - dist/**/*
+  - dist-electron/**/*
+  - package.json
+
+asar: true
+asarUnpack:
+  - "**/node_modules/node-pty/**/*"
+  - "**/node_modules/sql.js/**/*"
+
+npmRebuild: false
+buildDependenciesFromSource: false
+nodeGypRebuild: false
+
+extraResources:
+  - from: resources/icon.png
+    to: icon.png
+  - from: resources/icon.ico
+    to: icon.ico
+
+win:
+  target:
+    - target: nsis
+      arch:
+        - x64
+  icon: resources/icon.ico
+  artifactName: ${productName}-${version}-${arch}.${ext}
+  signAndEditExecutable: false
+  requestedExecutionLevel: asInvoker
+
+# Wizard installer: Welcome → License → Choose folder → Install → Finish
+nsis:
+  oneClick: false
+  perMachine: false
+  allowElevation: true
+  allowToChangeInstallationDirectory: true
+  createDesktopShortcut: always
+  createStartMenuShortcut: true
+  shortcutName: Terminal - IDE
+  menuCategory: false
+  runAfterFinish: true
+  deleteAppDataOnUninstall: false
+  license: LICENSE
+  installerIcon: resources/icon.ico
+  uninstallerIcon: resources/icon.ico
+  installerHeaderIcon: resources/icon.ico
+  artifactName: ${productName}-Setup-${version}.${ext}
+  include: null
+  warningsAsErrors: false
+
+portable:
+  artifactName: ${productName}-Portable-${version}.${ext}

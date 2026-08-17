@@ -1,0 +1,22 @@
+{
+  "students": {
+    "Abdul Ahad": {
+      "name": "Abdul Ahad",
+      "student_id": "ID-Abd",
+      "class_name": "Demo",
+      "roll_no": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    },
+    "rehn": {
+      "name": "rehn",
+      "student_id": "ID-reh",
+      "class_name": "Demo",
+      "roll_no": "",
+      "phone": "",
+      "email": "",
+      "notes": ""
+    }
+  }
+}

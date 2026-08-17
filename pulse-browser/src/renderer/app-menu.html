@@ -1,0 +1,84 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta http-equiv="Content-Security-Policy" content="default-src 'self'; style-src 'self' 'unsafe-inline'; script-src 'self'" />
+  <title>Menu</title>
+  <style>
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+    html, body {
+      height: 100%;
+      overflow: hidden;
+      font-family: system-ui, -apple-system, 'Segoe UI', Roboto, Ubuntu, sans-serif;
+      font-size: 13px;
+      color: #e8eaed;
+      background: #2d2e31;
+      user-select: none;
+      -webkit-font-smoothing: antialiased;
+    }
+    .menu {
+      padding: 6px 0;
+      border: 1px solid #3c4043;
+      border-radius: 10px;
+      height: 100%;
+      background: #2d2e31;
+    }
+    button {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      width: 100%;
+      padding: 10px 16px;
+      border: none;
+      background: transparent;
+      color: #e8eaed;
+      font-family: inherit;
+      font-size: 13px;
+      text-align: left;
+      cursor: pointer;
+    }
+    button:hover { background: rgba(255, 255, 255, 0.08); }
+    button span {
+      color: #80868b;
+      font-size: 11px;
+      margin-left: 16px;
+    }
+    .sep {
+      height: 1px;
+      margin: 4px 0;
+      background: #3c4043;
+    }
+  </style>
+</head>
+<body>
+  <div class="menu" role="menu">
+    <button data-action="new-tab">New tab <span>Ctrl+T</span></button>
+    <button data-action="history">History <span>Ctrl+H</span></button>
+    <button data-action="bookmarks">Bookmarks</button>
+    <button data-action="downloads">Downloads <span>Ctrl+J</span></button>
+    <button data-action="bookmark">Bookmark this page <span>Ctrl+D</span></button>
+    <div class="sep"></div>
+    <button data-action="zoom-in">Zoom in <span>Ctrl++</span></button>
+    <button data-action="zoom-out">Zoom out <span>Ctrl+-</span></button>
+    <button data-action="zoom-reset">Reset zoom <span>Ctrl+0</span></button>
+    <div class="sep"></div>
+    <button data-action="settings">Settings</button>
+    <button data-action="devtools">Developer tools <span>F12</span></button>
+    <div class="sep"></div>
+    <button data-action="about">About Pulse</button>
+    <button data-action="quit">Quit</button>
+  </div>
+  <script>
+    document.querySelectorAll('button[data-action]').forEach((btn) => {
+      // mousedown so action runs before the popup loses focus / closes
+      btn.addEventListener('mousedown', (e) => {
+        e.preventDefault();
+        window.pulseMenu.action(btn.dataset.action);
+      });
+    });
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') window.pulseMenu.action('__close__');
+    });
+  </script>
+</body>
+</html>

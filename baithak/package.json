@@ -1,0 +1,16 @@
+{
+  "name": "baithak",
+  "version": "1.0.0",
+  "private": true,
+  "description": "Baithak — modern video conference app (WebRTC + Socket.io)",
+  "scripts": {
+    "dev": "concurrently -n server,client -c teal,cyan \"npm run dev --prefix server\" \"npm run dev --prefix client\"",
+    "dev:server": "npm run dev --prefix server",
+    "dev:client": "npm run dev --prefix client",
+    "build": "npm run build --prefix client",
+    "start": "npm run start --prefix server"
+  },
+  "devDependencies": {
+    "concurrently": "^9.1.2"
+  }
+}

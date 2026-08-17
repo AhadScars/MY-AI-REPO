@@ -1,0 +1,15 @@
+{
+  "framework": "vite",
+  "headers": [
+    {
+      "source": "/sql-wasm.wasm",
+      "headers": [
+        { "key": "Content-Type", "value": "application/wasm" },
+        { "key": "Cache-Control", "value": "public, max-age=31536000, immutable" }
+      ]
+    }
+  ],
+  "rewrites": [
+    { "source": "/((?!assets/|demo\\.db|sql-wasm\\.wasm|favicon\\.svg|icons\\.svg).*)", "destination": "/index.html" }
+  ]
+}

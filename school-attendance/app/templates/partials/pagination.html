@@ -1,0 +1,43 @@
+{# Expects: pagination, page_endpoint, filter_q #}
+{% set q = filter_q if filter_q is defined else {} %}
+{% set ep = page_endpoint if page_endpoint is defined else request.endpoint %}
+{% if pagination and pagination.pages > 1 %}
+<nav class="pagination" aria-label="Pagination">
+  <div class="pagination-info muted">
+    Showing <strong>{{ pagination.start_index }}–{{ pagination.end_index }}</strong>
+    of <strong>{{ pagination.total }}</strong>
+    · Page {{ pagination.page }} / {{ pagination.pages }}
+  </div>
+  <div class="pagination-controls">
+    {% if pagination.has_prev %}
+    <a class="btn btn-sm btn-ghost"
+       href="{{ url_for(ep, page=pagination.prev_page, per_page=pagination.per_page, **q) }}">← Prev</a>
+    {% else %}
+    <span class="btn btn-sm btn-ghost disabled">← Prev</span>
+    {% endif %}
+
+    {% for p in pagination.page_numbers %}
+      {% if p is none %}
+        <span class="page-ellipsis">…</span>
+      {% elif p == pagination.page %}
+        <span class="btn btn-sm page-current">{{ p }}</span>
+      {% else %}
+        <a class="btn btn-sm btn-ghost"
+           href="{{ url_for(ep, page=p, per_page=pagination.per_page, **q) }}">{{ p }}</a>
+      {% endif %}
+    {% endfor %}
+
+    {% if pagination.has_next %}
+    <a class="btn btn-sm btn-ghost"
+       href="{{ url_for(ep, page=pagination.next_page, per_page=pagination.per_page, **q) }}">Next →</a>
+    {% else %}
+    <span class="btn btn-sm btn-ghost disabled">Next →</span>
+    {% endif %}
+  </div>
+</nav>
+{% elif pagination and pagination.total > 0 %}
+<p class="pagination-info muted" style="margin-top:1rem;">
+  Showing <strong>{{ pagination.start_index }}–{{ pagination.end_index }}</strong>
+  of <strong>{{ pagination.total }}</strong>
+</p>
+{% endif %}

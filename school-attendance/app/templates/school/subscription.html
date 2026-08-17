@@ -1,0 +1,40 @@
+{% extends "school/layout.html" %}
+{% block title %}Subscription — {{ school.name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Subscription</h2>
+    <p>Activate or extend your school license</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h3>Current plan</h3>
+    <p><strong>School:</strong> {{ school.name }}</p>
+    <p><strong>Username:</strong> <span class="mono">{{ school.username }}</span></p>
+    <p><strong>License key:</strong> <span class="mono">{{ school.license_key or '—' }}</span></p>
+    <p><strong>Expires:</strong> {{ school.license_expires_at or '—' }}</p>
+    <p style="margin-top:0.75rem;">
+      {% if licensed %}
+        <span class="badge badge-yes">Active</span>
+      {% else %}
+        <span class="badge badge-no">Expired / inactive</span>
+      {% endif %}
+    </p>
+  </div>
+  <div class="card">
+    <h3>Enter license key</h3>
+    <p class="muted" style="font-size:0.9rem;margin-bottom:1rem;">
+      Get a key from Main Admin. Applying a key while still active extends from current expiry.
+    </p>
+    <form method="post">
+      <div class="form-group">
+        <label>License key</label>
+        <input type="text" name="license_key" class="mono" required placeholder="XXXX-XXXX-XXXX-XXXX" />
+      </div>
+      <button type="submit" class="btn">Apply license</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

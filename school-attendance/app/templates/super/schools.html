@@ -1,0 +1,67 @@
+{% extends "super/layout.html" %}
+{% block title %}Manage Schools{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Schools</h2>
+    <p>Enable/disable, extend subscription, or remove</p>
+  </div>
+</div>
+
+<div class="card">
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>ID</th>
+          <th>Name</th>
+          <th>Username</th>
+          <th>Students</th>
+          <th>Expires</th>
+          <th>Status</th>
+          <th>Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in schools %}
+        <tr>
+          <td>{{ s.id }}</td>
+          <td>{{ s.name }}</td>
+          <td class="mono">{{ s.username }}</td>
+          <td>{{ s.student_count }}</td>
+          <td class="muted">{{ s.license_expires_at or '—' }}</td>
+          <td>
+            {% if not s.is_active %}
+              <span class="badge badge-no">Disabled</span>
+            {% elif s.licensed %}
+              <span class="badge badge-yes">Licensed</span>
+            {% else %}
+              <span class="badge badge-warn">Expired</span>
+            {% endif %}
+          </td>
+          <td>
+            <div class="actions">
+              <form class="inline-form" method="post" action="{{ url_for('super.extend_school', school_id=s.id) }}">
+                <input type="number" name="days" value="30" min="1" max="3650" style="width:70px;padding:0.3rem;" title="Days to extend" />
+                <button class="btn btn-sm btn-success" type="submit">Extend</button>
+              </form>
+              <form class="inline-form" method="post" action="{{ url_for('super.toggle_school', school_id=s.id) }}">
+                <button class="btn btn-sm btn-ghost" type="submit">
+                  {{ 'Enable' if not s.is_active else 'Disable' }}
+                </button>
+              </form>
+              <form class="inline-form" method="post" action="{{ url_for('super.remove_school', school_id=s.id) }}"
+                    onsubmit="return confirm('Delete school and all its data?');">
+                <button class="btn btn-sm btn-danger" type="submit">Delete</button>
+              </form>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="7" class="muted">No schools registered</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

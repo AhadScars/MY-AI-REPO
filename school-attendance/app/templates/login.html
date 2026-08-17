@@ -1,0 +1,54 @@
+{% extends "base.html" %}
+{% block title %}Login — School Attendance{% endblock %}
+{% block body %}
+<div class="auth-page">
+  <div class="auth-card">
+    <h1>School Attendance</h1>
+    <p class="subtitle">QR check-in / check-out · multi-school</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+          {% for cat, msg in messages %}
+            <div class="flash {{ cat }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post" action="{{ url_for('auth.login') }}">
+      <div class="role-tabs">
+        <label>
+          <input type="radio" name="role" value="school" checked />
+          <span>School Admin</span>
+        </label>
+        <label>
+          <input type="radio" name="role" value="super_admin" />
+          <span>Main Admin</span>
+        </label>
+      </div>
+
+      <div class="form-group">
+        <label for="username">Username</label>
+        <input type="text" id="username" name="username" required autofocus autocomplete="username" />
+      </div>
+      <div class="form-group">
+        <label for="password">Password</label>
+        <input type="password" id="password" name="password" required autocomplete="current-password" />
+      </div>
+      <button type="submit" class="btn btn-block btn-lg">Sign in</button>
+    </form>
+
+    <div class="auth-footer">
+      New school?
+      <a href="{{ url_for('auth.register') }}">Register with license key</a>
+    </div>
+
+    <div class="demo-hint">
+      <strong>Demo accounts</strong><br />
+      Main admin: <code>admin</code> / <code>123</code><br />
+      Demo school: <code>demoschool</code> / <code>123</code>
+    </div>
+  </div>
+</div>
+{% endblock %}

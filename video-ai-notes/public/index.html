@@ -1,0 +1,204 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Video AI Notes</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:ital,opsz,wght@0,9..40,400;0,9..40,500;0,9..40,600;0,9..40,700;1,9..40,400&family=JetBrains+Mono:wght@400;500&family=Noto+Nastaliq+Urdu:wght@400;500;600;700&family=Noto+Sans+Devanagari:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="styles.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="header">
+      <div class="brand">
+        <div class="logo" aria-hidden="true">
+          <span class="logo-play">▶</span>
+        </div>
+        <div>
+          <h1>Video AI Notes</h1>
+          <p class="tagline">Upload · Analyze · Listen · Ask</p>
+        </div>
+      </div>
+      <div class="header-right">
+        <div class="lang-switch" id="langSwitch" role="group" aria-label="Notes language">
+          <button type="button" class="lang-pill active" data-lang="en" title="English">
+            <span class="lang-code">EN</span>
+            <span class="lang-name">English</span>
+          </button>
+          <button type="button" class="lang-pill" data-lang="hi" title="Hindi">
+            <span class="lang-code">HI</span>
+            <span class="lang-name">हिन्दी</span>
+          </button>
+          <button type="button" class="lang-pill" data-lang="ur" title="Urdu">
+            <span class="lang-code">UR</span>
+            <span class="lang-name">اردو</span>
+          </button>
+        </div>
+        <div class="header-status" id="apiStatus" title="API status">Checking…</div>
+      </div>
+    </header>
+
+    <main class="layout">
+      <!-- LEFT: Video + frames -->
+      <section class="panel video-panel">
+        <div class="panel-head">
+          <div class="panel-title-row">
+            <span class="panel-icon">🎬</span>
+            <h2>Video</h2>
+          </div>
+          <span class="badge" id="videoMeta">No video</span>
+        </div>
+
+        <div id="dropZone" class="drop-zone">
+          <input type="file" id="fileInput" accept="video/*" hidden />
+          <div class="drop-inner">
+            <div class="drop-icon">⬆</div>
+            <p><strong>Drop a video here</strong> or click to browse</p>
+            <p class="muted">MP4, WebM, MOV · frames stay private until you analyze</p>
+          </div>
+        </div>
+
+        <div id="playerWrap" class="player-wrap hidden">
+          <video id="video" controls playsinline></video>
+          <div class="player-actions">
+            <button type="button" id="btnChange" class="btn ghost">Change video</button>
+            <label class="frame-count">
+              Frames
+              <select id="frameCount">
+                <option value="6">6</option>
+                <option value="8" selected>8</option>
+                <option value="12">12</option>
+                <option value="16">16</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div id="framesStrip" class="frames-strip hidden"></div>
+
+        <div class="analyze-box">
+          <label class="field">
+            <span>Optional focus prompt</span>
+            <input type="text" id="customPrompt" placeholder="e.g. Focus on product features and pricing" />
+          </label>
+          <p class="lang-analyze-hint" id="langAnalyzeHint">Notes will be written in <strong>English</strong> · voice matches language</p>
+          <button type="button" id="btnAnalyze" class="btn primary btn-analyze" disabled>
+            <span class="btn-label">Analyze with AI</span>
+          </button>
+          <div id="progress" class="progress hidden">
+            <div class="progress-bar"><div id="progressFill" class="progress-fill"></div></div>
+            <p id="progressText">Preparing…</p>
+          </div>
+        </div>
+      </section>
+
+      <!-- CENTER: Notes -->
+      <section class="panel notes-panel">
+        <div class="panel-head">
+          <div class="panel-title-row">
+            <span class="panel-icon">✨</span>
+            <h2>AI Notes</h2>
+            <span class="lang-badge" id="notesLangBadge">EN</span>
+          </div>
+          <div class="head-actions">
+            <button type="button" id="btnCopy" class="btn ghost sm" disabled>Copy</button>
+            <button type="button" id="btnDownload" class="btn ghost sm" disabled>Download</button>
+          </div>
+        </div>
+
+        <div id="listenBar" class="listen-bar hidden">
+          <div class="listen-player">
+            <button type="button" id="btnListen" class="btn-icon play" disabled title="Read all notes aloud" aria-label="Listen">
+              <span class="icon-play">▶</span>
+            </button>
+            <button type="button" id="btnPause" class="btn-icon" disabled title="Pause or resume" aria-label="Pause">
+              <span class="icon-pause">❚❚</span>
+            </button>
+            <button type="button" id="btnStop" class="btn-icon stop" disabled title="Stop reading" aria-label="Stop">■</button>
+            <div class="listen-meta">
+              <span id="listenHint" class="listen-hint">Hover any line to hear it</span>
+              <span id="voiceStatus" class="voice-status"></span>
+            </div>
+            <div class="voice-gender" id="voiceGender" role="group" aria-label="Voice gender">
+              <button type="button" class="gender-pill active" data-gender="female" title="Female voice">♀ Female</button>
+              <button type="button" class="gender-pill" data-gender="male" title="Male voice">♂ Male</button>
+            </div>
+            <label class="speed-control" title="Speech speed">
+              <span>Speed</span>
+              <select id="speechRate" disabled>
+                <option value="0.75">0.75×</option>
+                <option value="1" selected>1×</option>
+                <option value="1.25">1.25×</option>
+                <option value="1.5">1.5×</option>
+                <option value="1.75">1.75×</option>
+                <option value="2">2×</option>
+              </select>
+            </label>
+          </div>
+        </div>
+
+        <div id="notesEmpty" class="empty-state">
+          <div class="empty-icon">📝</div>
+          <p>Notes appear here after analysis</p>
+          <p class="muted">Pick a language above, then upload &amp; analyze</p>
+        </div>
+        <article id="notesView" class="notes-view hidden" aria-label="Generated notes"></article>
+        <textarea id="notesEdit" class="notes-edit hidden" spellcheck="true"></textarea>
+        <div class="notes-toolbar hidden" id="notesToolbar">
+          <button type="button" id="btnEditNotes" class="btn ghost sm">Edit</button>
+          <button type="button" id="btnSaveNotes" class="btn primary sm hidden">Save</button>
+          <button type="button" id="btnCancelEdit" class="btn ghost sm hidden">Cancel</button>
+        </div>
+      </section>
+
+      <!-- RIGHT: Follow-up commands -->
+      <section class="panel chat-panel">
+        <div class="panel-head">
+          <div class="panel-title-row">
+            <span class="panel-icon">💬</span>
+            <h2>AI Commands</h2>
+          </div>
+          <span class="badge muted-badge">Follow-up</span>
+        </div>
+        <div id="chatEmpty" class="empty-state compact">
+          <p>After analysis, ask anything about the video.</p>
+          <div class="suggestions" id="suggestions">
+            <button type="button" class="chip" data-cmd="Summarize the main takeaway in one sentence.">One-line takeaway</button>
+            <button type="button" class="chip" data-cmd="List all people, products, or brands shown.">List people & products</button>
+            <button type="button" class="chip" data-cmd="Create a study guide with quiz questions from this video.">Study guide + quiz</button>
+            <button type="button" class="chip" data-cmd="Rewrite the notes as bullet action items only.">Action items only</button>
+          </div>
+        </div>
+        <div id="chatLog" class="chat-log"></div>
+        <form id="chatForm" class="chat-form">
+          <input
+            type="text"
+            id="chatInput"
+            placeholder="Ask a follow-up command…"
+            disabled
+            autocomplete="off"
+          />
+          <button type="submit" id="btnSend" class="btn primary" disabled>Send</button>
+        </form>
+      </section>
+    </main>
+
+    <footer class="footer">
+      Powered by <strong>Google Gemini</strong> · Key stays on your machine ·
+      <a href="https://aistudio.google.com/apikey" target="_blank" rel="noopener">Get API key</a>
+    </footer>
+  </div>
+
+  <!-- hidden select kept for API compatibility with language state -->
+  <select id="notesLanguage" class="sr-only" aria-hidden="true" tabindex="-1">
+    <option value="en" selected>English</option>
+    <option value="hi">Hindi</option>
+    <option value="ur">Urdu</option>
+  </select>
+
+  <script src="https://cdn.jsdelivr.net/npm/marked/marked.min.js"></script>
+  <script src="app.js"></script>
+</body>
+</html>

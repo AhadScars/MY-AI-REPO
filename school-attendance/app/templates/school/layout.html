@@ -1,0 +1,37 @@
+{% extends "base.html" %}
+{% block body %}
+<div class="app-shell">
+  <aside class="sidebar">
+    <div class="brand">
+      <h1>{{ session.name or 'School' }}</h1>
+      <span>School admin panel</span>
+    </div>
+    <nav>
+      <a class="nav-link {% if request.endpoint == 'school.dashboard' %}active{% endif %}"
+         href="{{ url_for('school.dashboard') }}">Dashboard</a>
+      <a class="nav-link {% if request.endpoint == 'school.mark_attendance' %}active{% endif %}"
+         href="{{ url_for('school.mark_attendance') }}" target="_blank">Mark Attendance</a>
+      <a class="nav-link {% if request.endpoint == 'school.attendance' %}active{% endif %}"
+         href="{{ url_for('school.attendance') }}">Attendance</a>
+      <a class="nav-link {% if request.endpoint == 'school.students' %}active{% endif %}"
+         href="{{ url_for('school.students') }}">Students</a>
+      <a class="nav-link {% if request.endpoint == 'school.subscription' %}active{% endif %}"
+         href="{{ url_for('school.subscription') }}">Subscription</a>
+      <a class="nav-link" href="{{ url_for('auth.logout') }}">Logout</a>
+    </nav>
+    <div class="footer">{{ session.username }}</div>
+  </aside>
+  <main class="main">
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+          {% for cat, msg in messages %}
+            <div class="flash {{ cat }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+    {% block content %}{% endblock %}
+  </main>
+</div>
+{% endblock %}

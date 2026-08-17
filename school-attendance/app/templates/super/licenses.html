@@ -1,0 +1,97 @@
+{% extends "super/layout.html" %}
+{% block title %}License Keys{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>License keys</h2>
+    <p>Generate keys for school registration / renewal</p>
+  </div>
+</div>
+
+<div class="grid-2">
+  <div class="card">
+    <h3>Generate new keys</h3>
+    <form method="post">
+      <div class="form-row">
+        <div class="form-group">
+          <label>Days valid</label>
+          <input type="number" name="days_valid" value="30" min="1" max="3650" />
+        </div>
+        <div class="form-group">
+          <label>Max students</label>
+          <input type="number" name="max_students" value="500" min="1" />
+        </div>
+        <div class="form-group">
+          <label>How many keys</label>
+          <input type="number" name="count" value="1" min="1" max="20" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label>Notes</label>
+        <input type="text" name="notes" placeholder="e.g. Q3 package for City School" />
+      </div>
+      <button type="submit" class="btn">Generate</button>
+    </form>
+  </div>
+  <div class="card">
+    <h3>How it works</h3>
+    <p class="muted" style="font-size:0.9rem;">
+      1. Generate a key here.<br />
+      2. Share it with the school.<br />
+      3. School enters it on registration or under <strong>Subscription</strong>.<br />
+      4. Or use <strong>Extend</strong> on the Schools page without a key.<br /><br />
+      Stacking: applying a key while still licensed extends from the current expiry.
+    </p>
+  </div>
+</div>
+
+<div class="card">
+  <h3>All keys</h3>
+  <div class="table-wrap">
+    <table>
+      <thead>
+        <tr>
+          <th>Key</th>
+          <th>Days</th>
+          <th>Max students</th>
+          <th>School</th>
+          <th>Used at</th>
+          <th>Expires</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for k in licenses %}
+        <tr>
+          <td class="mono">{{ k.key_code }}</td>
+          <td>{{ k.days_valid }}</td>
+          <td>{{ k.max_students or '—' }}</td>
+          <td>{{ k.school_name or '—' }}</td>
+          <td class="muted">{{ k.used_at or '—' }}</td>
+          <td class="muted">{{ k.expires_at or '—' }}</td>
+          <td>
+            {% if k.is_revoked %}
+              <span class="badge badge-no">Revoked</span>
+            {% elif k.school_id %}
+              <span class="badge badge-info">Used</span>
+            {% else %}
+              <span class="badge badge-yes">Available</span>
+            {% endif %}
+          </td>
+          <td>
+            {% if not k.is_revoked and not k.school_id %}
+            <form method="post" action="{{ url_for('super.revoke_key', key_id=k.id) }}" class="inline-form">
+              <button class="btn btn-sm btn-ghost" type="submit">Revoke</button>
+            </form>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr><td colspan="8" class="muted">No license keys yet</td></tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{% endblock %}

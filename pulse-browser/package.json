@@ -1,0 +1,15 @@
+{
+  "name": "pulse-browser",
+  "version": "1.0.0",
+  "description": "A full-featured desktop web browser with tabs, history, bookmarks, and navigation",
+  "main": "src/main/main.js",
+  "author": "Pulse Browser",
+  "license": "MIT",
+  "scripts": {
+    "start": "electron .",
+    "dev": "electron . --enable-logging"
+  },
+  "devDependencies": {
+    "electron": "^36.9.5"
+  }
+}

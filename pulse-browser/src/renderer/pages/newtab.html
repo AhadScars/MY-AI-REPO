@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>New Tab</title>
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="newtab">
+    <div class="logo">
+      <div class="logo-mark">P</div>
+      <h1>Pulse</h1>
+      <p>Search the web or open a site</p>
+    </div>
+
+    <form class="nt-search" id="search-form">
+      <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="q" type="text" placeholder="Search Google or type a URL" autofocus spellcheck="false" autocomplete="off" />
+    </form>
+
+    <div class="shortcuts" id="shortcuts"></div>
+
+    <div class="quick-links">
+      <button class="btn" data-page="pulse://history">History</button>
+      <button class="btn" data-page="pulse://bookmarks">Bookmarks</button>
+      <button class="btn" data-page="pulse://downloads">Downloads</button>
+      <button class="btn" data-page="pulse://settings">Settings</button>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+
+    function go(url) {
+      if (window.pulsePage) window.pulsePage.navigate(url);
+      else location.href = url;
+    }
+
+    $('#search-form').addEventListener('submit', (e) => {
+      e.preventDefault();
+      const q = $('#q').value.trim();
+      if (q) go(q);
+    });
+
+    document.querySelectorAll('[data-page]').forEach((btn) => {
+      btn.addEventListener('click', () => go(btn.dataset.page));
+    });
+
+    async function loadShortcuts() {
+      if (!window.pulsePage) return;
+      const bookmarks = await window.pulsePage.getBookmarks();
+      const history = await window.pulsePage.getHistory({ limit: 8 });
+
+      const items = [];
+      const seen = new Set();
+
+      (bookmarks || []).slice(0, 8).forEach((b) => {
+        if (seen.has(b.url)) return;
+        seen.add(b.url);
+        items.push(b);
+      });
+
+      (history || []).forEach((h) => {
+        if (items.length >= 8) return;
+        if (seen.has(h.url)) return;
+        seen.add(h.url);
+        items.push(h);
+      });
+
+      // Defaults if empty
+      if (!items.length) {
+        items.push(
+          { title: 'Google', url: 'https://www.google.com' },
+          { title: 'YouTube', url: 'https://www.youtube.com' },
+          { title: 'GitHub', url: 'https://github.com' },
+          { title: 'Wikipedia', url: 'https://www.wikipedia.org' },
+          { title: 'Reddit', url: 'https://www.reddit.com' },
+          { title: 'News', url: 'https://news.ycombinator.com' }
+        );
+      }
+
+      $('#shortcuts').innerHTML = items
+        .slice(0, 8)
+        .map((item) => {
+          const letter = (item.title || item.url || '?')[0].toUpperCase();
+          const fav = item.favicon
+            ? `<img src="${esc(item.favicon)}" alt="" onerror="this.parentNode.textContent='${letter}'" />`
+            : letter;
+          return `
+            <button class="shortcut" data-url="${esc(item.url)}" title="${esc(item.url)}">
+              <div class="shortcut-icon">${fav}</div>
+              <span>${esc(item.title || item.url)}</span>
+            </button>
+          `;
+        })
+        .join('');
+
+      document.querySelectorAll('.shortcut').forEach((btn) => {
+        btn.addEventListener('click', () => go(btn.dataset.url));
+      });
+    }
+
+    function esc(s) {
+      return String(s ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    loadShortcuts();
+  </script>
+</body>
+</html>

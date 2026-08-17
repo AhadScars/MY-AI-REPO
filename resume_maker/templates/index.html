@@ -1,0 +1,393 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>Resume Maker — 1-Page Builder</title>
+  <link rel="stylesheet" href="/static/style.css" />
+</head>
+<body>
+  <div class="app">
+    <header class="topbar">
+      <div class="brand">
+        <div class="logo">R</div>
+        <div>Resume Maker <span style="color:var(--muted);font-weight:500;font-size:13px">· 1 page</span></div>
+      </div>
+      <div class="top-actions">
+        <button class="btn btn-ghost btn-sm" id="btnLoad" title="Load saved resume">Load</button>
+        <button class="btn btn-ghost btn-sm" id="btnSave" title="Save as JSON on server">Save</button>
+        <button class="btn btn-ghost btn-sm" id="btnExportJson" title="Download JSON">JSON</button>
+        <button class="btn btn-ghost btn-sm" id="btnReset" title="Reset to sample">Reset</button>
+        <button class="btn btn-sm" id="btnAtsTop" title="ATS score analyzer">ATS Score</button>
+        <button class="btn btn-sm" id="btnPrint" title="Print / Save as PDF via browser">Print</button>
+        <button class="btn btn-primary btn-sm" id="btnPdf" title="Download generated PDF">Download PDF</button>
+      </div>
+    </header>
+
+    <aside class="sidebar">
+      <div class="tabs" id="tabs">
+        <button class="tab active" data-tab="header">Header</button>
+        <button class="tab" data-tab="summary">Summary</button>
+        <button class="tab" data-tab="experience">Experience</button>
+        <button class="tab" data-tab="education">Education</button>
+        <button class="tab" data-tab="skills">Skills</button>
+        <button class="tab" data-tab="projects">Projects</button>
+        <button class="tab" data-tab="certs">Certs</button>
+        <button class="tab" data-tab="langs">Langs</button>
+        <button class="tab" data-tab="custom">Custom</button>
+        <button class="tab" data-tab="style">Style</button>
+        <button class="tab" data-tab="type">Type</button>
+        <button class="tab" data-tab="dates">Dates</button>
+        <button class="tab" data-tab="sections">Sections</button>
+        <button class="tab" data-tab="ats">ATS AI</button>
+      </div>
+
+      <!-- HEADER -->
+      <section class="panel active" id="panel-header">
+        <h2>Header / Contact</h2>
+        <p class="hint">Name, job title, and contact line. Alignment &amp; header bar are under Style.</p>
+        <div class="field"><label>Full name</label><input id="h_full_name" data-path="header.full_name" /></div>
+        <div class="field"><label>Professional title</label><input id="h_title" data-path="header.title" /></div>
+        <div class="row row-2">
+          <div class="field"><label>Email</label><input data-path="header.email" /></div>
+          <div class="field"><label>Phone</label><input data-path="header.phone" /></div>
+        </div>
+        <div class="row row-2">
+          <div class="field"><label>Location</label><input data-path="header.location" /></div>
+          <div class="field"><label>Website</label><input data-path="header.website" /></div>
+        </div>
+        <div class="row row-2">
+          <div class="field"><label>LinkedIn</label><input data-path="header.linkedin" /></div>
+          <div class="field"><label>GitHub</label><input data-path="header.github" /></div>
+        </div>
+        <div class="field"><label>Extra contact line</label><input data-path="header.extra" placeholder="Portfolio, Twitter, etc." /></div>
+      </section>
+
+      <!-- SUMMARY -->
+      <section class="panel" id="panel-summary">
+        <h2>Professional Summary</h2>
+        <p class="hint">2–4 lines works best for a single page.</p>
+        <div class="field"><label>Summary</label><textarea data-path="summary" rows="7"></textarea></div>
+      </section>
+
+      <!-- EXPERIENCE -->
+      <section class="panel" id="panel-experience">
+        <h2>Experience</h2>
+        <p class="hint">Add roles with start/end months &amp; years. Tick Present for current job.</p>
+        <div id="expList"></div>
+        <button class="btn btn-sm" id="addExp">+ Add experience</button>
+      </section>
+
+      <!-- EDUCATION -->
+      <section class="panel" id="panel-education">
+        <h2>Education</h2>
+        <div id="eduList"></div>
+        <button class="btn btn-sm" id="addEdu">+ Add education</button>
+      </section>
+
+      <!-- SKILLS -->
+      <section class="panel" id="panel-skills">
+        <h2>Skills</h2>
+        <p class="hint">Group skills by category (Languages, Tools, …).</p>
+        <div id="skillList"></div>
+        <button class="btn btn-sm" id="addSkill">+ Add skill group</button>
+      </section>
+
+      <!-- PROJECTS -->
+      <section class="panel" id="panel-projects">
+        <h2>Projects</h2>
+        <div id="projList"></div>
+        <button class="btn btn-sm" id="addProj">+ Add project</button>
+      </section>
+
+      <!-- CERTS -->
+      <section class="panel" id="panel-certs">
+        <h2>Certifications</h2>
+        <div id="certList"></div>
+        <button class="btn btn-sm" id="addCert">+ Add certification</button>
+      </section>
+
+      <!-- LANGUAGES -->
+      <section class="panel" id="panel-langs">
+        <h2>Languages</h2>
+        <div id="langList"></div>
+        <button class="btn btn-sm" id="addLang">+ Add language</button>
+      </section>
+
+      <!-- CUSTOM -->
+      <section class="panel" id="panel-custom">
+        <h2>Custom Section</h2>
+        <p class="hint">Awards, publications, volunteering — rename the section title.</p>
+        <div class="field"><label>Section title</label><input data-path="custom.title" /></div>
+        <div id="customList"></div>
+        <button class="btn btn-sm" id="addCustom">+ Add item</button>
+      </section>
+
+      <!-- STYLE / LAYOUT / COLORS -->
+      <section class="panel" id="panel-style">
+        <h2>Layout &amp; Colors</h2>
+        <h3>Page</h3>
+        <div class="row">
+          <div class="field">
+            <label>Page size</label>
+            <select data-path="style.page.size">
+              <option value="A4">A4</option>
+              <option value="Letter">US Letter</option>
+            </select>
+          </div>
+          <div class="field">
+            <label>Header align</label>
+            <select data-path="style.layout.header_align">
+              <option value="center">Center</option>
+              <option value="left">Left</option>
+              <option value="right">Right</option>
+            </select>
+          </div>
+        </div>
+        <div class="field">
+          <label>Margin top (pt)</label>
+          <div class="slider-row">
+            <input type="range" min="18" max="72" step="1" data-path="style.page.margin_top" data-num />
+            <span class="val" data-val-for="style.page.margin_top"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Margin bottom (pt)</label>
+          <div class="slider-row">
+            <input type="range" min="18" max="72" step="1" data-path="style.page.margin_bottom" data-num />
+            <span class="val" data-val-for="style.page.margin_bottom"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Margin left (pt)</label>
+          <div class="slider-row">
+            <input type="range" min="24" max="72" step="1" data-path="style.page.margin_left" data-num />
+            <span class="val" data-val-for="style.page.margin_left"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Margin right (pt)</label>
+          <div class="slider-row">
+            <input type="range" min="24" max="72" step="1" data-path="style.page.margin_right" data-num />
+            <span class="val" data-val-for="style.page.margin_right"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Section spacing</label>
+          <div class="slider-row">
+            <input type="range" min="2" max="24" step="1" data-path="style.layout.section_spacing" data-num />
+            <span class="val" data-val-for="style.layout.section_spacing"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Item spacing</label>
+          <div class="slider-row">
+            <input type="range" min="2" max="16" step="1" data-path="style.layout.item_spacing" data-num />
+            <span class="val" data-val-for="style.layout.item_spacing"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Line height</label>
+          <div class="slider-row">
+            <input type="range" min="1.05" max="1.6" step="0.01" data-path="style.layout.line_height" data-num />
+            <span class="val" data-val-for="style.layout.line_height"></span>
+          </div>
+        </div>
+        <div class="field">
+          <label>Bullet character</label>
+          <input data-path="style.layout.bullet" />
+        </div>
+        <div class="field">
+          <label>Contact separator</label>
+          <input data-path="style.layout.contact_separator" />
+        </div>
+        <label class="check"><input type="checkbox" data-path="style.layout.show_section_lines" data-bool /> Show section lines</label>
+
+        <h3>Colors</h3>
+        <div class="field"><label>Name color</label><div class="color-input"><input type="color" data-color-for="style.colors.name" /><input type="text" data-path="style.colors.name" /></div></div>
+        <div class="field"><label>Body text</label><div class="color-input"><input type="color" data-color-for="style.colors.text" /><input type="text" data-path="style.colors.text" /></div></div>
+        <div class="field"><label>Section headings</label><div class="color-input"><input type="color" data-color-for="style.colors.heading" /><input type="text" data-path="style.colors.heading" /></div></div>
+        <div class="field"><label>Accent / lines</label><div class="color-input"><input type="color" data-color-for="style.colors.accent" /><input type="text" data-path="style.colors.accent" /></div></div>
+        <div class="field"><label>Muted (dates, subtitles)</label><div class="color-input"><input type="color" data-color-for="style.colors.muted" /><input type="text" data-path="style.colors.muted" /></div></div>
+        <div class="field"><label>Header background (empty = none)</label><div class="color-input"><input type="color" data-color-for="style.colors.header_bg" /><input type="text" data-path="style.colors.header_bg" placeholder="#0f172a or leave empty" /></div></div>
+        <div class="field"><label>Header text (when bar is on)</label><div class="color-input"><input type="color" data-color-for="style.colors.header_text" /><input type="text" data-path="style.colors.header_text" /></div></div>
+      </section>
+
+      <!-- TYPOGRAPHY -->
+      <section class="panel" id="panel-type">
+        <h2>Typography</h2>
+        <p class="hint">Font family + size + <strong>Bold</strong> / <em>Italic</em> for every text role.</p>
+        <div class="field">
+          <label>Font family</label>
+          <select data-path="style.fonts.family">
+            <option value="Helvetica">Helvetica (clean sans)</option>
+            <option value="Times">Times (classic serif)</option>
+            <option value="Courier">Courier (monospace)</option>
+          </select>
+        </div>
+
+        <h3>Name</h3>
+        <div class="field"><label>Size</label><div class="slider-row"><input type="range" min="14" max="32" step="0.5" data-path="style.fonts.name_size" data-num /><span class="val" data-val-for="style.fonts.name_size"></span></div></div>
+        <div class="toggle-grid">
+          <label class="check"><input type="checkbox" data-path="style.fonts.name_bold" data-bool /> Bold</label>
+          <label class="check"><input type="checkbox" data-path="style.fonts.name_italic" data-bool /> Italic</label>
+        </div>
+
+        <h3>Job title</h3>
+        <div class="field"><label>Size</label><div class="slider-row"><input type="range" min="8" max="16" step="0.5" data-path="style.fonts.title_size" data-num /><span class="val" data-val-for="style.fonts.title_size"></span></div></div>
+        <div class="toggle-grid">
+          <label class="check"><input type="checkbox" data-path="style.fonts.title_bold" data-bool /> Bold</label>
+          <label class="check"><input type="checkbox" data-path="style.fonts.title_italic" data-bool /> Italic</label>
+        </div>
+
+        <h3>Contact line</h3>
+        <div class="field"><label>Size</label><div class="slider-row"><input type="range" min="7" max="12" step="0.5" data-path="style.fonts.contact_size" data-num /><span class="val" data-val-for="style.fonts.contact_size"></span></div></div>
+        <div class="toggle-grid">
+          <label class="check"><input type="checkbox" data-path="style.fonts.contact_bold" data-bool /> Bold</label>
+          <label class="check"><input type="checkbox" data-path="style.fonts.contact_italic" data-bool /> Italic</label>
+        </div>
+
+        <h3>Section headings</h3>
+        <div class="field"><label>Size</label><div class="slider-row"><input type="range" min="8" max="16" step="0.5" data-path="style.fonts.section_size" data-num /><span class="val" data-val-for="style.fonts.section_size"></span></div></div>
+        <div class="toggle-grid">
+          <label class="check"><input type="checkbox" data-path="style.fonts.section_bold" data-bool /> Bold</label>
+          <label class="check"><input type="checkbox" data-path="style.fonts.section_italic" data-bool /> Italic</label>
+          <label class="check"><input type="checkbox" data-path="style.fonts.section_uppercase" data-bool /> UPPERCASE</label>
+        </div>
+
+        <h3>Item titles (role / degree)</h3>
+        <div class="field"><label>Size</label><div class="slider-row"><input type="range" min="8" max="14" step="0.5" data-path="style.fonts.item_title_size" data-num /><span class="val" data-val-for="style.fonts.item_title_size"></span></div></div>
+        <div class="toggle-grid">
+          <label class="check"><input type="checkbox" data-path="style.fonts.item_title_bold" data-bool /> Bold</label>
+          <label class="check"><input type="checkbox" data-path="style.fonts.item_title_italic" data-bool /> Italic</label>
+        </div>
+
+        <h3>Subtitles (location, school detail)</h3>
+        <div class="field"><label>Size</label><div class="slider-row"><input type="range" min="7" max="12" step="0.5" data-path="style.fonts.item_sub_size" data-num /><span class="val" data-val-for="style.fonts.item_sub_size"></span></div></div>
+        <div class="toggle-grid">
+          <label class="check"><input type="checkbox" data-path="style.fonts.item_sub_bold" data-bool /> Bold</label>
+          <label class="check"><input type="checkbox" data-path="style.fonts.item_sub_italic" data-bool /> Italic</label>
+        </div>
+
+        <h3>Body / bullets</h3>
+        <div class="field"><label>Size</label><div class="slider-row"><input type="range" min="7" max="12" step="0.5" data-path="style.fonts.body_size" data-num /><span class="val" data-val-for="style.fonts.body_size"></span></div></div>
+        <div class="toggle-grid">
+          <label class="check"><input type="checkbox" data-path="style.fonts.body_bold" data-bool /> Bold</label>
+          <label class="check"><input type="checkbox" data-path="style.fonts.body_italic" data-bool /> Italic</label>
+        </div>
+
+        <h3>Dates</h3>
+        <div class="field"><label>Size</label><div class="slider-row"><input type="range" min="7" max="12" step="0.5" data-path="style.fonts.date_size" data-num /><span class="val" data-val-for="style.fonts.date_size"></span></div></div>
+        <div class="toggle-grid">
+          <label class="check"><input type="checkbox" data-path="style.fonts.date_bold" data-bool /> Bold</label>
+          <label class="check"><input type="checkbox" data-path="style.fonts.date_italic" data-bool /> Italic</label>
+        </div>
+      </section>
+
+      <!-- DATES -->
+      <section class="panel" id="panel-dates">
+        <h2>Date &amp; Month Format</h2>
+        <p class="hint">Controls how months and ranges appear across experience, education, projects, and certs.</p>
+        <div class="field">
+          <label>Date style</label>
+          <select data-path="style.layout.date_style">
+            <option value="short_month">Jan 2024</option>
+            <option value="full_month">January 2024</option>
+            <option value="month_year_dot">Jan. 2024</option>
+            <option value="numeric">01/2024</option>
+            <option value="numeric_day">01/15/2024</option>
+            <option value="iso">2024-01</option>
+            <option value="iso_day">2024-01-15</option>
+            <option value="year_only">2024</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Range separator</label>
+          <input data-path="style.layout.date_separator" placeholder=" – " />
+        </div>
+        <div class="field">
+          <label>“Present” label</label>
+          <input data-path="style.layout.present_label" placeholder="Present / Current / Ahora" />
+        </div>
+        <div class="pill-row" id="datePreviewPills"></div>
+      </section>
+
+      <!-- SECTIONS -->
+      <section class="panel" id="panel-sections">
+        <h2>Sections</h2>
+        <p class="hint">Show/hide sections and rename headings. Order is fixed in PDF: summary → experience → education → skills → projects → certs → languages → custom.</p>
+        <div id="sectionVisibility"></div>
+        <h3>Custom labels</h3>
+        <div class="field"><label>Summary</label><input data-path="style.sections.labels.summary" /></div>
+        <div class="field"><label>Experience</label><input data-path="style.sections.labels.experience" /></div>
+        <div class="field"><label>Education</label><input data-path="style.sections.labels.education" /></div>
+        <div class="field"><label>Skills</label><input data-path="style.sections.labels.skills" /></div>
+        <div class="field"><label>Projects</label><input data-path="style.sections.labels.projects" /></div>
+        <div class="field"><label>Certifications</label><input data-path="style.sections.labels.certifications" /></div>
+        <div class="field"><label>Languages</label><input data-path="style.sections.labels.languages" /></div>
+      </section>
+
+      <!-- ATS ANALYZER -->
+      <section class="panel" id="panel-ats">
+        <h2>ATS Score Analyzer</h2>
+        <p class="hint">
+          Instant <strong>rule-based ATS score</strong> (contact, structure, bullets, keywords, format).
+          Optional <strong>SpaceXAI</strong> deep analysis when <code>XAI_API_KEY</code> is set.
+        </p>
+
+        <div class="ats-status" id="atsStatusBadge">Checking AI…</div>
+
+        <div class="field">
+          <label>Target job description (recommended)</label>
+          <textarea id="atsJobDesc" rows="8" placeholder="Paste the job posting here for keyword match score…"></textarea>
+        </div>
+
+        <label class="check" id="atsAiCheckWrap">
+          <input type="checkbox" id="atsUseAi" /> Use AI analyzer (SpaceXAI / xAI)
+        </label>
+
+        <div style="display:flex;gap:8px;flex-wrap:wrap;margin:12px 0">
+          <button class="btn btn-primary btn-sm" id="btnRunAts">Analyze ATS Score</button>
+          <button class="btn btn-sm" id="btnClearAts">Clear report</button>
+        </div>
+
+        <div id="atsReport" class="ats-report empty">
+          <p class="hint" style="margin:0">Click <strong>Analyze ATS Score</strong> to scan this resume.</p>
+        </div>
+      </section>
+    </aside>
+
+    <main class="preview-wrap">
+      <div class="preview-toolbar">
+        <div class="status">
+          <span class="badge ok" id="pageBadge">1 page</span>
+          <span class="badge" id="fillBadge">Fill —</span>
+          <span class="badge" id="atsBadge" title="Run ATS analyzer">ATS —</span>
+          <span id="metaText" style="color:var(--muted);font-size:12px"></span>
+        </div>
+        <div style="display:flex;gap:8px">
+          <button class="btn btn-sm" id="btnZoomOut">−</button>
+          <button class="btn btn-sm" id="btnZoomIn">+</button>
+        </div>
+      </div>
+      <div class="page" id="page">
+        <div class="page-inner" id="preview"></div>
+      </div>
+    </main>
+  </div>
+
+  <div class="modal-backdrop" id="loadModal">
+    <div class="modal">
+      <h2>Load saved resume</h2>
+      <p class="hint">Saved files live in the <code>data/</code> folder.</p>
+      <div class="modal-list" id="loadList"></div>
+      <div style="margin-top:12px;display:flex;justify-content:flex-end;gap:8px">
+        <button class="btn btn-sm" id="closeLoad">Close</button>
+      </div>
+    </div>
+  </div>
+  <div class="toast" id="toast"></div>
+
+  <script src="/static/app.js"></script>
+</body>
+</html>

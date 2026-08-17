@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Bookmarks</title>
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="page-header">
+      <div>
+        <h1>Bookmarks</h1>
+        <div class="sub">Sites you saved for later</div>
+      </div>
+    </div>
+
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="search" type="search" placeholder="Search bookmarks" spellcheck="false" />
+    </div>
+
+    <div id="list" class="list"></div>
+    <div id="empty" class="empty hidden">
+      <h2>No bookmarks</h2>
+      <p>Press <strong>Ctrl+D</strong> on any page to bookmark it.</p>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+    let all = [];
+
+    function esc(s) {
+      return String(s ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function render(list) {
+      const root = $('#list');
+      const empty = $('#empty');
+      if (!list.length) {
+        root.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+      root.innerHTML = list
+        .map((b) => {
+          const icon = b.favicon
+            ? `<img src="${esc(b.favicon)}" alt="" onerror="this.parentNode.textContent='⭐'" />`
+            : '⭐';
+          return `
+            <div class="list-item" data-url="${esc(b.url)}" data-id="${esc(b.id)}">
+              <div class="icon">${icon}</div>
+              <div class="body">
+                <div class="title">${esc(b.title || b.url)}</div>
+                <div class="meta">${esc(b.url)}</div>
+              </div>
+              <div class="actions">
+                <button class="icon-btn btn-del" title="Remove" data-id="${esc(b.id)}">✕</button>
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+
+      root.querySelectorAll('.list-item').forEach((el) => {
+        el.addEventListener('click', (e) => {
+          if (e.target.closest('.btn-del')) return;
+          if (window.pulsePage) window.pulsePage.navigate(el.dataset.url);
+        });
+      });
+
+      root.querySelectorAll('.btn-del').forEach((btn) => {
+        btn.addEventListener('click', async (e) => {
+          e.stopPropagation();
+          await window.pulsePage.removeBookmark(btn.dataset.id);
+          all = await window.pulsePage.getBookmarks();
+          filter();
+        });
+      });
+    }
+
+    function filter() {
+      const q = ($('#search').value || '').toLowerCase().trim();
+      if (!q) return render(all);
+      render(
+        all.filter(
+          (b) =>
+            (b.title || '').toLowerCase().includes(q) ||
+            (b.url || '').toLowerCase().includes(q)
+        )
+      );
+    }
+
+    $('#search').addEventListener('input', filter);
+
+    async function init() {
+      if (!window.pulsePage) return;
+      all = await window.pulsePage.getBookmarks();
+      filter();
+    }
+    init();
+  </script>
+</body>
+</html>

@@ -1,0 +1,285 @@
+{% extends "school/layout.html" %}
+{% block title %}Students — {{ school.name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Students</h2>
+    <p>Filter by class &amp; section · Sorted 1-A → 8-D · Use <strong>Mark Attendance</strong> to check in/out</p>
+  </div>
+</div>
+
+<div class="card">
+  <h3>Add student</h3>
+  {% if not licensed %}
+    <p class="muted">Subscription expired. <a href="{{ url_for('school.subscription') }}">Activate license</a> to add students.</p>
+  {% else %}
+  <form method="post" class="add-student-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label>Student ID</label>
+        <input type="text" name="student_id" required placeholder="e.g. C1A01" />
+      </div>
+      <div class="form-group">
+        <label>Name</label>
+        <input type="text" name="name" required placeholder="Full name" />
+      </div>
+      <div class="form-group">
+        <label>Class</label>
+        <input type="text" name="class_name" required placeholder="e.g. 5-A" />
+      </div>
+      <div class="form-group">
+        <label>Phone</label>
+        <input type="text" name="phone" value="9140980834" required placeholder="9140980834" />
+      </div>
+      <div class="form-group form-group-action">
+        <label>&nbsp;</label>
+        <button type="submit" class="btn btn-block">Add student</button>
+      </div>
+    </div>
+  </form>
+  {% endif %}
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <h3>Enrolled students</h3>
+    <span class="count-pill" title="Filtered / total">
+      {{ filtered_count }}{% if filtered_count != total_count %} / {{ total_count }}{% endif %}
+    </span>
+  </div>
+
+  <form method="get" class="filter-bar" id="student-filters" action="{{ url_for('school.students') }}">
+    <input type="hidden" name="per_page" value="{{ pagination.per_page if pagination else 50 }}" />
+    <div class="form-group">
+      <label for="filter-cls">Classes</label>
+      <select id="filter-cls" name="cls" class="filter-select">
+        <option value="">Classes</option>
+        <option value="1" {% if active_cls == '1' %}selected{% endif %}>1</option>
+        <option value="2" {% if active_cls == '2' %}selected{% endif %}>2</option>
+        <option value="3" {% if active_cls == '3' %}selected{% endif %}>3</option>
+        <option value="4" {% if active_cls == '4' %}selected{% endif %}>4</option>
+        <option value="5" {% if active_cls == '5' %}selected{% endif %}>5</option>
+        <option value="6" {% if active_cls == '6' %}selected{% endif %}>6</option>
+        <option value="7" {% if active_cls == '7' %}selected{% endif %}>7</option>
+        <option value="8" {% if active_cls == '8' %}selected{% endif %}>8</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="filter-sec">Section</label>
+      <select id="filter-sec" name="sec" class="filter-select">
+        <option value="">Section</option>
+        <option value="A" {% if active_sec == 'A' %}selected{% endif %}>A</option>
+        <option value="B" {% if active_sec == 'B' %}selected{% endif %}>B</option>
+        <option value="C" {% if active_sec == 'C' %}selected{% endif %}>C</option>
+        <option value="D" {% if active_sec == 'D' %}selected{% endif %}>D</option>
+      </select>
+    </div>
+    <div class="form-group filter-search">
+      <label for="filter-q">Search</label>
+      <input
+        type="text"
+        id="filter-q"
+        name="q"
+        value="{{ active_q or '' }}"
+        placeholder="Name or student ID…"
+        autocomplete="off"
+      />
+    </div>
+    <div class="form-group form-group-action">
+      <label>&nbsp;</label>
+      <div class="filter-actions">
+        <button type="submit" class="btn">Apply</button>
+        <a class="btn btn-ghost" href="{{ url_for('school.students') }}">Clear</a>
+      </div>
+    </div>
+  </form>
+
+  {% if active_cls or active_sec or active_q %}
+  <p class="filter-summary muted">
+    Showing <strong>{{ filtered_count }}</strong> of {{ total_count }} students
+    {% if active_cls %} · class <strong>{{ active_cls }}</strong>{% endif %}
+    {% if active_sec %} · section <strong>{{ active_sec }}</strong>{% endif %}
+    {% if active_q %} · search “{{ active_q }}”{% endif %}
+  </p>
+  {% endif %}
+
+  <div class="table-wrap">
+    <table class="students-table">
+      <thead>
+        <tr>
+          <th style="width:14%">Student ID</th>
+          <th>Name</th>
+          <th style="width:12%">Class</th>
+          <th style="width:16%">Phone</th>
+          <th style="width:160px;text-align:right">Actions</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for s in students %}
+        <tr>
+          <td class="mono">{{ s.student_id }}</td>
+          <td>{{ s.name }}</td>
+          <td><span class="class-chip">{{ s.class_name }}</span></td>
+          <td class="mono">{{ s.phone or '9140980834' }}</td>
+          <td>
+            <div class="row-actions">
+              <button
+                type="button"
+                class="btn-action btn-action-edit"
+                data-edit
+                data-id="{{ s.id }}"
+                data-student-id="{{ s.student_id }}"
+                data-name="{{ s.name }}"
+                data-class="{{ s.class_name }}"
+                data-phone="{{ s.phone or '9140980834' }}"
+              >Edit</button>
+              <button
+                type="button"
+                class="btn-action btn-action-delete"
+                data-delete
+                data-id="{{ s.id }}"
+                data-student-id="{{ s.student_id }}"
+                data-name="{{ s.name }}"
+              >Delete</button>
+            </div>
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="5" class="empty-row">
+            {% if total_count == 0 %}
+              No students yet. Add one above.
+            {% else %}
+              No students match these filters.
+              <a href="{{ url_for('school.students') }}">Clear filters</a>
+            {% endif %}
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% set page_endpoint = 'school.students' %}
+  {% include "partials/pagination.html" %}
+</div>
+
+{# ── Edit modal ── #}
+<div class="modal-overlay" id="edit-modal" hidden>
+  <div class="modal-panel" role="dialog" aria-labelledby="edit-title">
+    <div class="modal-header">
+      <h3 id="edit-title">Edit student</h3>
+      <button type="button" class="modal-close" data-close aria-label="Close">&times;</button>
+    </div>
+    <form method="post" id="edit-form">
+      <div class="modal-body">
+        <div class="form-group">
+          <label for="edit-student-id">Student ID</label>
+          <input type="text" id="edit-student-id" name="student_id" required />
+        </div>
+        <div class="form-group">
+          <label for="edit-name">Name</label>
+          <input type="text" id="edit-name" name="name" required />
+        </div>
+        <div class="form-group">
+          <label for="edit-class">Class</label>
+          <input type="text" id="edit-class" name="class_name" required />
+        </div>
+        <div class="form-group">
+          <label for="edit-phone">Phone</label>
+          <input type="text" id="edit-phone" name="phone" required />
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+        <button type="submit" class="btn">Save changes</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+{# ── Delete confirm modal ── #}
+<div class="modal-overlay" id="delete-modal" hidden>
+  <div class="modal-panel modal-panel-sm" role="dialog" aria-labelledby="delete-title">
+    <div class="modal-header">
+      <h3 id="delete-title">Delete student</h3>
+      <button type="button" class="modal-close" data-close aria-label="Close">&times;</button>
+    </div>
+    <div class="modal-body">
+      <p class="delete-copy">
+        Remove <strong id="delete-name"></strong>
+        <span class="mono muted" id="delete-sid"></span>?
+      </p>
+      <p class="muted" style="font-size:0.85rem;margin-top:0.5rem;">This cannot be undone.</p>
+    </div>
+    <form method="post" id="delete-form" class="modal-footer">
+      <button type="button" class="btn btn-ghost" data-close>Cancel</button>
+      <button type="submit" class="btn btn-danger-solid">Delete student</button>
+    </form>
+  </div>
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  const editModal = document.getElementById("edit-modal");
+  const deleteModal = document.getElementById("delete-modal");
+  const editForm = document.getElementById("edit-form");
+  const deleteForm = document.getElementById("delete-form");
+  const filterForm = document.getElementById("student-filters");
+
+  // Auto-submit filters when class/section changes (resets to page 1)
+  if (filterForm) {
+    filterForm.querySelectorAll("select").forEach((el) => {
+      el.addEventListener("change", () => filterForm.submit());
+    });
+  }
+
+  function openModal(el) {
+    el.hidden = false;
+    document.body.style.overflow = "hidden";
+  }
+  function closeModal(el) {
+    el.hidden = true;
+    document.body.style.overflow = "";
+  }
+  function closeAll() {
+    closeModal(editModal);
+    closeModal(deleteModal);
+  }
+
+  document.querySelectorAll("[data-edit]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      editForm.action = "/school/students/" + btn.dataset.id + "/edit";
+      document.getElementById("edit-student-id").value = btn.dataset.studentId || "";
+      document.getElementById("edit-name").value = btn.dataset.name || "";
+      document.getElementById("edit-class").value = btn.dataset.class || "";
+      document.getElementById("edit-phone").value = btn.dataset.phone || "9140980834";
+      openModal(editModal);
+    });
+  });
+
+  document.querySelectorAll("[data-delete]").forEach((btn) => {
+    btn.addEventListener("click", () => {
+      deleteForm.action = "/school/students/" + btn.dataset.id + "/delete";
+      document.getElementById("delete-name").textContent = btn.dataset.name || "";
+      document.getElementById("delete-sid").textContent = "(" + (btn.dataset.studentId || "") + ")";
+      openModal(deleteModal);
+    });
+  });
+
+  document.querySelectorAll("[data-close]").forEach((btn) => {
+    btn.addEventListener("click", closeAll);
+  });
+  [editModal, deleteModal].forEach((overlay) => {
+    overlay.addEventListener("click", (e) => {
+      if (e.target === overlay) closeAll();
+    });
+  });
+  document.addEventListener("keydown", (e) => {
+    if (e.key === "Escape") closeAll();
+  });
+})();
+</script>
+{% endblock %}

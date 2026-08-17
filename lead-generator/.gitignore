@@ -1,0 +1,6 @@
+.venv/
+__pycache__/
+data/leads.db
+data/geocode_cache.json
+exports/*.xlsx
+*.pyc

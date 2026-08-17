@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Downloads</title>
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="page-header">
+      <div>
+        <h1>Downloads</h1>
+        <div class="sub">Files saved from the web</div>
+      </div>
+      <button class="btn danger" id="btn-clear">Clear list</button>
+    </div>
+
+    <div id="list" class="list"></div>
+    <div id="empty" class="empty hidden">
+      <h2>No downloads yet</h2>
+      <p>Files you download will appear here.</p>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+
+    function esc(s) {
+      return String(s ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function formatBytes(n) {
+      if (!n || n < 0) return '—';
+      const u = ['B', 'KB', 'MB', 'GB'];
+      let i = 0;
+      let v = n;
+      while (v >= 1024 && i < u.length - 1) {
+        v /= 1024;
+        i++;
+      }
+      return `${v.toFixed(i === 0 ? 0 : 1)} ${u[i]}`;
+    }
+
+    function render(list) {
+      const root = $('#list');
+      const empty = $('#empty');
+      if (!list.length) {
+        root.innerHTML = '';
+        empty.classList.remove('hidden');
+        return;
+      }
+      empty.classList.add('hidden');
+      root.innerHTML = list
+        .map((d) => {
+          const pct =
+            d.totalBytes > 0
+              ? Math.min(100, Math.round((d.receivedBytes / d.totalBytes) * 100))
+              : d.state === 'completed'
+                ? 100
+                : 0;
+          const showBar = d.state === 'progressing';
+          return `
+            <div class="list-item" data-path="${esc(d.savePath || '')}">
+              <div class="icon">⬇</div>
+              <div class="body">
+                <div class="title">${esc(d.filename)}</div>
+                <div class="meta">
+                  ${formatBytes(d.receivedBytes)}${d.totalBytes ? ' / ' + formatBytes(d.totalBytes) : ''}
+                  · <span class="badge ${esc(d.state)}">${esc(d.state)}</span>
+                </div>
+                ${showBar ? `<div class="progress-mini"><div style="width:${pct}%"></div></div>` : ''}
+              </div>
+              <div class="actions">
+                ${
+                  d.savePath && d.state === 'completed'
+                    ? `<button class="icon-btn btn-open" title="Show in folder" data-path="${esc(d.savePath)}">📁</button>`
+                    : ''
+                }
+              </div>
+            </div>
+          `;
+        })
+        .join('');
+
+      root.querySelectorAll('.btn-open').forEach((btn) => {
+        btn.addEventListener('click', (e) => {
+          e.stopPropagation();
+          window.pulsePage.openDownload(btn.dataset.path);
+        });
+      });
+
+      root.querySelectorAll('.list-item').forEach((el) => {
+        el.addEventListener('click', () => {
+          if (el.dataset.path) window.pulsePage.openDownload(el.dataset.path);
+        });
+      });
+    }
+
+    async function load() {
+      if (!window.pulsePage) return;
+      const list = await window.pulsePage.getDownloads();
+      render(list);
+    }
+
+    $('#btn-clear').addEventListener('click', async () => {
+      if (!confirm('Clear the downloads list? Files on disk will not be deleted.')) return;
+      await window.pulsePage.clearDownloads();
+      load();
+    });
+
+    load();
+    setInterval(load, 1500);
+  </script>
+</body>
+</html>

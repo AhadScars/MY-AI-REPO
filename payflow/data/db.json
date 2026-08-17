@@ -1,0 +1,145 @@
+{
+  "users": [
+    {
+      "id": "u1",
+      "name": "Shoaib Qazi",
+      "phone": "9876543210",
+      "email": "shoaib@demo.com",
+      "username": "shoaib",
+      "upiId": "shoaib@payflow",
+      "passwordHash": "$2b$08$.IRCNlrGR75Ky4Q.Xl6g0enSqyjz1MKSQf2acUti4baI2EjHdwUlm",
+      "walletBalance": 6000,
+      "createdAt": "2026-07-23T13:15:30.447Z"
+    },
+    {
+      "id": "u2",
+      "name": "Priya Sharma",
+      "phone": "9123456780",
+      "email": "priya@demo.com",
+      "username": "priya",
+      "upiId": "priya@payflow",
+      "passwordHash": "$2b$08$.IRCNlrGR75Ky4Q.Xl6g0enSqyjz1MKSQf2acUti4baI2EjHdwUlm",
+      "walletBalance": 3300,
+      "createdAt": "2026-07-23T13:15:30.447Z"
+    },
+    {
+      "id": "u3",
+      "name": "Rahul Verma",
+      "phone": "9988776655",
+      "email": "rahul@demo.com",
+      "username": "rahul",
+      "upiId": "rahul@okaxis",
+      "passwordHash": "$2b$08$.IRCNlrGR75Ky4Q.Xl6g0enSqyjz1MKSQf2acUti4baI2EjHdwUlm",
+      "walletBalance": 1400,
+      "createdAt": "2026-07-23T13:15:30.447Z"
+    }
+  ],
+  "banks": [
+    {
+      "id": "b1",
+      "userId": "u1",
+      "bankName": "HDFC Bank",
+      "accountNumber": "50100234567890",
+      "ifsc": "HDFC0001234",
+      "accountHolder": "Shoaib Qazi",
+      "accountType": "Savings",
+      "balance": 44000,
+      "isPrimary": true,
+      "linkedAt": "2026-07-23T13:15:30.447Z"
+    },
+    {
+      "id": "b2",
+      "userId": "u1",
+      "bankName": "SBI",
+      "accountNumber": "30123456789",
+      "ifsc": "SBIN0000456",
+      "accountHolder": "Shoaib Qazi",
+      "accountType": "Savings",
+      "balance": 12000,
+      "isPrimary": false,
+      "linkedAt": "2026-07-23T13:15:30.447Z"
+    },
+    {
+      "id": "b3",
+      "userId": "u2",
+      "bankName": "ICICI Bank",
+      "accountNumber": "001234567890",
+      "ifsc": "ICIC0000789",
+      "accountHolder": "Priya Sharma",
+      "accountType": "Savings",
+      "balance": 28000,
+      "isPrimary": true,
+      "linkedAt": "2026-07-23T13:15:30.447Z"
+    },
+    {
+      "id": "b4",
+      "userId": "u3",
+      "bankName": "Axis Bank",
+      "accountNumber": "912010012345678",
+      "ifsc": "UTIB0000123",
+      "accountHolder": "Rahul Verma",
+      "accountType": "Current",
+      "balance": 8500,
+      "isPrimary": true,
+      "linkedAt": "2026-07-23T13:15:30.447Z"
+    }
+  ],
+  "transactions": [
+    {
+      "id": "369858fb-20cd-4e38-aed7-d9c0e6f3eea0",
+      "fromUserId": "u3",
+      "toUserId": "u2",
+      "amount": 100,
+      "type": "upi",
+      "method": "UPI",
+      "status": "success",
+      "note": null,
+      "toIdentifier": "priya@payflow",
+      "fromName": "Rahul Verma",
+      "toName": "Priya Sharma",
+      "createdAt": "2026-07-23T13:19:54.373Z"
+    },
+    {
+      "id": "9799ff63-e3ff-4134-9039-e1c5e0371a19",
+      "fromUserId": "u1",
+      "toUserId": "u1",
+      "amount": 1000,
+      "type": "topup",
+      "method": "Bank → Wallet",
+      "status": "success",
+      "note": "Added from HDFC Bank",
+      "toIdentifier": "Wallet",
+      "fromName": "Shoaib Qazi",
+      "toName": "Shoaib Qazi",
+      "createdAt": "2026-07-23T13:19:08.472Z"
+    },
+    {
+      "id": "edaf3129-f1d5-4810-888f-b3e91373fb42",
+      "fromUserId": "u2",
+      "toUserId": "u1",
+      "amount": 500,
+      "type": "upi",
+      "method": "UPI",
+      "status": "success",
+      "note": "Dinner split",
+      "toIdentifier": "shoaib@payflow",
+      "fromName": "Priya Sharma",
+      "toName": "Shoaib Qazi",
+      "createdAt": "2026-07-21T13:15:30.448Z"
+    },
+    {
+      "id": "04880399-c497-449e-b028-c85fbfdb6e78",
+      "fromUserId": "u1",
+      "toUserId": "u3",
+      "amount": 250,
+      "type": "username",
+      "method": "Username",
+      "status": "success",
+      "note": "Cab fare",
+      "toIdentifier": "@rahul",
+      "fromName": "Shoaib Qazi",
+      "toName": "Rahul Verma",
+      "createdAt": "2026-07-22T13:15:30.448Z"
+    }
+  ]
+}

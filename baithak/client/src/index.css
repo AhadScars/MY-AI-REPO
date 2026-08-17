@@ -1,0 +1,126 @@
+@import "tailwindcss";
+
+@theme {
+  --font-sans: "DM Sans", ui-sans-serif, system-ui, sans-serif;
+  --font-display: "Outfit", ui-sans-serif, system-ui, sans-serif;
+  --color-baithak-50: #f0fdfa;
+  --color-baithak-100: #ccfbf1;
+  --color-baithak-200: #99f6e4;
+  --color-baithak-300: #5eead4;
+  --color-baithak-400: #2dd4bf;
+  --color-baithak-500: #14b8a6;
+  --color-baithak-600: #0d9488;
+  --color-baithak-700: #0f766e;
+  --color-baithak-800: #115e59;
+  --color-baithak-900: #134e4a;
+  --color-surface: #0b1220;
+  --color-surface-2: #111827;
+  --color-surface-3: #1a2332;
+  --color-surface-4: #243044;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body,
+#root {
+  height: 100%;
+  margin: 0;
+}
+
+body {
+  font-family: var(--font-sans);
+  background: var(--color-surface);
+  color: #e5e7eb;
+  -webkit-font-smoothing: antialiased;
+}
+
+/* Custom scrollbar */
+.baithak-scroll::-webkit-scrollbar {
+  width: 6px;
+}
+.baithak-scroll::-webkit-scrollbar-track {
+  background: transparent;
+}
+.baithak-scroll::-webkit-scrollbar-thumb {
+  background: #334155;
+  border-radius: 999px;
+}
+
+/* Soft ambient background */
+.baithak-bg {
+  background:
+    radial-gradient(ellipse 80% 60% at 20% -10%, rgba(20, 184, 166, 0.22), transparent 55%),
+    radial-gradient(ellipse 70% 50% at 90% 10%, rgba(56, 189, 248, 0.12), transparent 50%),
+    radial-gradient(ellipse 60% 40% at 50% 100%, rgba(15, 118, 110, 0.15), transparent 55%),
+    var(--color-surface);
+}
+
+.glass {
+  background: rgba(17, 24, 39, 0.72);
+  backdrop-filter: blur(16px);
+  border: 1px solid rgba(148, 163, 184, 0.12);
+}
+
+.tile-grid {
+  display: grid;
+  gap: 0.75rem;
+  width: 100%;
+  height: 100%;
+  align-content: center;
+  justify-items: center;
+}
+
+.tile-grid[data-count="1"] {
+  grid-template-columns: 1fr;
+}
+.tile-grid[data-count="2"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.tile-grid[data-count="3"],
+.tile-grid[data-count="4"] {
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+}
+.tile-grid[data-count="5"],
+.tile-grid[data-count="6"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.tile-grid[data-count="7"],
+.tile-grid[data-count="8"],
+.tile-grid[data-count="9"] {
+  grid-template-columns: repeat(3, minmax(0, 1fr));
+}
+.tile-grid[data-count="10"],
+.tile-grid[data-count="11"],
+.tile-grid[data-count="12"] {
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+@media (max-width: 768px) {
+  .tile-grid[data-count="2"],
+  .tile-grid[data-count="3"],
+  .tile-grid[data-count="4"],
+  .tile-grid[data-count="5"],
+  .tile-grid[data-count="6"],
+  .tile-grid[data-count="7"],
+  .tile-grid[data-count="8"],
+  .tile-grid[data-count="9"],
+  .tile-grid[data-count="10"],
+  .tile-grid[data-count="11"],
+  .tile-grid[data-count="12"] {
+    grid-template-columns: 1fr;
+  }
+  .tile-grid[data-count="2"] {
+    grid-template-columns: 1fr;
+  }
+}
+
+@keyframes pulse-soft {
+  0%, 100% { opacity: 1; }
+  50% { opacity: 0.55; }
+}
+.pulse-soft {
+  animation: pulse-soft 1.6s ease-in-out infinite;
+}

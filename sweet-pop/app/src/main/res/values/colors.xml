@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <color name="bg_deep">#FF1A0A2E</color>
+    <color name="bg_mid">#FF2D1B4E</color>
+    <color name="bg_top">#FF4A2C7A</color>
+    <color name="panel">#E61E1238</color>
+    <color name="panel_stroke">#66FFB6E0</color>
+    <color name="text_primary">#FFFFFFFF</color>
+    <color name="text_secondary">#CCFFD6F0</color>
+    <color name="accent_pink">#FFFF6BCB</color>
+    <color name="accent_gold">#FFFFD56B</color>
+    <color name="accent_mint">#FF6BFFB8</color>
+    <color name="accent_sky">#FF6BCBFF</color>
+    <color name="board_bg">#99140A28</color>
+    <color name="board_cell">#33FFFFFF</color>
+    <color name="candy_red">#FFFF4D6D</color>
+    <color name="candy_orange">#FFFF9F43</color>
+    <color name="candy_yellow">#FFFFD93D</color>
+    <color name="candy_green">#FF6BCB77</color>
+    <color name="candy_blue">#FF4D96FF</color>
+    <color name="candy_purple">#FFB388FF</color>
+    <color name="black">#FF000000</color>
+    <color name="white">#FFFFFFFF</color>
+    <color name="ic_launcher_bg">#FF2D1B4E</color>
+</resources>

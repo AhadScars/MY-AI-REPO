@@ -1,0 +1,127 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1" />
+  <title>Enter ID — {{ school.name }}</title>
+  <link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+  <style>
+    .gate-card h1 {
+      font-size: 1.35rem;
+      margin-bottom: 0.25rem;
+      text-align: center;
+      color: #111;
+    }
+    .gate-card .school-name {
+      text-align: center;
+      color: #5c5c5c;
+      margin-bottom: 1.5rem;
+      font-size: 0.95rem;
+    }
+    .gate-card input[type="text"] {
+      font-size: 1.35rem;
+      text-align: center;
+      letter-spacing: 0.06em;
+      padding: 1rem;
+      background: #fff;
+      border: 1px solid #d4d4d4;
+      color: #111;
+    }
+    .gate-actions {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 0.75rem;
+      margin-top: 1rem;
+    }
+    .gate-actions .btn {
+      padding: 1rem 0.5rem;
+      font-size: 1rem;
+    }
+    .result-box {
+      margin-top: 1.25rem;
+      padding: 1rem;
+      border-radius: 10px;
+      text-align: center;
+      font-weight: 600;
+    }
+    .result-box.ok {
+      background: #f0fdf4;
+      border: 1px solid #86efac;
+      color: #15803d;
+    }
+    .result-box.fail {
+      background: #fef2f2;
+      border: 1px solid #fca5a5;
+      color: #b91c1c;
+    }
+    .result-meta {
+      margin-top: 0.5rem;
+      font-weight: 400;
+      font-size: 0.85rem;
+      color: #5c5c5c;
+    }
+  </style>
+</head>
+<body>
+  <div class="gate-page">
+    <div class="gate-card">
+      <h1>Attendance</h1>
+      <p class="school-name">{{ school.name }}</p>
+
+      {% with messages = get_flashed_messages(with_categories=true) %}
+        {% if messages %}
+          {% for cat, msg in messages %}
+            <div class="flash {{ cat }}">{{ msg }}</div>
+          {% endfor %}
+        {% endif %}
+      {% endwith %}
+
+      <form method="post" action="{{ url_for('gate.enter_id', token=token) }}" id="gate-form">
+        <div class="form-group">
+          <label for="student_id">Enter your student ID</label>
+          <input
+            type="text"
+            id="student_id"
+            name="student_id"
+            value="{{ prefill }}"
+            required
+            autofocus
+            autocomplete="off"
+            autocapitalize="characters"
+            placeholder="e.g. STU001"
+          />
+        </div>
+        <div class="gate-actions">
+          <button type="submit" name="action" value="in" class="btn btn-success">
+            Check in
+          </button>
+          <button type="submit" name="action" value="out" class="btn btn-warning">
+            Check out
+          </button>
+        </div>
+      </form>
+
+      {% if result %}
+        <div class="result-box {{ 'ok' if result.ok else 'fail' }}">
+          {{ result.message }}
+          {% if result.ok and result.record %}
+            <div class="result-meta">
+              {{ result.record.name }} · {{ result.record.class_name }}
+              {% if result.record.time_in %} · In {{ result.record.time_in }}{% endif %}
+              {% if result.record.time_out %} · Out {{ result.record.time_out }}{% endif %}
+            </div>
+          {% endif %}
+        </div>
+      {% endif %}
+
+      <p class="muted" style="text-align:center;margin-top:1.25rem;font-size:0.8rem;">
+        Scan school QR → enter ID → check in or out
+      </p>
+    </div>
+  </div>
+  <script>
+    // Re-focus ID field after success for next student at the gate
+    document.getElementById("student_id")?.focus();
+  </script>
+</body>
+</html>

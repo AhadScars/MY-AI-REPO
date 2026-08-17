@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover" />
+  <title>Book Appointment · Elegancia Dental Lucknow</title>
+  <meta name="description" content="Book a dental appointment with Dr. Tasveer Fatima at Elegancia Dental, Khurram Nagar, Lucknow." />
+  <link rel="icon" type="image/jpeg" href="assets/icons/logo.jpg" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,500;0,600;0,700;1,500&family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet" />
+  <meta name="theme-color" content="#0b141c" />
+  <link rel="stylesheet" href="css/style.css?v=21" />
+  <link rel="stylesheet" href="css/responsive.css?v=21" />
+</head>
+<body>
+  <header class="site-header" id="siteHeader"></header>
+  <main>
+    <section class="page-hero">
+      <div class="container">
+        <p class="eyebrow">Book appointment</p>
+        <h1>Reserve a chair with Dr. Tasveer Fatima</h1>
+        <p class="lede">Pick a treatment, a date, and an open slot. We email a one-time code so only a real patient can hold the chair. The clinic then confirms.</p>
+      </div>
+    </section>
+    <section class="section contact">
+      <div class="container" style="max-width:720px">
+        <div class="booking-panel" id="book">
+          <div class="booking-steps" aria-hidden="true">
+            <span class="active" data-bar="1"></span>
+            <span data-bar="2"></span>
+            <span data-bar="3"></span>
+            <span data-bar="4"></span>
+          </div>
+
+          <form id="bookingForm" novalidate>
+            <div class="step-panel active" data-step="1">
+              <div class="field" id="field-treatment">
+                <label>Select a treatment</label>
+                <div class="choice-grid" id="treatmentChoices"></div>
+                <input type="hidden" name="treatmentId" id="treatmentId" />
+                <div class="field-error">Please choose a treatment.</div>
+              </div>
+              <div class="form-nav">
+                <span></span>
+                <button class="btn btn-primary" type="button" data-next="2">Continue</button>
+              </div>
+            </div>
+
+            <div class="step-panel" data-step="2">
+              <div class="field" id="field-date">
+                <label for="appointmentDate">Preferred date</label>
+                <input type="date" id="appointmentDate" name="date" />
+                <div class="field-error">Please select a date.</div>
+              </div>
+              <div class="field" id="field-time">
+                <label>Available time slots</label>
+                <div class="slot-grid" id="slotGrid"></div>
+                <input type="hidden" name="time" id="appointmentTime" />
+                <div class="field-error">Please choose an available time.</div>
+              </div>
+              <div class="form-nav">
+                <button class="btn btn-outline" type="button" data-prev="1">Back</button>
+                <button class="btn btn-primary" type="button" data-next="3">Continue</button>
+              </div>
+            </div>
+
+            <div class="step-panel" data-step="3">
+              <div class="field" id="field-name">
+                <label for="patientName">Full name</label>
+                <input type="text" id="patientName" name="patientName" autocomplete="name" placeholder="Your name" />
+                <div class="field-error">Please enter your name.</div>
+              </div>
+              <div class="field" id="field-phone">
+                <label for="patientPhone">Phone</label>
+                <input type="tel" id="patientPhone" name="phone" autocomplete="tel" placeholder="072340 01111" />
+                <div class="field-error">Enter a valid 10-digit phone number.</div>
+              </div>
+              <div class="field" id="field-email">
+                <label for="patientEmail">Email</label>
+                <input type="email" id="patientEmail" name="email" autocomplete="email" placeholder="you@email.com" />
+                <div class="field-error">Enter a valid email address.</div>
+              </div>
+              <div class="field">
+                <label for="patientMessage">Message <span class="muted">(optional)</span></label>
+                <textarea id="patientMessage" name="message" placeholder="Anything we should know before you arrive?"></textarea>
+              </div>
+              <div class="field" id="field-pledge">
+                <label class="pledge">
+                  <input type="checkbox" id="attendPledge" />
+                  <span>I will attend this appointment. If I cannot come, I will cancel or call the clinic.</span>
+                </label>
+                <div class="field-error">Please confirm you will attend.</div>
+              </div>
+              <div class="form-nav">
+                <button class="btn btn-outline" type="button" data-prev="2">Back</button>
+                <button class="btn btn-cyan" type="button" id="sendCodeBtn" data-next="4">Send verification code</button>
+              </div>
+            </div>
+
+            <div class="step-panel" data-step="4">
+              <div class="field" id="field-otp">
+                <label for="otpCode">Email verification code</label>
+                <p class="muted" id="otpHint">We sent a 6-digit code to your email. Enter it to hold this slot.</p>
+                <input class="otp-input" type="text" id="otpCode" inputmode="numeric" autocomplete="one-time-code" maxlength="6" placeholder="000000" />
+                <div class="field-error">Enter the 6-digit code from your email.</div>
+              </div>
+              <div class="form-nav">
+                <button class="btn btn-outline" type="button" data-prev="3">Back</button>
+                <button class="btn btn-outline" type="button" id="resendOtp">Resend code</button>
+                <button class="btn btn-cyan" type="submit" id="submitBooking">Verify &amp; book</button>
+              </div>
+            </div>
+          </form>
+
+          <div class="confirm-card" id="bookingConfirm" hidden>
+            <div class="confirm-mark">✓</div>
+            <h3>You are reserved.</h3>
+            <p>Your request is with the clinic. Please arrive on time — repeated no-shows can block online booking.</p>
+            <div class="confirm-rows" id="confirmRows"></div>
+            <button class="btn btn-primary" type="button" id="bookAnother">Book another visit</button>
+          </div>
+        </div>
+        <div class="about-points" style="margin-top:28px">
+          <div class="point"><strong>After you book</strong><span>The clinic confirms the chair. Please arrive on time and bring any recent x-rays.</span></div>
+          <div class="point"><strong>Need to talk first?</strong><span>Call or WhatsApp 072340 01111. Same-day emergency chairs are held when we can.</span></div>
+          <div class="point"><strong>Hours</strong><span>Mon–Sat 10:00 AM – 9:30 PM. Sunday 10:30 AM – 4:00 PM.</span></div>
+          <div class="point"><strong>Where</strong><span>Picnic Spot Road, opposite BPF, Khurram Nagar. Maps plus code VXR9+6Q.</span></div>
+        </div>
+      </div>
+    </section>
+  </main>
+  <footer class="site-footer" id="siteFooter"></footer>
+  <div class="toast-stack" id="toastStack"></div>
+  <script src="js/storage.js?v=21"></script>
+  <script src="js/mailer.js?v=16"></script>
+  <script src="js/site.js?v=15"></script>
+  <script src="js/app.js?v=15"></script>
+  <script src="js/booking.js?v=21"></script>
+</body>
+</html>

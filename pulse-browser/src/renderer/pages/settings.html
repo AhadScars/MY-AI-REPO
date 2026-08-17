@@ -1,0 +1,114 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Settings</title>
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="page-header">
+      <div>
+        <h1>Settings</h1>
+        <div class="sub">Pulse Browser 1.0</div>
+      </div>
+    </div>
+
+    <div class="card">
+      <div class="setting-row">
+        <div>
+          <label>Home page</label>
+          <div class="hint">Opened by the Home button. Use pulse://newtab for the new tab page.</div>
+        </div>
+        <input type="text" id="homePage" spellcheck="false" />
+      </div>
+      <div class="setting-row">
+        <div>
+          <label>Search engine</label>
+          <div class="hint">URL template; query is appended (URL-encoded).</div>
+        </div>
+        <select id="searchEngine">
+          <option value="https://www.google.com/search?q=">Google</option>
+          <option value="https://duckduckgo.com/?q=">DuckDuckGo</option>
+          <option value="https://www.bing.com/search?q=">Bing</option>
+          <option value="https://search.yahoo.com/search?p=">Yahoo</option>
+        </select>
+      </div>
+      <div class="setting-row">
+        <div>
+          <label>Show bookmarks bar</label>
+          <div class="hint">Display saved bookmarks under the address bar.</div>
+        </div>
+        <input type="checkbox" id="showBookmarksBar" />
+      </div>
+      <div class="setting-row">
+        <div>
+          <label>Restore previous session</label>
+          <div class="hint">Reopen tabs from last time you closed Pulse.</div>
+        </div>
+        <input type="checkbox" id="restoreSession" />
+      </div>
+    </div>
+
+    <div style="display:flex;gap:10px;flex-wrap:wrap;">
+      <button class="btn primary" id="btn-save">Save settings</button>
+      <button class="btn" id="btn-history">Open history</button>
+      <button class="btn" id="btn-bookmarks">Open bookmarks</button>
+    </div>
+
+    <div class="card" style="margin-top:32px;padding:20px;">
+      <h2 style="font-size:16px;font-weight:500;margin-bottom:12px;">Keyboard shortcuts</h2>
+      <div class="list-item" style="cursor:default;"><div class="body"><div class="title">Ctrl+T</div><div class="meta">New tab</div></div></div>
+      <div class="list-item" style="cursor:default;"><div class="body"><div class="title">Ctrl+W</div><div class="meta">Close tab</div></div></div>
+      <div class="list-item" style="cursor:default;"><div class="body"><div class="title">Ctrl+L</div><div class="meta">Focus address bar</div></div></div>
+      <div class="list-item" style="cursor:default;"><div class="body"><div class="title">Ctrl+R / F5</div><div class="meta">Reload</div></div></div>
+      <div class="list-item" style="cursor:default;"><div class="body"><div class="title">Alt+← / Alt+→</div><div class="meta">Back / Forward</div></div></div>
+      <div class="list-item" style="cursor:default;"><div class="body"><div class="title">Ctrl+D</div><div class="meta">Bookmark page</div></div></div>
+      <div class="list-item" style="cursor:default;"><div class="body"><div class="title">Ctrl+H / Ctrl+J</div><div class="meta">History / Downloads</div></div></div>
+      <div class="list-item" style="cursor:default;"><div class="body"><div class="title">Ctrl+Tab</div><div class="meta">Next tab</div></div></div>
+      <div class="list-item" style="cursor:default;"><div class="body"><div class="title">F12</div><div class="meta">Page developer tools</div></div></div>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+
+    async function load() {
+      if (!window.pulsePage) return;
+      const s = await window.pulsePage.getSettings();
+      $('#homePage').value = s.homePage || 'pulse://newtab';
+      $('#searchEngine').value = s.searchEngine || 'https://www.google.com/search?q=';
+      // If custom engine not in list, leave select and still show Google
+      const opts = Array.from($('#searchEngine').options).map((o) => o.value);
+      if (!opts.includes(s.searchEngine)) {
+        const o = document.createElement('option');
+        o.value = s.searchEngine;
+        o.textContent = 'Custom';
+        $('#searchEngine').appendChild(o);
+        $('#searchEngine').value = s.searchEngine;
+      }
+      $('#showBookmarksBar').checked = s.showBookmarksBar !== false;
+      $('#restoreSession').checked = s.restoreSession !== false;
+    }
+
+    $('#btn-save').addEventListener('click', async () => {
+      await window.pulsePage.updateSettings({
+        homePage: $('#homePage').value.trim() || 'pulse://newtab',
+        searchEngine: $('#searchEngine').value,
+        showBookmarksBar: $('#showBookmarksBar').checked,
+        restoreSession: $('#restoreSession').checked,
+      });
+      const btn = $('#btn-save');
+      const prev = btn.textContent;
+      btn.textContent = 'Saved ✓';
+      setTimeout(() => (btn.textContent = prev), 1500);
+    });
+
+    $('#btn-history').addEventListener('click', () => window.pulsePage.navigate('pulse://history'));
+    $('#btn-bookmarks').addEventListener('click', () => window.pulsePage.navigate('pulse://bookmarks'));
+
+    load();
+  </script>
+</body>
+</html>

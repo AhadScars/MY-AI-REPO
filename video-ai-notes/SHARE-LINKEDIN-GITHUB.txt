@@ -1,0 +1,135 @@
+================================================================================
+  VIDEO AI NOTES — LinkedIn + GitHub share text
+  Project: Ai-Video-Analyzer
+================================================================================
+
+GITHUB URL (copy this link):
+https://github.com/AhadScars/Ai-Video-Analyzer
+
+Local app (after npm start):
+http://localhost:3847
+
+
+================================================================================
+1) GITHUB — Repo “About” / short description (max ~350 chars)
+================================================================================
+
+AI video analyzer: upload a video, get smart notes in English / Hindi / Urdu, listen with male or female voice, hover-to-hear, pause & speed control, and follow-up AI chat. Powered by Google Gemini.
+
+
+================================================================================
+2) GITHUB — Topics / tags (paste under repo settings → Topics)
+================================================================================
+
+ai  video  notes  gemini  speech-synthesis  text-to-speech  hindi  urdu  education  study-tools  express  javascript  open-source
+
+
+================================================================================
+3) LINKEDIN — Short post (with video upload)
+================================================================================
+
+Excited to share my project: Video AI Notes 🎬✨
+
+Upload any video → AI generates structured notes → listen aloud in English, Hindi, or Urdu (male/female voice) → hover any line to hear it → ask follow-up questions.
+
+Built with Google Gemini + a modern web UI.
+
+🔗 GitHub: https://github.com/AhadScars/Ai-Video-Analyzer
+
+#AI #MachineLearning #Gemini #OpenSource #WebDevelopment #EdTech #SpeechSynthesis #JavaScript #BuildInPublic
+
+
+================================================================================
+4) LINKEDIN — Longer post (story + features)
+================================================================================
+
+I built an AI tool that turns any video into clear notes you can read and listen to.
+
+🎥 How it works
+1. Upload a video (processed in your browser)
+2. AI analyzes key frames with Google Gemini
+3. Get notes: summary, timeline, key points, takeaways
+4. Choose language: English · हिन्दी · اردو
+5. Listen with Play / Pause / Speed
+6. Pick Female or Male voice
+7. Hover a paragraph to hear just that part
+8. Chat follow-ups: quizzes, action items, one-line takeaways
+
+Why I built it: learning from videos is faster when notes + audio + language choice work together.
+
+🔗 Open source on GitHub:
+https://github.com/AhadScars/Ai-Video-Analyzer
+
+Would love your feedback — star the repo if it’s useful!
+
+#ArtificialIntelligence #GoogleGemini #FullStack #Developer #Portfolio #AIProjects #Urdu #Hindi #EdTech #Coding
+
+
+================================================================================
+5) LINKEDIN — Caption only (if video demo is the main media)
+================================================================================
+
+Demo: AI Video Notes — analyze → translate → listen 🎧
+
+English / Hindi / Urdu · Male & Female voice · Hover-to-hear
+
+Repo: https://github.com/AhadScars/Ai-Video-Analyzer
+
+#AI #Demo #BuildInPublic #Gemini
+
+
+================================================================================
+6) LINKEDIN — Comment to pin under your post
+================================================================================
+
+🔗 GitHub (code + setup): https://github.com/AhadScars/Ai-Video-Analyzer
+
+Setup in 3 steps:
+1) Get free Gemini key → https://aistudio.google.com/apikey
+2) npm install && npm start
+3) Open http://localhost:3847
+
+Happy to answer questions about the stack or features 👇
+
+
+================================================================================
+7) GITHUB — README intro blurb (optional paste)
+================================================================================
+
+# Ai-Video-Analyzer (Video AI Notes)
+
+Turn videos into multilingual AI notes you can **read** and **listen** to.
+
+- 🌍 English · Hindi (हिन्दी) · Urdu (اردو)
+- 🔊 Listen, Pause, Speed + Male / Female voice
+- 🖱️ Hover any line to hear it
+- 💬 Follow-up AI commands (quiz, summary, action items)
+- 🔒 API key stays on your machine
+
+**Repo:** https://github.com/AhadScars/Ai-Video-Analyzer
+
+
+================================================================================
+8) HASHTAGS pack (mix & match)
+================================================================================
+
+#AI #ArtificialIntelligence #MachineLearning #GoogleGemini #GeminiAI
+#OpenSource #GitHub #WebDev #JavaScript #NodeJS #ExpressJS
+#EdTech #StudyTools #SpeechSynthesis #TextToSpeech
+#Hindi #Urdu #Multilingual #BuildInPublic #PortfolioProject
+#SoftwareEngineering #Developer
+
+
+================================================================================
+Tips for LinkedIn video upload
+================================================================================
+
+• Record a 30–60s screen demo: upload video → Analyze → switch HI/UR → Listen → hover
+• First 3 seconds: show the app title + “AI Video Notes”
+• End screen: GitHub URL large on screen
+• Post during weekdays morning/afternoon for more reach
+• Reply to every comment in the first hour
+
+================================================================================
+End of file
+================================================================================

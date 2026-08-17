@@ -1,0 +1,57 @@
+{% extends "school/layout.html" %}
+{% block title %}{{ 'Check-in' if mode == 'in' else 'Check-out' }} — Scan{% endblock %}
+{% block content %}
+<div class="scan-hero">
+  <div class="page-header" style="justify-content:center;flex-direction:column;text-align:center;">
+    <h2>{{ 'Check-in' if mode == 'in' else 'Check-out / Logout' }}</h2>
+    <p>Scan QR code or type student ID · Excel updates automatically</p>
+  </div>
+
+  {% if not licensed %}
+    <div class="flash error">Subscription expired. <a href="{{ url_for('school.subscription') }}">Renew license</a> to scan.</div>
+  {% else %}
+
+  <div class="scan-mode-toggle">
+    <a href="{{ url_for('attendance.scan_page', mode='in') }}"
+       class="{% if mode == 'in' %}active-in{% endif %}">Check-in</a>
+    <a href="{{ url_for('attendance.scan_page', mode='out') }}"
+       class="{% if mode == 'out' %}active-out{% endif %}">Check-out</a>
+  </div>
+
+  <div class="card">
+    <form id="scan-form"
+          method="post"
+          action="{{ url_for('attendance.submit') }}"
+          data-mode="{{ mode }}"
+          data-api="{{ url_for('attendance.api_scan') }}">
+      <input type="hidden" name="mode" value="{{ mode }}" />
+      <div class="scan-input-wrap form-group">
+        <label for="student_input">Student ID or QR payload</label>
+        <input type="text"
+               id="student_input"
+               name="student_input"
+               autocomplete="off"
+               autofocus
+               placeholder="Scan or type ID…" />
+      </div>
+      <div class="actions" style="justify-content:center;">
+        <button type="submit" class="btn btn-lg {% if mode == 'in' %}btn-success{% else %}btn-warning{% endif %}">
+          {{ 'Mark present' if mode == 'in' else 'Mark check-out' }}
+        </button>
+        <button type="button" id="btn-camera" class="btn btn-ghost btn-lg">Use Camera</button>
+      </div>
+    </form>
+    <video id="video-preview" playsinline muted></video>
+    <div id="scan-result" class="scan-result"></div>
+    <p class="muted" style="margin-top:1rem;font-size:0.85rem;">
+      USB barcode scanners work as a keyboard: scan → auto Enter.<br />
+      Demo IDs: <code class="mono">STU001</code> … <code class="mono">STU005</code><br />
+      NFC-ready: same payload format <code class="mono">SA|{{ school.id }}|STUDENT_ID</code>
+    </p>
+  </div>
+  {% endif %}
+</div>
+{% endblock %}
+{% block scripts %}
+<script src="{{ url_for('static', filename='js/scan.js') }}"></script>
+{% endblock %}

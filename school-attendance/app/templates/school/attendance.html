@@ -1,0 +1,149 @@
+{% extends "school/layout.html" %}
+{% block title %}Attendance — {{ school.name }}{% endblock %}
+{% block content %}
+<div class="page-header">
+  <div>
+    <h2>Attendance report</h2>
+    <p>Filter by class, section, present/absent · local times</p>
+  </div>
+  <a class="btn btn-ghost" href="{{ url_for('school.export_excel', date=date) }}">Download Excel</a>
+</div>
+
+<div class="card">
+  <form method="get" class="filter-bar" id="attendance-filters" action="{{ url_for('school.attendance') }}">
+    <input type="hidden" name="per_page" value="{{ pagination.per_page if pagination else 50 }}" />
+    <div class="form-group">
+      <label for="filter-date">Date</label>
+      <input type="date" id="filter-date" name="date" value="{{ date }}" />
+    </div>
+    <div class="form-group">
+      <label for="filter-cls">Classes</label>
+      <select id="filter-cls" name="cls" class="filter-select">
+        <option value="">Classes</option>
+        <option value="1" {% if active_cls == '1' %}selected{% endif %}>1</option>
+        <option value="2" {% if active_cls == '2' %}selected{% endif %}>2</option>
+        <option value="3" {% if active_cls == '3' %}selected{% endif %}>3</option>
+        <option value="4" {% if active_cls == '4' %}selected{% endif %}>4</option>
+        <option value="5" {% if active_cls == '5' %}selected{% endif %}>5</option>
+        <option value="6" {% if active_cls == '6' %}selected{% endif %}>6</option>
+        <option value="7" {% if active_cls == '7' %}selected{% endif %}>7</option>
+        <option value="8" {% if active_cls == '8' %}selected{% endif %}>8</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="filter-sec">Section</label>
+      <select id="filter-sec" name="sec" class="filter-select">
+        <option value="">Section</option>
+        <option value="A" {% if active_sec == 'A' %}selected{% endif %}>A</option>
+        <option value="B" {% if active_sec == 'B' %}selected{% endif %}>B</option>
+        <option value="C" {% if active_sec == 'C' %}selected{% endif %}>C</option>
+        <option value="D" {% if active_sec == 'D' %}selected{% endif %}>D</option>
+      </select>
+    </div>
+    <div class="form-group">
+      <label for="filter-status">Status</label>
+      <select id="filter-status" name="status">
+        <option value="all" {% if status == 'all' %}selected{% endif %}>All</option>
+        <option value="present" {% if status == 'present' %}selected{% endif %}>Present</option>
+        <option value="absent" {% if status == 'absent' %}selected{% endif %}>Absent</option>
+      </select>
+    </div>
+    <div class="form-group filter-search">
+      <label for="filter-q">Search</label>
+      <input
+        type="text"
+        id="filter-q"
+        name="q"
+        value="{{ active_q or '' }}"
+        placeholder="Name or student ID…"
+        autocomplete="off"
+      />
+    </div>
+    <div class="form-group form-group-action">
+      <label>&nbsp;</label>
+      <div class="filter-actions">
+        <button type="submit" class="btn">Apply</button>
+        <a class="btn btn-ghost" href="{{ url_for('school.attendance', date=date) }}">Clear</a>
+      </div>
+    </div>
+  </form>
+
+  <p class="filter-summary muted" id="filter-summary" {% if not (active_cls or active_sec or active_q or status != 'all') %}hidden{% endif %}>
+    {% if active_cls or active_sec or active_q or status != 'all' %}
+    Showing <strong>{{ filtered_count }}</strong> of {{ total_count }} for {{ date }}
+    {% if active_cls %} · class <strong>{{ active_cls }}</strong>{% endif %}
+    {% if active_sec %} · section <strong>{{ active_sec }}</strong>{% endif %}
+    {% if status != 'all' %} · <strong>{{ status }}</strong>{% endif %}
+    {% if active_q %} · search “{{ active_q }}”{% endif %}
+    {% endif %}
+  </p>
+</div>
+
+<div class="stats">
+  <div class="stat"><div class="label">Total</div><div class="value">{{ summary.total }}</div></div>
+  <div class="stat present"><div class="label">Present</div><div class="value">{{ summary.present }}</div></div>
+  <div class="stat absent"><div class="label">Absent</div><div class="value">{{ summary.absent }}</div></div>
+  <div class="stat out"><div class="label">Checked out</div><div class="value">{{ summary.checked_out }}</div></div>
+</div>
+
+<div class="card">
+  <div class="card-head">
+    <h3>Records</h3>
+    <span class="count-pill">{{ filtered_count }}{% if filtered_count != total_count %} / {{ total_count }}{% endif %}</span>
+  </div>
+  <div class="table-wrap">
+    <table class="students-table">
+      <thead>
+        <tr>
+          <th>Student ID</th>
+          <th>Name</th>
+          <th>Class</th>
+          <th>Time in</th>
+          <th>Time out</th>
+          <th>Is present</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for r in records %}
+        <tr>
+          <td class="mono">{{ r.student_id }}</td>
+          <td>{{ r.name }}</td>
+          <td><span class="class-chip">{{ r.class_name }}</span></td>
+          <td>{{ r.time_in or '—' }}</td>
+          <td>{{ r.time_out or '—' }}</td>
+          <td>
+            {% if r.is_present %}
+              <span class="badge badge-yes">Yes</span>
+            {% else %}
+              <span class="badge badge-no">No</span>
+            {% endif %}
+          </td>
+        </tr>
+        {% else %}
+        <tr>
+          <td colspan="6" class="empty-row">
+            No records for this filter.
+            <a href="{{ url_for('school.attendance') }}">Clear filters</a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+
+  {% set page_endpoint = 'school.attendance' %}
+  {% include "partials/pagination.html" %}
+</div>
+{% endblock %}
+
+{% block scripts %}
+<script>
+(function () {
+  const form = document.getElementById("attendance-filters");
+  if (!form) return;
+  form.querySelectorAll("select, input[type=date]").forEach((el) => {
+    el.addEventListener("change", () => form.submit());
+  });
+})();
+</script>
+{% endblock %}

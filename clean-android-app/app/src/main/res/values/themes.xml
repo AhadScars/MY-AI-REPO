@@ -1,0 +1,59 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <style name="Theme.SmartCalc" parent="Theme.Material3.Light.NoActionBar">
+        <item name="colorPrimary">@color/primary</item>
+        <item name="colorPrimaryDark">@color/primary_dark</item>
+        <item name="colorOnPrimary">@color/on_primary</item>
+        <item name="android:statusBarColor">@color/bg</item>
+        <item name="android:navigationBarColor">@color/bg</item>
+        <item name="android:windowLightStatusBar">true</item>
+        <item name="android:windowBackground">@color/bg</item>
+    </style>
+
+    <style name="CalcBtn" parent="Widget.Material3.Button">
+        <item name="android:insetTop">0dp</item>
+        <item name="android:insetBottom">0dp</item>
+        <item name="android:textAllCaps">false</item>
+        <item name="android:textSize">20sp</item>
+        <item name="cornerRadius">16dp</item>
+        <item name="android:letterSpacing">0</item>
+        <item name="elevation">1dp</item>
+    </style>
+
+    <style name="CalcBtn.Num">
+        <item name="backgroundTint">@color/btn_num</item>
+        <item name="android:textColor">@color/btn_num_text</item>
+        <item name="android:textSize">24sp</item>
+        <item name="android:textStyle">bold</item>
+        <item name="strokeColor">#E2E8F0</item>
+        <item name="strokeWidth">1dp</item>
+    </style>
+
+    <style name="CalcBtn.Fn">
+        <item name="backgroundTint">@color/btn_fn</item>
+        <item name="android:textColor">@color/accent</item>
+        <item name="android:textSize">15sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CalcBtn.Op">
+        <item name="backgroundTint">@color/btn_op</item>
+        <item name="android:textColor">@color/on_primary</item>
+        <item name="android:textSize">26sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CalcBtn.Equals">
+        <item name="backgroundTint">@color/btn_equals</item>
+        <item name="android:textColor">@color/on_primary</item>
+        <item name="android:textSize">28sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+
+    <style name="CalcBtn.Danger">
+        <item name="backgroundTint">@color/btn_danger</item>
+        <item name="android:textColor">@color/btn_danger_text</item>
+        <item name="android:textSize">22sp</item>
+        <item name="android:textStyle">bold</item>
+    </style>
+</resources>

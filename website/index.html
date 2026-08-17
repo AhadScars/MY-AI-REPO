@@ -1,0 +1,703 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="DigiHub Solutions — Android apps, iOS apps, web applications, websites, custom software, and ready-made POS for pharmacy, restaurant, hotel & school." />
+  <meta name="theme-color" content="#0f766e" />
+  <title>DigiHub Solutions — Software, Apps, Websites & Business POS</title>
+  <link rel="icon" href="assets/logo.png" type="image/png" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:ital,wght@0,400;0,500;0,600;0,700;0,800;1,400;1,500&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body class="has-trial-bar">
+  <header class="site-header">
+    <div class="container nav">
+      <a href="index.html" class="brand" aria-label="DigiHub Solutions home">
+        <img src="assets/logo.png" alt="" class="brand-logo" width="36" height="36" />
+        <span class="brand-text">
+          <strong>DigiHub</strong>
+          <span>Solutions</span>
+        </span>
+      </a>
+      <button class="nav-toggle" id="navToggle" aria-label="Open menu" aria-expanded="false" aria-controls="navMenu">
+        <span></span><span></span><span></span>
+      </button>
+      <nav class="nav-menu" id="navMenu" aria-label="Primary">
+        <a href="index.html" data-nav="index.html">Home</a>
+        <div class="nav-dropdown">
+          <a href="services.html" data-nav="services.html">Services</a>
+          <div class="nav-dropdown-menu">
+            <a href="services.html" data-nav="services.html">All services</a>
+            <a href="services.html#android">Android apps</a>
+            <a href="services.html#ios">iOS apps</a>
+            <a href="services.html#web-apps">Web applications</a>
+            <a href="services.html#websites">Websites</a>
+            <a href="services.html#custom">Custom software</a>
+          </div>
+        </div>
+        <div class="nav-dropdown">
+          <a href="products.html" data-nav="products.html,pharmacy.html,restaurant.html,hotel.html,school.html">Products</a>
+          <div class="nav-dropdown-menu">
+            <a href="products.html" data-nav="products.html">All products</a>
+            <a href="pharmacy.html" data-nav="pharmacy.html">Pharmacy POS</a>
+            <a href="restaurant.html" data-nav="restaurant.html">Restaurant POS</a>
+            <a href="hotel.html" data-nav="hotel.html">Hotel PMS</a>
+            <a href="school.html" data-nav="school.html">School Management</a>
+          </div>
+        </div>
+        <a href="features.html" data-nav="features.html">Features</a>
+        <a href="pricing.html" data-nav="pricing.html" title="Billing / POS products only">POS pricing</a>
+        <a href="about.html" data-nav="about.html">About</a>
+        <!-- <a href="careers.html" data-nav="careers.html">Careers</a> -->
+                <select class="currency-select" aria-label="Currency" title="Display currency"></select>
+        <a href="contact.html" class="btn btn-sm btn-primary" data-nav="contact.html">Contact</a>
+      </nav>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="hero-bg" aria-hidden="true"></div>
+      <div class="hero-orbs" aria-hidden="true"><span></span><span></span><span></span></div>
+      <div class="container hero-grid">
+        <div class="hero-copy reveal">
+          <span class="badge-pill"><span class="pulse"></span> Apps · Web · Websites · Ready-made POS</span>
+          <h1>Software solutions for <em>every</em> platform</h1>
+          <p class="lead">
+            DigiHub Solutions builds Android APK apps, iOS apps, web applications, websites, and custom software —
+            plus ready-made billing products for pharmacies, restaurants, hotels, and schools.
+          </p>
+          <div class="hero-actions">
+            <a href="services.html" class="btn btn-primary btn-lg"><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 3l1.9 5.8H20l-4.9 3.6 1.9 5.8L12 14.6 6.9 18.2l1.9-5.8L4 8.8h6.1L12 3z"/></svg> Explore services</a>
+            <a href="contact.html?plan=custom" class="btn btn-ghost btn-lg">Get a free quote</a>
+          </div>
+          <ul class="hero-trust">
+            <li><svg class="ico" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg> Android APK</li>
+            <li><svg class="ico" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"/></svg> iOS apps</li>
+            <li><svg class="ico" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg> Web apps</li>
+            <li><svg class="ico" viewBox="0 0 24 24" width="14" height="14" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg> Websites</li>
+          </ul>
+        </div>
+        <div class="hero-visual reveal" aria-hidden="true">
+          <div class="platform-stack float-soft">
+            <div class="platform-card phone">
+              <div class="platform-notch"></div>
+              <div class="platform-screen">
+                <span class="ps-label">Mobile</span>
+                <strong>Android &amp; iOS</strong>
+                <p>APK &amp; App Store builds</p>
+              </div>
+            </div>
+            <div class="platform-card browser">
+              <div class="mock-titlebar">
+                <span class="dot red"></span><span class="dot yellow"></span><span class="dot green"></span>
+                <span class="mock-title">DigiHub — Web app</span>
+              </div>
+              <div class="platform-screen web">
+                <div class="mock-cards">
+                  <div class="mock-card"><span class="mock-label">Users</span><strong>1,240</strong></div>
+                  <div class="mock-card"><span class="mock-label">Orders</span><strong>86</strong></div>
+                  <div class="mock-card"><span class="mock-label">Status</span><strong class="ok">Live</strong></div>
+                </div>
+                <div class="mock-chart">
+                  <div class="bar" style="--h:45%"></div>
+                  <div class="bar" style="--h:70%"></div>
+                  <div class="bar" style="--h:55%"></div>
+                  <div class="bar" style="--h:85%"></div>
+                  <div class="bar" style="--h:60%"></div>
+                  <div class="bar" style="--h:90%"></div>
+                  <div class="bar" style="--h:75%"></div>
+                </div>
+              </div>
+            </div>
+            <div class="platform-badges">
+              <span>Websites</span>
+              <span>Web apps</span>
+              <span>Custom software</span>
+              <span>Ready-made POS</span>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section strip-stats">
+      <div class="container stats-row stats-row-5">
+        <div class="stat-chip"><div class="icon-bubble blue"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div><div><strong>Android</strong><span>APK apps</span></div></div>
+        <div class="stat-chip"><div class="icon-bubble teal"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"/></svg></div><div><strong>iOS</strong><span>App Store apps</span></div></div>
+        <div class="stat-chip"><div class="icon-bubble gold"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg></div><div><strong>Web</strong><span>Apps &amp; sites</span></div></div>
+        <div class="stat-chip"><div class="icon-bubble blue"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div><div><strong>4</strong><span>Ready POS products</span></div></div>
+        <div class="stat-chip"><div class="icon-bubble teal"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 18H7a5 5 0 0 1-.5-10A7 7 0 0 1 20 11a4 4 0 0 1-2 7z"/></svg></div><div><strong>Cloud</strong><span>Custom backends</span></div></div>
+      </div>
+    </section>
+
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Trusted growth</p>
+          <h2>Numbers that keep climbing</h2>
+          <p class="section-sub">Illustrative marketing figures — sample of DigiHub’s reach across apps, websites, and custom software.</p>
+        </div>
+        <div class="stats-showcase">
+          <div class="stat-big">
+            <div class="num" data-count-to="120" data-count-suffix="+">0</div>
+            <div class="label">Software projects</div>
+          </div>
+          <div class="stat-big">
+            <div class="num" data-count-to="6" data-count-suffix="">0</div>
+            <div class="label">Platforms we ship</div>
+          </div>
+          <div class="stat-big">
+            <div class="num" data-count-to="48" data-count-suffix="+">0</div>
+            <div class="label">Cities served</div>
+          </div>
+          <div class="stat-big">
+            <div class="num" data-count-to="4.8" data-count-suffix="★">0</div>
+            <div class="label">Client rating</div>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container split-intro">
+        <div>
+          <p class="eyebrow">Who we help</p>
+          <h2>From startups to store counters</h2>
+          <p class="lead" style="margin-bottom:1rem">
+            Whether you need a mobile app, a customer-facing website, a cloud web portal, or ready-made billing software —
+            DigiHub is your software partner end to end.
+          </p>
+          <p class="muted-copy">
+            Startups and brands get apps and websites from idea to launch. Growing companies get portals and custom tools.
+            Retail and hospitality can also choose ready-made billing software when they need something working the same day.
+          </p>
+        </div>
+        <div class="intro-points">
+          <div class="intro-point card-lift"><div class="icon-bubble gold"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M13 2L4 14h7l-1 8 9-12h-7l1-8z"/></svg></div><div><h3>Any platform</h3><p>Android, iOS, web, websites, and Windows desktop — one team.</p></div></div>
+          <div class="intro-point card-lift"><div class="icon-bubble blue"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V8z"/><path d="M14 2v6h6"/></svg></div><div><h3>Custom or ready-made</h3><p>Bespoke software, or install our POS products when you need speed.</p></div></div>
+          <div class="intro-point card-lift"><div class="icon-bubble teal"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="4" y="10" width="16" height="11" rx="2"/><path d="M8 10V7a4 4 0 0 1 8 0v3"/></svg></div><div><h3>Launch support</h3><p>Quotes, demos, and WhatsApp help through go-live.</p></div></div>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">What we build</p>
+          <h2>All types of software solutions</h2>
+          <p class="section-sub">Custom development across mobile, web, and desktop — plus ready-made business products.</p>
+        </div>
+        <div class="services-grid home-services">
+          <article class="service-card card-lift">
+            <div class="product-icon android" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+            <h3>Android apps</h3>
+            <p class="product-tag">APK &amp; Play Store</p>
+            <p>Business and consumer Android apps delivered as installable APK or store builds.</p>
+            <div class="product-foot"><a href="services.html#android" class="btn btn-sm btn-primary">Learn more</a></div>
+          </article>
+          <article class="service-card card-lift">
+            <div class="product-icon ios" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"/><path d="M10 2c1 .5 2 2 2 3"/></svg></div>
+            <h3>iOS apps</h3>
+            <p class="product-tag">iPhone &amp; iPad</p>
+            <p>Polished App Store apps with secure login, clean UI, and launch support.</p>
+            <div class="product-foot"><a href="services.html#ios" class="btn btn-sm btn-primary">Learn more</a></div>
+          </article>
+          <article class="service-card card-lift featured">
+            <div class="product-badge">Popular</div>
+            <div class="product-icon webapp" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/><path d="M12 2a15.3 15.3 0 0 1 4 10 15.3 15.3 0 0 1-4 10 15.3 15.3 0 0 1-4-10 15.3 15.3 0 0 1 4-10z"/></svg></div>
+            <h3>Web applications</h3>
+            <p class="product-tag">Portals &amp; SaaS</p>
+            <p>Dashboards, CRMs, booking systems, and multi-user cloud tools in the browser.</p>
+            <div class="product-foot"><a href="services.html#web-apps" class="btn btn-sm btn-primary">Learn more</a></div>
+          </article>
+          <article class="service-card card-lift">
+            <div class="product-icon website" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+            <h3>Websites</h3>
+            <p class="product-tag">Business &amp; stores</p>
+            <p>Modern company sites, landing pages, and e‑commerce with mobile-first design.</p>
+            <div class="product-foot"><a href="services.html#websites" class="btn btn-sm btn-primary">Learn more</a></div>
+          </article>
+          <article class="service-card card-lift">
+            <div class="product-icon custom" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M12 3l1.9 5.8H20l-4.9 3.6 1.9 5.8L12 14.6 6.9 18.2l1.9-5.8L4 8.8h6.1L12 3z"/></svg></div>
+            <h3>Custom software</h3>
+            <p class="product-tag">Desktop · API · automation</p>
+            <p>Bespoke Windows tools, integrations, and workflows built for your business.</p>
+            <div class="product-foot"><a href="services.html#custom" class="btn btn-sm btn-primary">Learn more</a></div>
+          </article>
+          <article class="service-card card-lift">
+            <div class="product-icon pharmacy" aria-hidden="true"><svg class="ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round"><path d="M20 12v8H4v-8"/><path d="M2 7h20v5H2z"/><path d="M12 22V7"/></svg></div>
+            <h3>Ready-made POS</h3>
+            <p class="product-tag">Pharmacy · Restaurant · Hotel · School</p>
+            <p>Proven billing software with 7-day free trial — install and start the same day.</p>
+            <div class="product-foot"><a href="products.html" class="btn btn-sm btn-primary">View products</a></div>
+          </article>
+        </div>
+        <p class="center-actions" style="margin-top:1.75rem">
+          <a href="services.html" class="btn btn-ghost">All services</a>
+          <a href="contact.html?plan=custom" class="btn btn-primary">Get a free quote</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">How we work</p>
+          <h2>From idea to live software</h2>
+          <p class="section-sub">The same clear process for mobile apps, web applications, websites, and custom tools.</p>
+        </div>
+        <div class="workflow-grid">
+          <article class="workflow-card card-lift">
+            <span class="wf-num">01</span>
+            <div class="icon-bubble blue"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/></svg></div>
+            <h3>Discover</h3>
+            <p>Goals, users, platforms (Android, iOS, web), features, and budget — so scope is clear before build.</p>
+          </article>
+          <article class="workflow-card card-lift">
+            <span class="wf-num">02</span>
+            <div class="icon-bubble teal"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20h9"/><path d="M16.5 3.5a2.12 2.12 0 0 1 3 3L7 19l-4 1 1-4L16.5 3.5z"/></svg></div>
+            <h3>Design</h3>
+            <p>Wireframes and UI that match your brand — screens for phones, browsers, or desktop apps.</p>
+          </article>
+          <article class="workflow-card card-lift">
+            <span class="wf-num">03</span>
+            <div class="icon-bubble gold"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><polyline points="16 18 22 12 16 6"/><polyline points="8 6 2 12 8 18"/></svg></div>
+            <h3>Build &amp; test</h3>
+            <p>Develop, integrate APIs and payments, test on real devices, and refine with your feedback.</p>
+          </article>
+          <article class="workflow-card card-lift">
+            <span class="wf-num">04</span>
+            <div class="icon-bubble blue"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg></div>
+            <h3>Launch &amp; support</h3>
+            <p>Publish APK / App Store / hosting / install — plus training and updates after go-live.</p>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Why DigiHub</p>
+          <h2>Capabilities across every platform</h2>
+          <p class="section-sub">Practical delivery for modern software — not only store billing.</p>
+        </div>
+        <div class="feature-grid">
+          <div class="feature card-lift">
+            <div class="feature-top">
+              <div class="icon-bubble blue"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+              <span class="feature-num">01</span>
+            </div>
+            <h3>Android APK apps</h3>
+            <p>Business &amp; consumer apps, Play Store or direct APK delivery.</p>
+          </div>
+          <div class="feature card-lift">
+            <div class="feature-top">
+              <div class="icon-bubble teal"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 20.94c1.5 0 2.75 1.06 4 1.06 3 0 6-8 6-12.22A4.91 4.91 0 0 0 17 5c-2.22 0-4 1.44-5 2-1-.56-2.78-2-5-2a4.9 4.9 0 0 0-5 4.78C2 14 5 22 8 22c1.25 0 2.5-1.06 4-1.06z"/></svg></div>
+              <span class="feature-num">02</span>
+            </div>
+            <h3>iOS apps</h3>
+            <p>iPhone &amp; iPad apps with polished UI and store submission help.</p>
+          </div>
+          <div class="feature card-lift">
+            <div class="feature-top">
+              <div class="icon-bubble gold"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg></div>
+              <span class="feature-num">03</span>
+            </div>
+            <h3>Web applications</h3>
+            <p>Portals, dashboards, CRM, booking, and multi-user SaaS tools.</p>
+          </div>
+          <div class="feature card-lift">
+            <div class="feature-top">
+              <div class="icon-bubble blue"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/><path d="M9 21V9"/></svg></div>
+              <span class="feature-num">04</span>
+            </div>
+            <h3>Business websites</h3>
+            <p>Landing pages, company sites, and stores that convert on mobile.</p>
+          </div>
+          <div class="feature card-lift">
+            <div class="feature-top">
+              <div class="icon-bubble teal"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M18 18H7a5 5 0 0 1-.5-10A7 7 0 0 1 20 11a4 4 0 0 1-2 7z"/></svg></div>
+              <span class="feature-num">05</span>
+            </div>
+            <h3>Cloud &amp; APIs</h3>
+            <p>Secure backends, integrations, payments, and data storage.</p>
+          </div>
+          <div class="feature card-lift">
+            <div class="feature-top">
+              <div class="icon-bubble gold"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="2" y="3" width="20" height="14" rx="2"/><path d="M8 21h8M12 17v4"/></svg></div>
+              <span class="feature-num">06</span>
+            </div>
+            <h3>Desktop &amp; custom tools</h3>
+            <p>Windows software, automation, and workflows built for your team.</p>
+          </div>
+          <div class="feature card-lift">
+            <div class="feature-top">
+              <div class="icon-bubble blue"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l8 4v6c0 5-3.5 8.5-8 10-4.5-1.5-8-5-8-10V6l8-4z"/></svg></div>
+              <span class="feature-num">07</span>
+            </div>
+            <h3>Secure by design</h3>
+            <p>Login, roles, and data isolation where your business needs it.</p>
+          </div>
+          <div class="feature card-lift">
+            <div class="feature-top">
+              <div class="icon-bubble teal"><svg class="ico" viewBox="0 0 24 24" width="22" height="22" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 14v3a2 2 0 0 0 2 2h2v-5H5a2 2 0 0 0-2 2z"/><path d="M21 14v3a2 2 0 0 1-2 2h-2v-5h2a2 2 0 0 1 2 2z"/><path d="M3 14a9 9 0 0 1 18 0"/></svg></div>
+              <span class="feature-num">08</span>
+            </div>
+            <h3>Human support</h3>
+            <p>WhatsApp &amp; email help from first call through launch and after.</p>
+          </div>
+        </div>
+        <p class="center-actions">
+          <a href="services.html" class="btn btn-ghost">All services</a>
+          <a href="contact.html?plan=quote" class="btn btn-primary">Free consultation</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section section-alt" id="platforms">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">What we ship</p>
+          <h2>Software on every screen</h2>
+          <p class="section-sub">Illustrative product UIs — mobile, web, and business tools DigiHub can design and build for you.</p>
+        </div>
+        <div class="platform-showcase">
+          <article class="ps-card card-lift">
+            <div class="ps-device mobile">
+              <div class="ps-notch"></div>
+              <div class="ps-body">
+                <div class="ps-app-bar">MyApp</div>
+                <div class="ps-tiles">
+                  <span></span><span></span><span></span><span></span>
+                </div>
+                <div class="ps-list"><i></i><i></i><i></i></div>
+              </div>
+            </div>
+            <h3>Mobile apps</h3>
+            <p>Android APK &amp; iOS — onboarding, lists, payments, push alerts.</p>
+            <a href="services.html#android" class="text-link">Android &amp; iOS →</a>
+          </article>
+          <article class="ps-card card-lift">
+            <div class="ps-device desktop">
+              <div class="ps-chrome"><span></span><span></span><span></span></div>
+              <div class="ps-body web">
+                <div class="ps-side"></div>
+                <div class="ps-main">
+                  <div class="ps-kpi"></div>
+                  <div class="ps-kpi"></div>
+                  <div class="ps-chart"></div>
+                </div>
+              </div>
+            </div>
+            <h3>Web applications</h3>
+            <p>Admin panels, client portals, and live business dashboards.</p>
+            <a href="services.html#web-apps" class="text-link">Web apps →</a>
+          </article>
+          <article class="ps-card card-lift">
+            <div class="ps-device desktop site">
+              <div class="ps-chrome"><span></span><span></span><span></span></div>
+              <div class="ps-body site">
+                <div class="ps-hero-block"></div>
+                <div class="ps-cols"><span></span><span></span><span></span></div>
+              </div>
+            </div>
+            <h3>Websites</h3>
+            <p>Marketing sites, landing pages, and product showcases that convert.</p>
+            <a href="services.html#websites" class="text-link">Websites →</a>
+          </article>
+          <article class="ps-card card-lift">
+            <div class="ps-device desktop">
+              <div class="ps-chrome"><span></span><span></span><span></span></div>
+              <div class="ps-body web">
+                <div class="ps-side dark"></div>
+                <div class="ps-main">
+                  <div class="ps-row"></div>
+                  <div class="ps-row"></div>
+                  <div class="ps-row short"></div>
+                </div>
+              </div>
+            </div>
+            <h3>Custom &amp; desktop</h3>
+            <p>Windows tools, automation, and ready-made POS for stores.</p>
+            <a href="services.html#custom" class="text-link">Custom software →</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">Ready-made products</p>
+          <h2>Four business apps. One DigiHub brand.</h2>
+          <p class="section-sub">Optional ready-made line — install billing software for stores when you need speed. Custom apps stay the main focus above.</p>
+        </div>
+        <div class="product-grid">
+          <article class="product-card card-lift">
+            <div class="product-icon pharmacy"><svg class="ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M10.5 2.5h3v6h6v3h-6v6h-3v-6h-6v-3h6z"/><path d="M4 20h16"/></svg></div>
+            <h3>Pharmacy POS</h3>
+            <p class="product-tag">Medical stores &amp; chemists</p>
+            <p>Batch, expiry, GST, barcode billing, and tax invoices for daily pharmacy sales.</p>
+            <ul class="icon-list compact">
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 7l9-4 9 4-9 4-9-4z"/><path d="M3 7v10l9 4 9-4V7"/><path d="M12 11v10"/></svg></span>Medicine stock &amp; expiry</li>
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 5v14M7 5v14M10 5v14M14 5v14M17 5v14M21 5v14"/></svg></span>Barcode billing</li>
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M6 9V3h12v6"/><path d="M6 17H4a2 2 0 0 1-2-2v-4a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v4a2 2 0 0 1-2 2h-2"/><rect x="6" y="13" width="12" height="8"/></svg></span>PDF tax invoices</li>
+            </ul>
+            <div class="product-foot">
+              <!-- <span class="pill">DigiHubPharmacy.exe</span> -->
+              <a href="pharmacy.html" class="btn btn-sm btn-primary">Details</a>
+            </div>
+          </article>
+          <article class="product-card featured card-lift">
+            <div class="product-badge"><svg class="ico" viewBox="0 0 24 24" width="12" height="12" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 2l2.9 6.3L22 9.3l-5 4.9 1.2 6.8L12 17.8 5.8 21l1.2-6.8-5-4.9 7.1-1z"/></svg> Popular</div>
+            <div class="product-icon restaurant"><svg class="ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 3v7a4 4 0 0 0 4 4h0V3"/><path d="M8 3v18"/><path d="M16 3c2 2 2 4 2 7v11"/><path d="M16 3v7c0 2 1 3 3 3"/></svg></div>
+            <h3>Restaurant POS</h3>
+            <p class="product-tag">Cafés &amp; restaurants</p>
+            <p>Menu, table / takeaway / delivery, instant guest bills for busy service floors.</p>
+            <ul class="icon-list compact">
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M4 6h16M4 12h16M4 18h16"/></svg></span>Menu &amp; categories</li>
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 8h11v9H1z"/><path d="M12 11h4l3 3v3h-7v-6z"/><circle cx="5.5" cy="18.5" r="1.5"/><circle cx="16.5" cy="18.5" r="1.5"/></svg></span>Table · takeaway · delivery</li>
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span>Order reports</li>
+            </ul>
+            <div class="product-foot">
+              <!-- <span class="pill">DigiHubRestaurant.exe</span> -->
+              <a href="restaurant.html" class="btn btn-sm btn-primary">Details</a>
+            </div>
+          </article>
+          <article class="product-card card-lift">
+            <div class="product-icon hotel"><svg class="ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 21h18"/><path d="M5 21V7l7-4 7 4v14"/><path d="M9 21v-6h6v6"/><path d="M9 10h.01M15 10h.01M9 14h.01M15 14h.01"/></svg></div>
+            <h3>Hotel PMS</h3>
+            <p class="product-tag">Hotels &amp; guest houses</p>
+            <p>Rooms, stays, folio charges, occupancy dashboard, and hotel tax invoices.</p>
+            <ul class="icon-list compact">
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 18v-6a2 2 0 0 1 2-2h16a2 2 0 0 1 2 2v6"/><path d="M2 18h20"/><path d="M4 10V7a2 2 0 0 1 2-2h4a2 2 0 0 1 2 2v3"/></svg></span>Rooms &amp; rates</li>
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 7a2 2 0 0 1 2-2h16v14H4a2 2 0 0 1-2-2V7z"/><path d="M22 10h-6a2 2 0 0 0 0 4h6"/></svg></span>Guest folio checkout</li>
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 3v18h18"/><path d="M7 14l4-4 3 3 5-6"/></svg></span>Occupancy dashboard</li>
+            </ul>
+            <div class="product-foot">
+              <!-- <span class="pill">DigiHubHotel.exe</span> -->
+              <a href="hotel.html" class="btn btn-sm btn-primary">Details</a>
+            </div>
+          </article>
+          <article class="product-card card-lift">
+            <div class="product-icon school"><svg class="ico" viewBox="0 0 24 24" width="26" height="26" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M22 10v6M2 10l10-5 10 5-10 5z"/><path d="M6 12v5c3 2 9 2 12 0v-5"/></svg></div>
+            <h3>School Management</h3>
+            <p class="product-tag">Schools &amp; academies</p>
+            <p>Students, classes, teachers, fee collection, and staff salary payroll.</p>
+            <ul class="icon-list compact">
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M16 21v-2a4 4 0 0 0-4-4H6a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/></svg></span>Students &amp; classes</li>
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M2 7a2 2 0 0 1 2-2h16v14H4a2 2 0 0 1-2-2V7z"/><path d="M22 10h-6a2 2 0 0 0 0 4h6"/></svg></span>Fee collection</li>
+              <li><span class="li-ico"><svg class="ico" viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M12 1v22"/><path d="M17 5H9.5a3.5 3.5 0 0 0 0 7h5a3.5 3.5 0 0 1 0 7H6"/></svg></span>Staff salary</li>
+            </ul>
+            <div class="product-foot">
+              <a href="school.html" class="btn btn-sm btn-primary">Details</a>
+            </div>
+          </article>
+        </div>
+        <p class="center-actions" style="margin-top:1.5rem">
+          <a href="products.html" class="btn btn-ghost">All products</a>
+          <a href="pricing.html" class="btn btn-primary">POS pricing</a>
+        </p>
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">How to engage</p>
+          <h2>Two ways to work with DigiHub</h2>
+          <p class="section-sub">Custom software is quoted per project. Ready-made billing software has fixed POS plans.</p>
+        </div>
+        <div class="engage-grid">
+          <article class="engage-card featured card-lift">
+            <p class="product-tag">Most projects</p>
+            <h3>Custom software quote</h3>
+            <p>Android apps, iOS apps, web applications, websites, and bespoke tools — priced after we understand your scope.</p>
+            <ul class="icon-list compact">
+              <li><span class="li-ico">✓</span>Free consultation</li>
+              <li><span class="li-ico">✓</span>Clear milestones &amp; timeline</li>
+              <li><span class="li-ico">✓</span>Launch &amp; post-go-live support</li>
+            </ul>
+            <a href="contact.html?plan=quote" class="btn btn-primary btn-block">Get a free quote</a>
+          </article>
+          <article class="engage-card card-lift">
+            <p class="product-tag">Ready-made only</p>
+            <h3>POS billing plans</h3>
+            <p>Pharmacy, Restaurant, Hotel, or School Windows software — 7-day free trial, then monthly or yearly.</p>
+            <ul class="icon-list compact">
+              <li><span class="li-ico">✓</span>From <span data-price="monthly">₹299</span>/mo · 1 PC</li>
+              <li><span class="li-ico">✓</span>Multi-PC pack available</li>
+              <li><span class="li-ico">✓</span>Cloud data &amp; GST invoices</li>
+            </ul>
+            <a href="pricing.html" class="btn btn-ghost btn-block">View POS pricing</a>
+          </article>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container">
+        <div class="section-head">
+          <p class="eyebrow">What clients say</p>
+          <h2>Trusted for apps, sites &amp; business tools</h2>
+        </div>
+        <div class="testimonial-grid">
+          <blockquote class="quote-card card-lift">
+            <div class="quote-ico"><svg class="ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="5" y="2" width="14" height="20" rx="2"/><path d="M12 18h.01"/></svg></div>
+            <p>“Our Android APK was ready for staff testing in weeks — clean UI and WhatsApp support when we needed fixes.”</p>
+            <footer><strong>Operations lead</strong><span>Field service app</span></footer>
+          </blockquote>
+          <blockquote class="quote-card card-lift">
+            <div class="quote-ico"><svg class="ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><circle cx="12" cy="12" r="10"/><path d="M2 12h20"/></svg></div>
+            <p>“The web portal replaced three spreadsheets. Roles, reports, and mobile browser access for the team.”</p>
+            <footer><strong>Founder</strong><span>B2B web application</span></footer>
+          </blockquote>
+          <blockquote class="quote-card card-lift">
+            <div class="quote-ico"><svg class="ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M3 9h18"/></svg></div>
+            <p>“New company website loads fast on phones and the contact form sends straight to WhatsApp leads.”</p>
+            <footer><strong>Marketing manager</strong><span>Business website</span></footer>
+          </blockquote>
+          <blockquote class="quote-card card-lift">
+            <div class="quote-ico"><svg class="ico" viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M14 9V5a3 3 0 0 0-3-3l-4 9v11h11.3a2 2 0 0 0 2-1.7l1.4-8a2 2 0 0 0-2-2.3H14z"/><path d="M7 22H4a2 2 0 0 1-2-2v-7a2 2 0 0 1 2-2h3"/></svg></div>
+            <p>“When we needed billing the same week, Pharmacy POS was ready — barcode, GST, and staff learned same day.”</p>
+            <footer><strong>Pharmacy owner</strong><span>Ready-made POS</span></footer>
+          </blockquote>
+        </div>
+      </div>
+    </section>
+
+    <section class="section section-alt">
+      <div class="container faq-home">
+        <div class="section-head">
+          <p class="eyebrow">FAQ</p>
+          <h2>Quick answers</h2>
+        </div>
+        
+        <div class="faq-acc" role="list">
+
+          <div class="faq-acc-item" role="listitem">
+            <button type="button" class="faq-acc-btn" aria-expanded="false" aria-controls="faq-p-0">
+              <span>What types of software do you build?</span><span class="chev" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-acc-panel" id="faq-p-0" hidden>Android APK apps, iOS apps, web applications, business websites, custom desktop tools, APIs, and ready-made POS products for pharmacy, restaurant, hotel, and school.</div>
+          </div>
+
+          <div class="faq-acc-item" role="listitem">
+            <button type="button" class="faq-acc-btn" aria-expanded="false" aria-controls="faq-p-1">
+              <span>How much does a custom app or website cost?</span><span class="chev" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-acc-panel" id="faq-p-1" hidden>Custom work is quoted per project based on features, platforms, and timeline. Contact us for a free consultation — fixed POS prices on the Pricing page do not apply to custom builds.</div>
+          </div>
+
+          <div class="faq-acc-item" role="listitem">
+            <button type="button" class="faq-acc-btn" aria-expanded="false" aria-controls="faq-p-2">
+              <span>How long does a typical project take?</span><span class="chev" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-acc-panel" id="faq-p-2" hidden>Simple websites can ship in days to a few weeks. Mobile apps and web portals usually take several weeks depending on scope. We share a clear timeline after discovery.</div>
+          </div>
+
+          <div class="faq-acc-item" role="listitem">
+            <button type="button" class="faq-acc-btn" aria-expanded="false" aria-controls="faq-p-3">
+              <span>Do you only make billing software?</span><span class="chev" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-acc-panel" id="faq-p-3" hidden>No. Billing/POS is one product line. Most of our work is custom software across mobile, web, and desktop for any industry.</div>
+          </div>
+
+          <div class="faq-acc-item" role="listitem">
+            <button type="button" class="faq-acc-btn" aria-expanded="false" aria-controls="faq-p-4">
+              <span>Where can I see ready-made POS plans?</span><span class="chev" aria-hidden="true">+</span>
+            </button>
+            <div class="faq-acc-panel" id="faq-p-4" hidden>See the POS pricing page for Pharmacy, Restaurant, Hotel, and School — trial, monthly, yearly, and Multi-PC. Custom apps use Contact for a quote.</div>
+          </div>
+</div>
+      
+
+      </div>
+    </section>
+
+    <section class="section">
+      <div class="container">
+        <div class="mini-cta glow">
+          <div>
+            <h2>Build your next software with DigiHub</h2>
+            <p>Custom apps &amp; websites on quote · Ready-made POS from <strong>₹299/month</strong> with a 7-day free trial.</p>
+          </div>
+          <div class="hero-actions" style="margin:0">
+            <a href="contact.html" class="btn btn-primary btn-lg"><svg class="ico" viewBox="0 0 24 24" width="18" height="18" fill="none" stroke="currentColor" stroke-width="1.75" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M5 15c-1 3 0 5 0 5s2 1 5 0l8-8a6 6 0 0 0-5-5l-8 8z"/><path d="M13 7l4 4"/><path d="M9 17l-2 2"/></svg> Get started</a>
+            <a href="services.html" class="btn btn-ghost light-ghost btn-lg">View services</a>
+          </div>
+        </div>
+      </div>
+    </section>
+
+  </main>
+
+  <footer class="site-footer">
+    <div class="container footer-inner">
+      <div class="footer-top">
+        <div class="footer-brand">
+          <img src="assets/logo.png" alt="" width="40" height="40" />
+          <div>
+            <strong>DigiHub Solutions</strong>
+            <p>Android, iOS, web apps, websites &amp; ready-made business software.</p>
+          </div>
+        </div>
+        <div class="footer-cols">
+          <div>
+            <h4>Services</h4>
+            <a href="services.html">All services</a>
+            <a href="services.html#android">Android apps</a>
+            <a href="services.html#ios">iOS apps</a>
+            <a href="services.html#web-apps">Web applications</a>
+            <a href="services.html#websites">Websites</a>
+          </div>
+          <div>
+            <h4>Products</h4>
+            <a href="products.html">All products</a>
+            <a href="pharmacy.html">Pharmacy POS</a>
+            <a href="restaurant.html">Restaurant POS</a>
+            <a href="hotel.html">Hotel PMS</a>
+            <a href="school.html">School Management</a>
+          </div>
+          <div>
+            <h4>Company</h4>
+            <a href="about.html">About</a>
+            <!-- <a href="careers.html">Careers</a> -->
+            <a href="brochure.html">Brochure</a>
+            <a href="features.html">Features</a>
+            <a href="pricing.html">POS pricing</a>
+            <a href="how-it-works.html">How it works</a>
+          </div>
+          <div>
+            <h4>Get started</h4>
+            <a href="contact.html">Contact / Quote</a>
+            <a href="pricing.html">POS free trial</a>
+            <a href="license.html">License</a>
+            <p style="font-size:0.85rem;margin:0.5rem 0;color:#8b95a5">Hours: <span data-support-hours>Mon–Sat, 10:00 AM – 7:00 PM IST</span></p>
+            <a href="#" data-whatsapp-link>WhatsApp chat</a>
+          </div>
+        </div>
+      </div>
+      <p class="footer-copy">© <span id="year"></span> DigiHub Solutions · Full software solutions · POS from ₹299/mo</p>
+    </div>
+  </footer>
+
+
+  <div class="fab-stack" aria-label="Quick actions">
+    <a class="fab fab-wa" data-whatsapp-link href="#" aria-label="WhatsApp DigiHub">
+      <svg viewBox="0 0 24 24" aria-hidden="true"><path d="M17.5 14.4c-.3-.1-1.6-.8-1.8-.9-.2-.1-.4-.1-.6.1-.2.3-.7.9-.8 1-.1.2-.3.2-.6.1-.3-.1-1.2-.4-2.3-1.5-1-1-1.4-1.8-1.6-2.1-.1-.3 0-.4.1-.6l.5-.6c.1-.2.2-.3.3-.5.1-.2 0-.4 0-.5 0-.1-.6-1.5-.8-2-.2-.5-.4-.4-.6-.4h-.5c-.2 0-.5.1-.7.3-.2.3-.9.9-.9 2.1s.9 2.4 1 2.6c.1.2 1.8 2.8 4.4 3.9 1.6.7 2.2.8 3 .7.5-.1 1.6-.6 1.8-1.3.2-.6.2-1.2.1-1.3-.1 0-.3-.1-.6-.2zM12 2C6.5 2 2 6.5 2 12c0 1.8.5 3.4 1.3 4.9L2 22l5.3-1.4c1.4.8 3 1.2 4.7 1.2 5.5 0 10-4.5 10-10S17.5 2 12 2zm0 18.2c-1.5 0-3-.4-4.3-1.2l-.3-.2-3.1.8.8-3-.2-.3C4.4 15 4 13.5 4 12 4 7.6 7.6 4 12 4s8 3.6 8 8-3.6 8.2-8 8.2z"/></svg>
+      <span class="label">WhatsApp</span>
+    </a>
+    <a class="fab" href="contact.html?plan=quote"><span class="label">Get quote</span></a>
+  </div>
+
+  <script src="js/config.js"></script>
+  <script src="js/main.js"></script>
+</body>
+</html>

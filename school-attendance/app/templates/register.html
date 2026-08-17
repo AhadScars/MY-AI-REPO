@@ -1,0 +1,50 @@
+{% extends "base.html" %}
+{% block title %}Register School — School Attendance{% endblock %}
+{% block body %}
+<div class="auth-page">
+  <div class="auth-card" style="max-width: 480px;">
+    <h1>Register school</h1>
+    <p class="subtitle">7-day trial without a key, or enter a license key for full term</p>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+      {% if messages %}
+        <div class="flashes">
+          {% for cat, msg in messages %}
+            <div class="flash {{ cat }}">{{ msg }}</div>
+          {% endfor %}
+        </div>
+      {% endif %}
+    {% endwith %}
+
+    <form method="post">
+      <div class="form-group">
+        <label for="name">School name</label>
+        <input type="text" id="name" name="name" required placeholder="e.g. Green Valley High" />
+      </div>
+      <div class="form-group">
+        <label for="username">Admin username</label>
+        <input type="text" id="username" name="username" required autocomplete="username" />
+      </div>
+      <div class="form-row">
+        <div class="form-group">
+          <label for="password">Password</label>
+          <input type="password" id="password" name="password" required autocomplete="new-password" />
+        </div>
+        <div class="form-group">
+          <label for="confirm">Confirm</label>
+          <input type="password" id="confirm" name="confirm" required autocomplete="new-password" />
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="license_key">License key (optional)</label>
+        <input type="text" id="license_key" name="license_key" class="mono" placeholder="XXXX-XXXX-XXXX-XXXX" />
+      </div>
+      <button type="submit" class="btn btn-block btn-lg">Create school account</button>
+    </form>
+
+    <div class="auth-footer">
+      Already registered? <a href="{{ url_for('auth.login') }}">Sign in</a>
+    </div>
+  </div>
+</div>
+{% endblock %}

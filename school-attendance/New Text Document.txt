@@ -1,0 +1,9 @@
+School Attendance System — Project Prompt
+
+Build a multi-school digital attendance platform where students check in and check out by scanning a school QR code on their phone. Scanning opens a public Enter ID page (no login). The student types their student ID and taps Check in or Check out. The system verifies the ID against that school’s student list, records local PC time for time_in / time_out, sets is_present to Yes or No, and syncs the day to an Excel sheet. Accidental double taps are blocked by a configurable cool-down (default 60 minutes): a second check-in for the same student within that window is not written to the database.
+
+Use SQLite as the main database (designed so Mongo or a cloud DB can be added later). Student fields: id, name, class, time_in, time_out, is_present. Classes run 1–8 with sections A–D (e.g. 5-B). Demo school holds 960 fake students (30 per class–section).
+
+There are two admin roles. Main admin (admin / 123) manages all schools, generates license keys, extends subscriptions, and enables or disables accounts. School admin manages students, attendance reports, School QR, and subscription. Demo school: demoschool / 123. Schools can register with a license key or a short trial. The model is subscription-based: main admin issues keys or extends access from their panel; schools paste keys under Subscription.
+
+School UI is a light black-and-white theme. Students and Attendance pages support filters: Classes (1–8), Section (A–D), search by name/ID, and attendance status (present/absent). Lists sort by class then section. Staff desk check-in is removed; the gate flow is School QR only. Package the app as a Windows EXE for local/LAN use (phones on the same Wi‑Fi open the QR URL via the PC’s LAN IP). Future path: replace QR with NFC using the same payload/URL pattern.

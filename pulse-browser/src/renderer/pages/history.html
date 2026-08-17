@@ -1,0 +1,122 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>History</title>
+  <link rel="stylesheet" href="pages.css" />
+</head>
+<body>
+  <div class="page">
+    <div class="page-header">
+      <div>
+        <h1>History</h1>
+        <div class="sub">Pages you've visited on this device</div>
+      </div>
+      <button class="btn danger" id="btn-clear">Clear browsing history</button>
+    </div>
+
+    <div class="search-box">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#9aa0a6" stroke-width="2"><circle cx="11" cy="11" r="7"/><path d="M21 21l-4.3-4.3"/></svg>
+      <input id="search" type="search" placeholder="Search history" spellcheck="false" />
+    </div>
+
+    <div id="list" class="list"></div>
+    <div id="empty" class="empty hidden">
+      <h2>No history yet</h2>
+      <p>Pages you visit will show up here.</p>
+    </div>
+  </div>
+
+  <script>
+    const $ = (s) => document.querySelector(s);
+    let items = [];
+
+    function esc(s) {
+      return String(s ?? '')
+        .replace(/&/g, '&amp;')
+        .replace(/</g, '&lt;')
+        .replace(/>/g, '&gt;')
+        .replace(/"/g, '&quot;');
+    }
+
+    function dayKey(ts) {
+      const d = new Date(ts);
+      const today = new Date();
+      const yday = new Date();
+      yday.setDate(today.getDate() - 1);
+      const same = (a, b) =>
+        a.getFullYear() === b.getFullYear() &&
+        a.getMonth() === b.getMonth() &&
+        a.getDate() === b.getDate();
+      if (same(d, today)) return 'Today';
+      if (same(d, yday)) return 'Yesterday';
+      return d.toLocaleDateString(undefined, { weekday: 'long', month: 'long', day: 'numeric', year: 'numeric' });
+    }
+
+    function timeStr(ts) {
+      return new Date(ts).toLocaleTimeString(undefined, { hour: 'numeric', minute: '2-digit' });
+    }
+
+    function render(list) {
+      const root = $('#list');
+      const empty = $('#empty');
+      if (!list.length) {
+        root.innerHTML = '';
+        empty.classList.remove('hidden');
+        empty.querySelector('h2').textContent = $('#search').value ? 'No matching results' : 'No history yet';
+        return;
+      }
+      empty.classList.add('hidden');
+
+      let html = '';
+      let lastDay = '';
+      list.forEach((h) => {
+        const day = dayKey(h.visitedAt);
+        if (day !== lastDay) {
+          html += `<div class="day-label">${esc(day)}</div>`;
+          lastDay = day;
+        }
+        const icon = h.favicon
+          ? `<img src="${esc(h.favicon)}" alt="" onerror="this.remove()" />`
+          : '🕐';
+        html += `
+          <div class="list-item" data-url="${esc(h.url)}">
+            <div class="icon">${icon}</div>
+            <div class="body">
+              <div class="title">${esc(h.title || h.url)}</div>
+              <div class="meta">${esc(timeStr(h.visitedAt))} · ${esc(h.url)}</div>
+            </div>
+          </div>
+        `;
+      });
+      root.innerHTML = html;
+      root.querySelectorAll('.list-item').forEach((el) => {
+        el.addEventListener('click', () => {
+          if (window.pulsePage) window.pulsePage.navigate(el.dataset.url);
+        });
+      });
+    }
+
+    async function load(query) {
+      if (!window.pulsePage) return;
+      items = await window.pulsePage.getHistory({ query: query || '', limit: 500 });
+      render(items);
+    }
+
+    let debounce;
+    $('#search').addEventListener('input', () => {
+      clearTimeout(debounce);
+      debounce = setTimeout(() => load($('#search').value), 150);
+    });
+
+    $('#btn-clear').addEventListener('click', async () => {
+      if (!confirm('Clear all browsing history? This cannot be undone.')) return;
+      await window.pulsePage.clearHistory();
+      load('');
+    });
+
+    load('');
+  </script>
+</body>
+</html>

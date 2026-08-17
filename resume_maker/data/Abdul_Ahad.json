@@ -1,0 +1,200 @@
+{
+  "header": {
+    "full_name": "Abdul Ahad",
+    "title": "Software Engineer",
+    "email": "abdulindia.scars@gmail.com",
+    "phone": "+91 9140980834",
+    "location": "Kanpur, India",
+    "website": "",
+    "linkedin": "linkedin.com/in/ahadscars",
+    "github": "github.com/ahad-scars",
+    "extra": ""
+  },
+  "summary": "Java Backend Developer with hands-on experience building scalable RESTful APIs using Java and Spring Boot. Skilled in implementing secure authentication and authorization with Spring Security, JWT, and role-based access control (RBAC). Proficient in MySQL, JPA/Hibernate, API design, and backend architecture, with a focus on writing clean, maintainable, and efficient code.\n\nDeveloped multiple backend and full-stack applications, including AI-assisted projects, leveraging modern AI tools to accelerate development, improve productivity, and streamline debugging while maintaining code quality. Internship experience includes API development, database integration, testing, and collaborating in Agile environments. Passionate about building secure, high-performance applications and continuously expanding expertise in backend technologies, cloud platforms, and AI-powered software development.",
+  "experience": [
+    {
+      "company": "HSB Info Tech Pvt Ltd",
+      "role": "Java Backend Developer (Spring Boot)",
+      "location": "Hyderabad",
+      "start": {
+        "month": 1,
+        "year": 2024
+      },
+      "end": {
+        "present": true
+      },
+      "bullets": [
+        "Developed scalable, secure, and maintainable RESTful APIs for patients, doctors, appointments, and staff management modules using Spring Boot.",
+        "Implemented JWT-based authentication and Spring Security with role-based access control (RBAC) to ensure secure access to application resources.",
+        "Designed and developed CRUD APIs with pagination, filtering, and validation to efficiently manage hospital records and improve API performance.",
+        "Integrated MySQL with JPA/Hibernate for robust data persistence, optimized database interactions, and efficient query execution.",
+        "Followed clean architecture, RESTful design principles, and industry best practices to build modular, testable, and maintainable backend services.",
+        "Documented and tested APIs using Postman and implemented structured exception handling for improved reliability and developer experience."
+      ]
+    },
+    {
+      "company": "BasketHunt Pvt Ltd",
+      "role": "Web and IT development Intern,",
+      "location": "Jharkhand, India",
+      "start": {
+        "month": 6,
+        "year": 2022
+      },
+      "end": {
+        "month": 12,
+        "year": 2022
+      },
+      "bullets": [
+        "Developed a RESTful Blog API using Java and Spring Boot with JWT-based authentication.",
+        "Implemented CRUD operations, pagination, and filtering for efficient blog management.",
+        "Integrated MySQL using JPA/Hibernate for data persistence.",
+        "Secured APIs with Spring Security and role-based authorization (RBAC).",
+        "Tested API endpoints using Postman and followed clean coding practices."
+      ]
+    }
+  ],
+  "education": [
+    {
+      "school": "Managlayatan University",
+      "degree": "Master of Computer Application",
+      "location": "Aligarh",
+      "start": {
+        "month": 6,
+        "year": 2022
+      },
+      "end": {
+        "month": 5,
+        "year": 2025
+      },
+      "details": "GPA 7.65 / 10.0"
+    }
+  ],
+  "skills": [
+    {
+      "category": "Languages",
+      "items": "Java, PHP, MySQL"
+    },
+    {
+      "category": "Framework",
+      "items": "Sprinboot, Laravel"
+    },
+    {
+      "category": "Tools",
+      "items": "Git, PostgreSQL, IDE, Postman"
+    }
+  ],
+  "projects": [
+    {
+      "name": "Rapido Clone",
+      "link": "https://github.com/AhadScars/RideKaro",
+      "description": "Full-stack ride-hailing MVP for Kanpur · Lucknow · Varanasi (Uttar Pradesh). Built with AI-assisted development.\n\nRides are city-scoped: a booking in Lucknow is only visible to Lucknow captains; \nKanpur captains cannot accept it.",
+      "start": {
+        "month": 1,
+        "year": 2026
+      },
+      "end": {
+        "present": true
+      }
+    }
+  ],
+  "certifications": [],
+  "languages": [],
+  "custom": {
+    "title": "Awards",
+    "items": []
+  },
+  "style": {
+    "page": {
+      "size": "A4",
+      "margin_top": 36,
+      "margin_bottom": 44,
+      "margin_left": 40,
+      "margin_right": 40
+    },
+    "colors": {
+      "text": "#1a1a1a",
+      "name": "#0f172a",
+      "heading": "#0f172a",
+      "accent": "#2563eb",
+      "muted": "#64748b",
+      "line": "#cbd5e1",
+      "header_bg": "",
+      "header_text": "#0f172a"
+    },
+    "fonts": {
+      "family": "Helvetica",
+      "name_size": 22,
+      "name_bold": true,
+      "name_italic": false,
+      "title_size": 11,
+      "title_bold": false,
+      "title_italic": true,
+      "contact_size": 9,
+      "contact_bold": true,
+      "contact_italic": false,
+      "section_size": 11,
+      "section_bold": true,
+      "section_italic": false,
+      "section_uppercase": true,
+      "item_title_size": 10.5,
+      "item_title_bold": true,
+      "item_title_italic": false,
+      "item_sub_size": 9.5,
+      "item_sub_bold": false,
+      "item_sub_italic": true,
+      "body_size": 9.5,
+      "body_bold": false,
+      "body_italic": false,
+      "date_size": 9,
+      "date_bold": false,
+      "date_italic": false
+    },
+    "layout": {
+      "header_align": "center",
+      "section_spacing": 10,
+      "item_spacing": 6,
+      "line_height": 1.38,
+      "show_section_lines": true,
+      "line_thickness": 0.8,
+      "bullet": "•",
+      "date_style": "short_month",
+      "date_separator": " – ",
+      "present_label": "Present",
+      "contact_separator": "  |  ",
+      "name_spacing": 4,
+      "after_header": 14
+    },
+    "sections": {
+      "order": [
+        "summary",
+        "experience",
+        "education",
+        "skills",
+        "projects",
+        "certifications",
+        "languages",
+        "custom"
+      ],
+      "labels": {
+        "summary": "Professional Summary",
+        "experience": "Experience",
+        "education": "Education",
+        "skills": "Skills",
+        "projects": "Projects",
+        "certifications": "Certifications",
+        "languages": "Languages",
+        "custom": "Additional"
+      },
+      "visible": {
+        "summary": true,
+        "experience": true,
+        "education": true,
+        "skills": true,
+        "projects": true,
+        "certifications": true,
+        "languages": true,
+        "custom": false
+      }
+    }
+  }
+}
