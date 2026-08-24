@@ -1,0 +1,35 @@
+<%- include('../partials/panel-shell-start', { area: 'admin', title: title }) %>
+<h1>Cities</h1>
+<form class="card stack-form compact" method="post" action="/admin/cities">
+  <div class="form-row">
+    <label>Name <input name="name" required></label>
+    <label>State / region <input name="state"></label>
+    <button class="btn btn-accent" type="submit">Add city</button>
+  </div>
+</form>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Name</th><th>Slug</th><th>State</th><th>Active</th><th></th></tr></thead>
+    <tbody>
+      <% cities.forEach(function(c){ %>
+        <tr>
+          <td>
+            <form method="post" action="/admin/cities/<%= c.id %>" class="inline">
+              <input name="name" value="<%= c.name %>">
+          </td>
+          <td><%= c.slug %></td>
+          <td><input name="state" value="<%= c.state || '' %>"></td>
+          <td><input type="checkbox" name="is_active" <%= c.is_active ? 'checked' : '' %>></td>
+          <td>
+              <button class="btn btn-ghost" type="submit">Save</button>
+            </form>
+            <form method="post" action="/admin/cities/<%= c.id %>" class="inline" onsubmit="return confirm('Delete city?')">
+              <button class="btn btn-ghost" name="action" value="delete">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/panel-shell-end') %>

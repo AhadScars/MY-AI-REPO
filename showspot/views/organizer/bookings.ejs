@@ -1,0 +1,26 @@
+<%- include('../partials/panel-shell-start', { area: 'organizer', title: title }) %>
+<h1>Bookings for your theatre</h1>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Ref</th><th>Show</th><th>Guest</th><th>When</th><th>Total</th><th>Status</th><th>Entry</th></tr></thead>
+    <tbody>
+      <% rows.forEach(function(b){ %>
+        <tr>
+          <td><a href="/manage/gate/<%= b.booking_ref %>"><%= b.booking_ref %></a></td>
+          <td><%= b.title %><br><span class="muted"><%= b.venue_name %></span></td>
+          <td><%= b.user_name %><br><span class="muted"><%= b.email %></span></td>
+          <td><%= formatDateTime(b.starts_at) %></td>
+          <td><%= money(b.total) %></td>
+          <td><span class="pill pill-<%= b.status %>"><%= b.status %></span></td>
+          <td>
+            <% if (b.checked_in_at) { %><span class="pill pill-confirmed">Admitted</span>
+            <% } else if (b.status === 'confirmed') { %><a href="/manage/gate/<%= b.booking_ref %>">Admit</a>
+            <% } else { %>—<% } %>
+          </td>
+        </tr>
+      <% }) %>
+      <% if (!rows.length) { %><tr><td colspan="7">No bookings yet.</td></tr><% } %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/panel-shell-end') %>

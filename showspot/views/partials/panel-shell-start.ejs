@@ -1,0 +1,32 @@
+<%- include('./head') %>
+<div class="panel-app">
+  <aside class="panel-side">
+    <a class="brand" href="/">
+      <span class="brand-name"><%= appName %></span>
+    </a>
+    <p class="panel-role"><%= user.role === 'admin' ? 'Admin desk' : 'Theatre desk' %></p>
+    <nav>
+      <% if (area === 'admin') { %>
+        <a href="/admin" class="<%= currentPath === '/admin' ? 'is-on' : '' %>">Overview</a>
+        <a href="/admin/users" class="<%= currentPath.startsWith('/admin/users') ? 'is-on' : '' %>">Users</a>
+        <a href="/admin/cities" class="<%= currentPath.startsWith('/admin/cities') ? 'is-on' : '' %>">Cities</a>
+        <a href="/admin/shows" class="<%= currentPath.startsWith('/admin/shows') ? 'is-on' : '' %>">Shows</a>
+        <a href="/admin/venues" class="<%= currentPath.startsWith('/admin/venues') ? 'is-on' : '' %>">Theatres</a>
+        <a href="/admin/showtimes" class="<%= currentPath.startsWith('/admin/showtimes') ? 'is-on' : '' %>">Showtimes</a>
+        <a href="/admin/bookings" class="<%= currentPath.startsWith('/admin/bookings') ? 'is-on' : '' %>">Bookings</a>
+      <% } else { %>
+        <a href="/manage" class="<%= currentPath === '/manage' ? 'is-on' : '' %>">Overview</a>
+        <a href="/manage/shows" class="<%= currentPath.startsWith('/manage/shows') ? 'is-on' : '' %>">Events</a>
+        <a href="/manage/venues" class="<%= currentPath.startsWith('/manage/venues') ? 'is-on' : '' %>">Theatre</a>
+        <a href="/manage/showtimes" class="<%= currentPath.startsWith('/manage/showtimes') ? 'is-on' : '' %>">Showtimes</a>
+        <a href="/manage/bookings" class="<%= currentPath.startsWith('/manage/bookings') ? 'is-on' : '' %>">Bookings</a>
+        <a href="/manage/gate" class="<%= currentPath.startsWith('/manage/gate') ? 'is-on' : '' %>">Gate scan</a>
+      <% } %>
+    </nav>
+    <div class="panel-side-foot">
+      <a href="/">← Site</a>
+      <a href="/account"><%= user.name %></a>
+    </div>
+  </aside>
+  <div class="panel-main">
+    <%- include('./flash') %>

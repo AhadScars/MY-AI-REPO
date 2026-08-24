@@ -1,0 +1,41 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="wrap ticket-page">
+  <p class="eyebrow"><%= booking.status === 'confirmed' ? (booking.checked_in_at ? 'Admitted' : 'You’re in') : booking.status %></p>
+  <h1><%= booking.status === 'confirmed' ? 'Your ticket' : 'Ticket' %></h1>
+  <article class="stub">
+    <div class="stub-main">
+      <img src="<%= posterUrl({ poster: booking.poster }) %>" alt="">
+      <div>
+        <p class="ref"><%= booking.booking_ref %></p>
+        <h2><%= booking.title %></h2>
+        <p><%= formatDateTime(booking.starts_at) %></p>
+        <p><%= booking.venue_name %>, <%= booking.city_name %></p>
+        <p><%= booking.screen_name %></p>
+        <p class="seats"><%= booking.seats.map(function(s){ return s.label; }).join('  ·  ') %></p>
+        <p class="muted"><%= booking.user_name %> · <%= booking.user_email %></p>
+      </div>
+    </div>
+    <div class="stub-side">
+      <% if (typeof qrSvg !== 'undefined' && qrSvg && booking.status === 'confirmed') { %>
+        <div class="ticket-qr"><%- qrSvg %></div>
+        <% if (booking.checked_in_at) { %>
+          <p class="pill pill-confirmed">Admitted <%= formatDateTime(booking.checked_in_at) %></p>
+        <% } else { %>
+          <p class="muted tiny">Show this QR at the theatre door. Staff scan it to confirm entry.</p>
+        <% } %>
+      <% } %>
+      <p>Paid</p>
+      <strong><%= money(booking.total) %></strong>
+      <p class="muted"><%= booking.payment_status %></p>
+      <button class="btn btn-ghost" type="button" onclick="window.print()">Print</button>
+      <a class="btn btn-accent" href="/account">My bookings</a>
+    </div>
+  </article>
+  <% if (booking.status !== 'confirmed') { %>
+    <p class="muted">If you paid with Stripe and this still says pending, wait a few seconds and refresh.</p>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>

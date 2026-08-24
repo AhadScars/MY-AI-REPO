@@ -1,0 +1,82 @@
+<%- include('../partials/panel-shell-start', { area: 'admin', title: title }) %>
+<h1>Shows</h1>
+<form class="card stack-form" method="post" action="/admin/shows" enctype="multipart/form-data">
+  <h3>Add show</h3>
+  <div class="form-row">
+    <label>Title <input name="title" required></label>
+    <label>Type
+      <select name="type">
+        <option value="movie">Movie</option>
+        <option value="event">Event</option>
+        <option value="sports">Sports</option>
+        <option value="play">Play</option>
+      </select>
+    </label>
+    <label>Organizer
+      <select name="organizer_id">
+        <% organizers.forEach(function(o){ %><option value="<%= o.id %>"><%= o.name %></option><% }) %>
+      </select>
+    </label>
+    <label>Language <input name="language"></label>
+    <label>Genre <input name="genre"></label>
+    <label>Duration (min) <input type="number" name="duration_min"></label>
+    <label>Age rating <input name="age_rating"></label>
+    <label>Release <input type="date" name="release_date"></label>
+    <label>Status
+      <select name="status">
+        <option value="published">Published</option>
+        <option value="draft">Draft</option>
+        <option value="ended">Ended</option>
+      </select>
+    </label>
+    <label>Poster <input type="file" name="poster" accept="image/*"></label>
+  </div>
+  <label>Synopsis <textarea name="synopsis" rows="3"></textarea></label>
+  <button class="btn btn-accent" type="submit">Create</button>
+</form>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th></th><th>Title</th><th>Type</th><th>Organizer</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <% items.forEach(function(s){ %>
+        <tr>
+          <td><img class="thumb" src="<%= posterUrl(s) %>" alt=""></td>
+          <td>
+            <form method="post" action="/admin/shows/<%= s.id %>" enctype="multipart/form-data" class="stack-form compact">
+              <input name="title" value="<%= s.title %>">
+              <input type="hidden" name="organizer_id" value="<%= s.organizer_id %>">
+          </td>
+          <td>
+            <select name="type">
+              <% ['movie','event','sports','play'].forEach(function(t){ %>
+                <option value="<%= t %>" <%= s.type===t?'selected':'' %>><%= t %></option>
+              <% }) %>
+            </select>
+          </td>
+          <td><%= s.organizer_name %></td>
+          <td>
+            <select name="status">
+              <% ['published','draft','ended'].forEach(function(st){ %>
+                <option value="<%= st %>" <%= s.status===st?'selected':'' %>><%= st %></option>
+              <% }) %>
+            </select>
+          </td>
+          <td class="row-actions">
+              <input type="hidden" name="synopsis" value="<%= s.synopsis || '' %>">
+              <input type="hidden" name="language" value="<%= s.language || '' %>">
+              <input type="hidden" name="genre" value="<%= s.genre || '' %>">
+              <input type="hidden" name="duration_min" value="<%= s.duration_min || '' %>">
+              <input type="hidden" name="age_rating" value="<%= s.age_rating || '' %>">
+              <input type="hidden" name="release_date" value="<%= toInputDate(s.release_date) %>">
+              <button class="btn btn-ghost" type="submit">Save</button>
+            </form>
+            <form method="post" action="/admin/shows/<%= s.id %>" onsubmit="return confirm('Delete show?')">
+              <button class="btn btn-ghost" name="action" value="delete">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/panel-shell-end') %>

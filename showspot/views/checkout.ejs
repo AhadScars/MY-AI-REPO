@@ -1,0 +1,43 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="wrap checkout-grid">
+  <div>
+    <p class="eyebrow">Checkout</p>
+    <h1>Confirm & pay</h1>
+    <%- include('partials/flash') %>
+    <div class="card ticket-preview">
+      <img src="<%= posterUrl({ poster: booking.poster }) %>" alt="">
+      <div>
+        <h2><%= booking.title %></h2>
+        <p><%= booking.venue_name %> · <%= booking.screen_name %></p>
+        <p><%= formatDateTime(booking.starts_at) %> · <%= booking.city_name %></p>
+        <p>Seats
+          <strong><%= booking.seats.map(function(s){ return s.label; }).join(', ') %></strong>
+        </p>
+        <p class="muted">Ref <%= booking.booking_ref %></p>
+        <% if (booking.hold_expires_at) { %>
+          <p class="warn">Hold expires <%= formatDateTime(booking.hold_expires_at) %></p>
+        <% } %>
+      </div>
+    </div>
+  </div>
+  <aside class="card pay-card">
+    <h3>Amount due</h3>
+    <p class="sum-line">Tickets <span><%= money(booking.subtotal) %></span></p>
+    <p class="sum-line">Convenience fee <span><%= money(booking.fee) %></span></p>
+    <% if (Number(booking.tax)) { %><p class="sum-line"><%= taxLabel %> <span><%= money(booking.tax) %></span></p><% } %>
+    <p class="sum-line total">Total <span><%= money(booking.total) %></span></p>
+    <form method="post" action="/book/<%= booking.id %>/pay">
+      <% if (stripeEnabled) { %>
+        <button class="btn btn-accent btn-block" name="method" value="stripe" type="submit">Pay with Stripe</button>
+        <button class="btn btn-ghost btn-block" name="method" value="demo" type="submit">Demo pay (no charge)</button>
+      <% } else { %>
+        <p class="muted tiny">Stripe keys are not set. Demo Pay confirms the booking so you can test the flow. Add <code>STRIPE_SECRET_KEY</code> on Hostinger to take real cards.</p>
+        <button class="btn btn-accent btn-block" name="method" value="demo" type="submit">Confirm with Demo Pay</button>
+      <% } %>
+    </form>
+  </aside>
+</section>
+
+<%- include('partials/footer') %>

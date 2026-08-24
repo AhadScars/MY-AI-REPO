@@ -1,0 +1,31 @@
+<%- include('../partials/panel-shell-start', { area: 'admin', title: title }) %>
+<div class="panel-head">
+  <h1>Bookings</h1>
+  <form class="inline-search" method="get"><input name="q" value="<%= q %>" placeholder="Ref, email, title"><button class="btn btn-ghost">Find</button></form>
+</div>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Ref</th><th>Show</th><th>User</th><th>When</th><th>Total</th><th>Pay</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <% rows.forEach(function(b){ %>
+        <tr>
+          <td><%= b.booking_ref %></td>
+          <td><%= b.title %><br><span class="muted"><%= b.venue_name %></span></td>
+          <td><%= b.user_name %><br><span class="muted"><%= b.email %></span></td>
+          <td><%= formatDateTime(b.starts_at) %></td>
+          <td><%= money(b.total) %></td>
+          <td><%= b.payment_status %></td>
+          <td><span class="pill pill-<%= b.status %>"><%= b.status %></span></td>
+          <td>
+            <% if (b.status !== 'cancelled') { %>
+              <form method="post" action="/admin/bookings/<%= b.id %>/cancel" onsubmit="return confirm('Cancel booking?')">
+                <button class="btn btn-ghost">Cancel</button>
+              </form>
+            <% } %>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/panel-shell-end') %>

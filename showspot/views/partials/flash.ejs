@@ -1,0 +1,7 @@
+<% if (typeof flash !== 'undefined' && flash) { %>
+  <div class="flash flash-<%= flash.type %>"><%= flash.text %></div>
+<% } else if (query && query.error) { %>
+  <div class="flash flash-error"><%= query.error %></div>
+<% } else if (query && query.ok) { %>
+  <div class="flash flash-ok"><%= query.ok %></div>
+<% } %>

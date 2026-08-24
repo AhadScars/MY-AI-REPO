@@ -1,0 +1,69 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+<%- include('partials/flash') %>
+
+<section class="hero">
+  <img class="hero-img" src="/img/hero.jpg" alt="">
+  <div class="hero-veil"></div>
+  <div class="wrap hero-copy">
+    <p class="eyebrow">Now showing in <%= city ? city.name : 'your city' %></p>
+    <h1><%= featured ? featured.title : 'Every seat has a story.' %></h1>
+    <p class="lede"><%= featured ? featured.synopsis : 'Book movies, concerts and live sport. Pay in rupees with Stripe.' %></p>
+    <div class="hero-actions">
+      <% if (featured) { %>
+        <a class="btn btn-accent btn-lg" href="/show/<%= featured.slug %>">Book tickets</a>
+      <% } %>
+      <a class="btn btn-ghost btn-lg" href="/movies">Browse movies</a>
+    </div>
+  </div>
+</section>
+
+<section class="wrap trust-bar">
+  <p><strong>15 cities</strong> including Kanpur</p>
+  <p><strong>INR</strong> pricing · GST invoice</p>
+  <p><strong>One theatre</strong> per organiser</p>
+  <p><strong>Stripe</strong> checkout</p>
+</section>
+
+<section class="wrap section">
+  <div class="section-head">
+    <h2>Movies</h2>
+    <a href="/movies">See all</a>
+  </div>
+  <div class="card-grid">
+    <% movies.forEach(function(item){ %><%- include('partials/show-card', { item }) %><% }) %>
+  </div>
+</section>
+
+<section class="wrap section">
+  <div class="section-head">
+    <h2>Events</h2>
+    <a href="/events">See all</a>
+  </div>
+  <div class="card-grid">
+    <% events.forEach(function(item){ %><%- include('partials/show-card', { item }) %><% }) %>
+  </div>
+</section>
+
+<div class="wrap split-sections">
+  <section class="section">
+    <div class="section-head">
+      <h2>Sports</h2>
+      <a href="/sports">See all</a>
+    </div>
+    <div class="card-grid card-grid-2">
+      <% sports.forEach(function(item){ %><%- include('partials/show-card', { item }) %><% }) %>
+    </div>
+  </section>
+  <section class="section">
+    <div class="section-head">
+      <h2>Plays</h2>
+      <a href="/plays">See all</a>
+    </div>
+    <div class="card-grid card-grid-2">
+      <% plays.forEach(function(item){ %><%- include('partials/show-card', { item }) %><% }) %>
+    </div>
+  </section>
+</div>
+
+<%- include('partials/footer') %>

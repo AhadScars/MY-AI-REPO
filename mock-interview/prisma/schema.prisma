@@ -1,0 +1,121 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "sqlite"
+  url      = env("DATABASE_URL")
+}
+
+model User {
+  id           String    @id @default(cuid())
+  name         String
+  email        String    @unique
+  passwordHash String?
+  image        String?
+  googleId     String?   @unique
+  createdAt    DateTime  @default(now())
+  updatedAt    DateTime  @updatedAt
+  resetToken   String?
+  resetExpires DateTime?
+  resumes      Resume[]
+  interviews   Interview[]
+}
+
+model Resume {
+  id         String      @id @default(cuid())
+  userId     String
+  user       User        @relation(fields: [userId], references: [id], onDelete: Cascade)
+  fileName   String
+  fileUrl    String
+  mimeType   String
+  rawText    String
+  parsedData String      @default("{}")
+  createdAt  DateTime    @default(now())
+  interviews Interview[]
+
+  @@index([userId])
+}
+
+model Interview {
+  id               String              @id @default(cuid())
+  userId           String
+  user             User                @relation(fields: [userId], references: [id], onDelete: Cascade)
+  resumeId         String
+  resume           Resume              @relation(fields: [resumeId], references: [id], onDelete: Cascade)
+  role             String
+  company          String?
+  experienceLevel  String
+  interviewType    String
+  difficulty       String
+  duration         Int
+  style            String
+  status           String              @default("ready")
+  currentQuestion  Int                 @default(0)
+  totalQuestions   Int
+  topicsCovered    String              @default("[]")
+  topicsRemaining  String              @default("[]")
+  internalAnalysis String?
+  overallScore     Int?
+  startedAt        DateTime?
+  completedAt      DateTime?
+  createdAt        DateTime            @default(now())
+  updatedAt        DateTime            @updatedAt
+  questions        InterviewQuestion[]
+  report           InterviewReport?
+
+  @@index([userId, createdAt])
+  @@index([userId, status])
+}
+
+model InterviewQuestion {
+  id          String            @id @default(cuid())
+  interviewId String
+  interview   Interview         @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+  question    String
+  category    String
+  difficulty  String
+  order       Int
+  reason      String?
+  answers     InterviewAnswer[]
+
+  @@index([interviewId, order])
+}
+
+model InterviewAnswer {
+  id          String            @id @default(cuid())
+  questionId  String
+  question    InterviewQuestion @relation(fields: [questionId], references: [id], onDelete: Cascade)
+  answer      String
+  skipped     Boolean           @default(false)
+  score       Int?
+  evaluation  String?
+  createdAt   DateTime          @default(now())
+}
+
+model InterviewReport {
+  id                    String    @id @default(cuid())
+  interviewId           String    @unique
+  interview             Interview @relation(fields: [interviewId], references: [id], onDelete: Cascade)
+  overallScore          Int
+  technicalScore        Int
+  communicationScore    Int
+  problemSolvingScore   Int
+  confidenceScore       Int
+  roleKnowledgeScore    Int
+  behavioralScore       Int
+  resumeKnowledgeScore  Int
+  readiness             String
+  readinessPercent      Int
+  executiveSummary      String
+  strengths             String
+  weaknesses            String
+  questionAnalysis      String
+  communicationAnalysis String
+  technicalAnalysis     String
+  resumeConsistency     String
+  recommendations       String
+  improvementPlan       String
+  finalRecommendation   String
+  createdAt             DateTime  @default(now())
+}

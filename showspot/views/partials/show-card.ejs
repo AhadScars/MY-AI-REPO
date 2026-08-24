@@ -1,0 +1,13 @@
+<a class="show-card" href="/show/<%= item.slug %>">
+  <div class="poster">
+    <img src="<%= posterUrl(item) %>" alt="<%= item.title %>" loading="lazy">
+    <span class="chip chip-on-img"><%= typeSingular(item.type) %></span>
+  </div>
+  <div class="show-meta">
+    <h3><%= item.title %></h3>
+    <p><%= item.genre || '' %><% if (item.language) { %> · <%= item.language %><% } %></p>
+    <% if (item.avg_rating) { %>
+      <p class="rating">★ <%= item.avg_rating %> <span class="muted">(<%= item.review_count %>)</span></p>
+    <% } %>
+  </div>
+</a>

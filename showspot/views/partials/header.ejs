@@ -1,0 +1,38 @@
+<header class="site-header">
+  <div class="wrap header-inner">
+    <a class="brand" href="/">
+      <span class="brand-mark" aria-hidden="true">
+        <svg viewBox="0 0 32 32" width="28" height="28"><path fill="currentColor" d="M6 8h20v3H6zm0 6.5h20v3H6zM6 21h20v3H6z"/><circle cx="9" cy="9.5" r="1.2" fill="#0c0c0e"/><circle cx="9" cy="16" r="1.2" fill="#0c0c0e"/><circle cx="9" cy="22.5" r="1.2" fill="#0c0c0e"/></svg>
+      </span>
+      <span class="brand-name"><%= appName %></span>
+    </a>
+    <nav class="nav-main">
+      <a href="/movies" class="<%= currentPath.startsWith('/movies') ? 'is-on' : '' %>">Movies</a>
+      <a href="/events" class="<%= currentPath.startsWith('/events') ? 'is-on' : '' %>">Events</a>
+      <a href="/sports" class="<%= currentPath.startsWith('/sports') ? 'is-on' : '' %>">Sports</a>
+      <a href="/plays" class="<%= currentPath.startsWith('/plays') ? 'is-on' : '' %>">Plays</a>
+    </nav>
+    <form class="search-box" action="/search" method="get">
+      <input type="search" name="q" placeholder="Movies, events, sports…" value="<%= typeof q !== 'undefined' ? q : (query.q || '') %>" aria-label="Search">
+    </form>
+    <div class="header-tools">
+      <details class="city-switch">
+        <summary><%= city ? city.name : 'City' %></summary>
+        <div class="city-menu">
+          <% cities.forEach(function(c){ %>
+            <a href="/city/<%= c.slug %>?next=<%= encodeURIComponent(currentPath) %>" class="<%= city && city.id === c.id ? 'is-on' : '' %>"><%= c.name %></a>
+          <% }) %>
+        </div>
+      </details>
+      <% if (user) { %>
+        <a class="avatar-link" href="<%= user.role === 'admin' ? '/admin' : (user.role === 'organizer' ? '/manage' : '/account') %>">
+          <span class="avatar"><%= initials(user.name) %></span>
+        </a>
+      <% } else { %>
+        <a class="btn btn-ghost" href="/login">Sign in</a>
+        <a class="btn btn-accent" href="/register">Join</a>
+      <% } %>
+    </div>
+  </div>
+</header>
+<main class="site-main">

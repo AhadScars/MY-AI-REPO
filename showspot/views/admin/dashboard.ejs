@@ -1,0 +1,48 @@
+<%- include('../partials/panel-shell-start', { area: 'admin', title: title }) %>
+<h1>Admin overview</h1>
+<div class="stat-grid">
+  <div class="stat"><span>Users</span><strong><%= stats.users %></strong></div>
+  <div class="stat"><span>Shows</span><strong><%= stats.shows %></strong></div>
+  <div class="stat"><span>Venues</span><strong><%= stats.venues %></strong></div>
+  <div class="stat"><span>Paid bookings</span><strong><%= stats.bookings %></strong></div>
+  <div class="stat"><span>Revenue</span><strong><%= money(stats.revenue) %></strong></div>
+</div>
+<% if (pendingApps.length) { %>
+  <h2>Organizer applications</h2>
+  <div class="table-wrap">
+    <table>
+      <thead><tr><th>Who</th><th>Company</th><th>Message</th><th></th></tr></thead>
+      <tbody>
+        <% pendingApps.forEach(function(a){ %>
+          <tr>
+            <td><%= a.name %><br><span class="muted"><%= a.email %></span></td>
+            <td><%= a.company %></td>
+            <td><%= a.message %></td>
+            <td class="row-actions">
+              <form method="post" action="/admin/applications/<%= a.id %>"><button class="btn btn-accent" name="status" value="approved">Approve</button></form>
+              <form method="post" action="/admin/applications/<%= a.id %>"><button class="btn btn-ghost" name="status" value="rejected">Reject</button></form>
+            </td>
+          </tr>
+        <% }) %>
+      </tbody>
+    </table>
+  </div>
+<% } %>
+<h2>Recent bookings</h2>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Ref</th><th>Show</th><th>User</th><th>Total</th><th>Status</th></tr></thead>
+    <tbody>
+      <% recent.forEach(function(b){ %>
+        <tr>
+          <td><%= b.booking_ref %></td>
+          <td><%= b.title %></td>
+          <td><%= b.user_name %></td>
+          <td><%= money(b.total) %></td>
+          <td><span class="pill pill-<%= b.status %>"><%= b.status %></span></td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/panel-shell-end') %>

@@ -1,0 +1,56 @@
+<%- include('../partials/panel-shell-start', { area: 'organizer', title: title }) %>
+<h1>Showtimes</h1>
+<% if (!venues.length) { %>
+  <p class="empty">Register your theatre first, then add showtimes. <a href="/manage/venues">Open theatre</a></p>
+<% } else { %>
+<form class="card stack-form" method="post" action="/manage/showtimes">
+  <div class="form-row">
+    <label>Show
+      <select name="show_id"><% shows.forEach(function(s){ %><option value="<%= s.id %>"><%= s.title %></option><% }) %></select>
+    </label>
+    <% if (venues.length === 1) { %>
+      <input type="hidden" name="venue_id" value="<%= venues[0].id %>">
+      <label>Theatre
+        <input value="<%= venues[0].name %> · <%= venues[0].city_name %>" disabled>
+      </label>
+    <% } else { %>
+    <label>Theatre
+      <select name="venue_id">
+        <% venues.forEach(function(v){ %><option value="<%= v.id %>"><%= v.name %> · <%= v.city_name %></option><% }) %>
+      </select>
+    </label>
+    <% } %>
+    <label>Screen
+      <select name="screen_id">
+        <% screens.forEach(function(s){ %><option value="<%= s.id %>" data-venue="<%= s.venue_id %>"><%= s.name %></option><% }) %>
+      </select>
+    </label>
+    <label>Starts <input type="datetime-local" name="starts_at" required></label>
+    <label>Regular (₹) <input type="number" step="1" name="price_regular" value="220"></label>
+    <label>Premium (₹) <input type="number" step="1" name="price_premium" value="320"></label>
+    <label>Recliner (₹) <input type="number" step="1" name="price_vip" value="480"></label>
+  </div>
+  <button class="btn btn-accent" type="submit">Add</button>
+</form>
+<% } %>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>When</th><th>Show</th><th>Where</th><th>Prices</th><th></th></tr></thead>
+    <tbody>
+      <% rows.forEach(function(r){ %>
+        <tr>
+          <td><%= formatDateTime(r.starts_at) %></td>
+          <td><%= r.title %></td>
+          <td><%= r.venue_name %> · <%= r.screen_name %></td>
+          <td><%= money(r.price_regular) %> / <%= money(r.price_premium) %> / <%= money(r.price_vip) %></td>
+          <td>
+            <form method="post" action="/manage/showtimes/<%= r.id %>" onsubmit="return confirm('Delete?')">
+              <button class="btn btn-ghost" name="action" value="delete">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/panel-shell-end') %>

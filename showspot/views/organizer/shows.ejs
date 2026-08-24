@@ -1,0 +1,64 @@
+<%- include('../partials/panel-shell-start', { area: 'organizer', title: title }) %>
+<h1>My shows</h1>
+<form class="card stack-form" method="post" action="/manage/shows" enctype="multipart/form-data">
+  <h3>New listing</h3>
+  <div class="form-row">
+    <label>Title <input name="title" required></label>
+    <label>Type
+      <select name="type">
+        <option value="event">Event</option>
+        <option value="movie">Movie</option>
+        <option value="sports">Sports</option>
+        <option value="play">Play</option>
+      </select>
+    </label>
+    <label>Language <input name="language"></label>
+    <label>Genre <input name="genre"></label>
+    <label>Duration (min) <input type="number" name="duration_min"></label>
+    <label>Age rating <input name="age_rating"></label>
+    <label>Date <input type="date" name="release_date"></label>
+    <label>Status
+      <select name="status">
+        <option value="published">Published</option>
+        <option value="draft">Draft</option>
+      </select>
+    </label>
+    <label>Poster <input type="file" name="poster" accept="image/*"></label>
+  </div>
+  <label>Synopsis <textarea name="synopsis" rows="3"></textarea></label>
+  <button class="btn btn-accent" type="submit">Publish</button>
+</form>
+<div class="card-grid">
+  <% items.forEach(function(s){ %>
+    <article class="card show-edit">
+      <img src="<%= posterUrl(s) %>" alt="">
+      <form method="post" action="/manage/shows/<%= s.id %>" enctype="multipart/form-data" class="stack-form compact">
+        <input name="title" value="<%= s.title %>">
+        <select name="type">
+          <% ['movie','event','sports','play'].forEach(function(t){ %>
+            <option value="<%= t %>" <%= s.type===t?'selected':'' %>><%= t %></option>
+          <% }) %>
+        </select>
+        <textarea name="synopsis" rows="3"><%= s.synopsis || '' %></textarea>
+        <input name="language" value="<%= s.language || '' %>" placeholder="Language">
+        <input name="genre" value="<%= s.genre || '' %>" placeholder="Genre">
+        <input type="number" name="duration_min" value="<%= s.duration_min || '' %>" placeholder="Minutes">
+        <input name="age_rating" value="<%= s.age_rating || '' %>" placeholder="Rating">
+        <input type="date" name="release_date" value="<%= toInputDate(s.release_date) %>">
+        <select name="status">
+          <% ['published','draft','ended'].forEach(function(st){ %>
+            <option value="<%= st %>" <%= s.status===st?'selected':'' %>><%= st %></option>
+          <% }) %>
+        </select>
+        <input type="file" name="poster" accept="image/*">
+        <div class="row-actions">
+          <button class="btn btn-accent" type="submit">Save</button>
+        </div>
+      </form>
+      <form method="post" action="/manage/shows/<%= s.id %>" onsubmit="return confirm('Delete this show?')">
+        <button class="btn btn-ghost" name="action" value="delete">Delete</button>
+      </form>
+    </article>
+  <% }) %>
+</div>
+<%- include('../partials/panel-shell-end') %>

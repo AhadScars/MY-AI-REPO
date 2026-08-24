@@ -1,0 +1,56 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="wrap page-head slim">
+  <div>
+    <p class="eyebrow"><%= showtime.venue_name %> · <%= showtime.screen_name %></p>
+    <h1><%= showtime.title %></h1>
+    <p class="muted"><%= formatDateTime(showtime.starts_at) %> · <%= showtime.city_name %></p>
+  </div>
+</section>
+
+<%- include('partials/flash') %>
+
+<form class="seat-page wrap" method="post" action="/book/<%= showtime.id %>" id="seat-form">
+  <input type="hidden" name="seats" id="seat-values" value="">
+  <div class="seat-stage">
+    <div class="screen-curve">SCREEN</div>
+    <div class="seat-map" data-max="<%= config.maxSeats %>">
+      <% layout.forEach(function(row){ %>
+        <div class="seat-row">
+          <span class="row-label"><%= row.letter %></span>
+          <% row.seats.forEach(function(seat){ %>
+            <% if (seat.type === 'aisle') { %>
+              <span class="aisle"></span>
+            <% } else { %>
+              <button type="button"
+                class="seat seat-<%= seat.category %> <%= seat.taken ? 'is-taken' : '' %>"
+                data-label="<%= seat.label %>"
+                data-price="<%= seat.price %>"
+                data-category="<%= seat.category %>"
+                <%= seat.taken ? 'disabled' : '' %>
+                title="<%= seat.label %> · <%= seat.category %> · <%= money(seat.price) %>"><%= seat.label.replace(/^[A-Z]+/, '') %></button>
+            <% } %>
+          <% }) %>
+        </div>
+      <% }) %>
+    </div>
+    <div class="legend">
+      <span><i class="swatch regular"></i> Regular <%= money(showtime.price_regular) %></span>
+      <span><i class="swatch premium"></i> Premium <%= money(showtime.price_premium) %></span>
+      <span><i class="swatch vip"></i> Recliner <%= money(showtime.price_vip) %></span>
+      <span><i class="swatch taken"></i> Taken</span>
+      <span><i class="swatch selected"></i> Selected</span>
+    </div>
+  </div>
+  <aside class="seat-summary card">
+    <h3>Your seats</h3>
+    <p id="seat-list" class="muted">Tap seats on the map. Max <%= config.maxSeats %>.</p>
+    <p class="sum-line">Subtotal <strong id="seat-sub"> <%= config.currencySymbol %>0.00</strong></p>
+    <p class="muted tiny">Convenience fee <%= config.feePercent %>% added at checkout. Seats are held for <%= config.holdMinutes %> minutes.</p>
+    <button class="btn btn-accent btn-block" type="submit" id="seat-go" disabled>Continue</button>
+  </aside>
+</form>
+
+<% extraJs = '/js/seats.js'; %>
+<%- include('partials/footer') %>

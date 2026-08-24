@@ -1,0 +1,159 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>Rail Enquiry · Spot Your Train</title>
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='10' fill='%230c3b78'/%3E%3Cpath d='M12 38h40v6H12z' fill='%23f4c430'/%3E%3Crect x='16' y='18' width='32' height='18' rx='3' fill='%23fff'/%3E%3Ccircle cx='22' cy='44' r='5' fill='%23111'/%3E%3Ccircle cx='42' cy='44' r='5' fill='%23111'/%3E%3C/svg%3E" />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Noto+Sans:wght@400;500;600;700&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" />
+  <link rel="stylesheet" href="css/styles.css" />
+</head>
+<body>
+  <div class="tricolor" aria-hidden="true"></div>
+
+  <header class="topbar">
+    <div class="brand">
+      <div class="emblem" aria-hidden="true">
+        <svg viewBox="0 0 48 48" width="42" height="42">
+          <circle cx="24" cy="24" r="23" fill="#0b3d78" stroke="#f4c430" stroke-width="2"/>
+          <path d="M10 30h28v4H10z" fill="#f4c430"/>
+          <rect x="13" y="16" width="22" height="13" rx="2.5" fill="#fff"/>
+          <rect x="16" y="19" width="6" height="5" fill="#0b3d78"/>
+          <rect x="26" y="19" width="6" height="5" fill="#0b3d78"/>
+          <circle cx="17" cy="35" r="3.2" fill="#111"/>
+          <circle cx="31" cy="35" r="3.2" fill="#111"/>
+        </svg>
+      </div>
+      <div>
+        <p class="brand-kicker">National Train Enquiry</p>
+        <h1>Rail Enquiry</h1>
+        <p class="brand-sub">Spot your train · Live running status</p>
+      </div>
+    </div>
+    <div class="topbar-meta">
+      <div class="clock" id="clock">--</div>
+      <p class="disclaimer-chip">Unofficial demo · not Indian Railways</p>
+    </div>
+  </header>
+
+  <div class="shell">
+    <aside class="sidebar">
+      <p class="nav-label">Enquiry</p>
+      <nav>
+        <button class="nav-btn active" data-view="spot" type="button">
+          <span>Spot Your Train</span>
+          <small>स्पॉट योर ट्रेन</small>
+        </button>
+        <button class="nav-btn" data-view="schedule" type="button">
+          <span>Train Schedule</span>
+          <small>ट्रेन कार्यक्रम</small>
+        </button>
+        <button class="nav-btn" data-view="between" type="button">
+          <span>Trains Between Stations</span>
+          <small>स्टेशनों के बीच ट्रेनें</small>
+        </button>
+      </nav>
+      <div class="sidebar-note">
+        Enter a train number or name. The running service is selected first so the map can show live location.
+      </div>
+    </aside>
+
+    <main class="main">
+      <section id="view-spot" class="view">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Spot Your Train</h2>
+            <p>Type a 5-digit train number or a name such as <em>Rajdhani</em> or <em>Shatabdi</em>.</p>
+          </div>
+          <form id="spot-form" class="search-form" autocomplete="off">
+            <div class="field grow suggest-wrap">
+              <label for="train-query">Train number / name</label>
+              <input id="train-query" name="query" maxlength="40" placeholder="e.g. 12301 or Rajdhani" />
+              <ul id="suggest" class="suggest" hidden></ul>
+            </div>
+            <div class="field">
+              <label for="start-date">Start date</label>
+              <select id="start-date" name="date">
+                <option value="">Select train first</option>
+              </select>
+            </div>
+            <button class="go-btn" type="submit">Get Status</button>
+          </form>
+          <div class="quick-row">
+            <span>Try:</span>
+            <button type="button" class="chip" data-train="12301">12301 Rajdhani</button>
+            <button type="button" class="chip" data-train="12951">12951 Mumbai Rajdhani</button>
+            <button type="button" class="chip" data-train="12002">12002 Bhopal Shatabdi</button>
+            <button type="button" class="chip" data-train="12627">12627 Karnataka Exp</button>
+          </div>
+        </div>
+        <div id="spot-result" class="result-area"></div>
+      </section>
+
+      <section id="view-schedule" class="view hidden">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Train Schedule</h2>
+            <p>Full public timetable: stops, arrival, departure, distance and running days.</p>
+          </div>
+          <form id="schedule-form" class="search-form" autocomplete="off">
+            <div class="field grow suggest-wrap">
+              <label for="schedule-query">Train number / name</label>
+              <input id="schedule-query" maxlength="40" placeholder="e.g. 12301 or Duronto" />
+              <ul id="schedule-suggest" class="suggest" hidden></ul>
+            </div>
+            <button class="go-btn" type="submit">Get Schedule</button>
+          </form>
+        </div>
+        <div id="schedule-result" class="result-area"></div>
+      </section>
+
+      <section id="view-between" class="view hidden">
+        <div class="panel">
+          <div class="panel-head">
+            <h2>Trains Between Stations</h2>
+            <p>Find direct trains. Use a station code such as NDLS, HWH, CSMT or MAS.</p>
+          </div>
+          <form id="between-form" class="search-form" autocomplete="off">
+            <div class="field grow suggest-wrap">
+              <label for="from-station">From</label>
+              <input id="from-station" maxlength="40" placeholder="NDLS or New Delhi" />
+              <ul id="from-suggest" class="suggest" hidden></ul>
+            </div>
+            <button id="swap-stations" class="swap-btn" type="button" title="Swap stations">⇄</button>
+            <div class="field grow suggest-wrap">
+              <label for="to-station">To</label>
+              <input id="to-station" maxlength="40" placeholder="HWH or Howrah" />
+              <ul id="to-suggest" class="suggest" hidden></ul>
+            </div>
+            <button class="go-btn" type="submit">Find Trains</button>
+          </form>
+          <div class="quick-row">
+            <span>Routes:</span>
+            <button type="button" class="chip" data-from="NDLS" data-to="HWH">NDLS → HWH</button>
+            <button type="button" class="chip" data-from="CSMT" data-to="NDLS">CSMT → NDLS</button>
+            <button type="button" class="chip" data-from="SBC" data-to="MAS">SBC → MAS</button>
+          </div>
+        </div>
+        <div id="between-result" class="result-area"></div>
+      </section>
+    </main>
+  </div>
+
+  <footer class="footer">
+    <p>
+      Demo enquiry page inspired by
+      <a href="https://enquiry.indianrail.gov.in/mntes/" target="_blank" rel="noopener">NTES</a>.
+      Live data is fetched from a public unofficial railway API and may change.
+      Always confirm on official Indian Railways / RailOne / NTES before travel.
+    </p>
+  </footer>
+
+  <script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js"></script>
+  <script src="js/stations.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

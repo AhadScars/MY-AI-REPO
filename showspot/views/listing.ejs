@@ -1,0 +1,22 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<section class="wrap page-head">
+  <h1><%= heading %></h1>
+  <form class="inline-search" action="<%= type === 'movie' ? '/movies' : type === 'event' ? '/events' : type === 'sports' ? '/sports' : type === 'play' ? '/plays' : '/search' %>" method="get">
+    <input type="search" name="q" value="<%= q %>" placeholder="Filter by title, genre, language">
+    <button class="btn btn-accent" type="submit">Search</button>
+  </form>
+</section>
+
+<section class="wrap section">
+  <% if (!items.length) { %>
+    <p class="empty">Nothing on the board for that. Try another city or search.</p>
+  <% } else { %>
+    <div class="card-grid">
+      <% items.forEach(function(item){ %><%- include('partials/show-card', { item }) %><% }) %>
+    </div>
+  <% } %>
+</section>
+
+<%- include('partials/footer') %>

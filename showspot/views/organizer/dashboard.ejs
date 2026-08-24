@@ -1,0 +1,26 @@
+<%- include('../partials/panel-shell-start', { area: 'organizer', title: title }) %>
+<h1>Theatre desk</h1>
+<div class="stat-grid">
+  <div class="stat"><span>Your events</span><strong><%= stats.shows %></strong></div>
+  <div class="stat"><span>Theatres</span><strong><%= stats.venues %></strong></div>
+  <div class="stat"><span>Tickets sold</span><strong><%= stats.tickets %></strong></div>
+  <div class="stat"><span>Revenue</span><strong><%= money(stats.revenue) %></strong></div>
+</div>
+<h2>Upcoming showtimes</h2>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>When</th><th>Show</th><th>Venue</th><th>From</th></tr></thead>
+    <tbody>
+      <% upcoming.forEach(function(r){ %>
+        <tr>
+          <td><%= formatDateTime(r.starts_at) %></td>
+          <td><%= r.title %></td>
+          <td><%= r.venue_name %> · <%= r.screen_name %></td>
+          <td><%= money(r.price_regular) %></td>
+        </tr>
+      <% }) %>
+      <% if (!upcoming.length) { %><tr><td colspan="4">No upcoming times. Add one under Showtimes.</td></tr><% } %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/panel-shell-end') %>

@@ -1,0 +1,54 @@
+<%- include('../partials/panel-shell-start', { area: 'organizer', title: title }) %>
+<h1>Your theatre</h1>
+<p class="muted">Each organiser operates a single theatre. Add screens inside it — you cannot list a second property.</p>
+<% if (canCreate) { %>
+<form class="card stack-form" method="post" action="/manage/venues">
+  <h3>Register theatre</h3>
+  <div class="form-row">
+    <label>Theatre name <input name="name" required placeholder="Aetherplex Z Square"></label>
+    <label>City
+      <select name="city_id" required>
+        <% cities.forEach(function(c){ %><option value="<%= c.id %>" <%= city && city.id===c.id ? 'selected' : '' %>><%= c.name %>, <%= c.state || '' %></option><% }) %>
+      </select>
+    </label>
+    <label>Address <input name="address" placeholder="Mall, area, city"></label>
+    <label>Amenities <input name="amenities" placeholder="Dolby Atmos, Recliners, Parking"></label>
+    <label>First screen <input name="screen_name" value="Audi 1"></label>
+    <label>Rows <input type="number" name="row_count" value="10"></label>
+    <label>Seats per row <input type="number" name="col_count" value="14"></label>
+  </div>
+  <button class="btn btn-accent" type="submit">Save theatre</button>
+</form>
+<% } %>
+<% venues.forEach(function(v){ %>
+  <article class="card stack-form">
+    <form method="post" action="/manage/venues/<%= v.id %>">
+      <div class="form-row">
+        <label>Theatre name <input name="name" value="<%= v.name %>"></label>
+        <label>City
+          <select name="city_id">
+            <% cities.forEach(function(c){ %><option value="<%= c.id %>" <%= c.id===v.city_id?'selected':'' %>><%= c.name %></option><% }) %>
+          </select>
+        </label>
+        <label>Address <input name="address" value="<%= v.address || '' %>"></label>
+        <label>Amenities <input name="amenities" value="<%= (parseJson(v.amenities, []) || []).join(', ') %>"></label>
+        <label>Status
+          <select name="status">
+            <option value="active" <%= v.status==='active'?'selected':'' %>>active</option>
+            <option value="inactive" <%= v.status==='inactive'?'selected':'' %>>inactive</option>
+          </select>
+        </label>
+      </div>
+      <p class="muted"><%= v.screen_count %> screen<%= v.screen_count === 1 ? '' : 's' %> · <%= v.city_name %></p>
+      <button class="btn btn-ghost" type="submit">Save</button>
+    </form>
+    <form method="post" action="/manage/venues/<%= v.id %>" class="form-row">
+      <input type="hidden" name="action" value="add-screen">
+      <label>Add screen <input name="screen_name" placeholder="Audi 2"></label>
+      <label>Rows <input type="number" name="row_count" value="10"></label>
+      <label>Cols <input type="number" name="col_count" value="14"></label>
+      <button class="btn btn-accent" type="submit">Add screen</button>
+    </form>
+  </article>
+<% }) %>
+<%- include('../partials/panel-shell-end') %>

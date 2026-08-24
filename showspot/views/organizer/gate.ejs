@@ -1,0 +1,79 @@
+<%- include('../partials/panel-shell-start', { area: 'organizer', title: title }) %>
+<h1>Gate scan</h1>
+<p class="muted">Point a phone camera at the guest QR, or type the booking reference (SS-XXXX).</p>
+
+<div class="gate-grid">
+  <div class="card stack-form">
+    <div id="qr-reader"></div>
+    <p class="muted tiny" id="qr-hint">Allow camera access on this device, or use the box below.</p>
+    <form method="post" action="/manage/gate">
+      <label>Booking reference
+        <input name="ref" value="<%= lookup || '' %>" placeholder="SS-ABCD1234" autocomplete="off" required>
+      </label>
+      <button class="btn btn-accent" type="submit">Look up</button>
+    </form>
+  </div>
+
+  <div class="card gate-result">
+    <% if (!result) { %>
+      <p class="muted">Waiting for a ticket…</p>
+    <% } else if (result.kind === 'missing') { %>
+      <p class="pill pill-cancelled">Not found</p>
+      <h2><%= result.ref %></h2>
+      <p>No ticket with that code.</p>
+    <% } else if (result.kind === 'wrong_theatre') { %>
+      <p class="pill pill-cancelled">Wrong theatre</p>
+      <h2><%= result.booking.title %></h2>
+      <p>This ticket is for <strong><%= result.booking.venue_name %></strong>, not your hall.</p>
+    <% } else if (result.kind === 'invalid') { %>
+      <p class="pill pill-held"><%= result.booking.status %></p>
+      <h2><%= result.booking.title %></h2>
+      <p>This booking is not a paid ticket.</p>
+    <% } else if (result.kind === 'already') { %>
+      <p class="pill pill-held">Already admitted</p>
+      <h2><%= result.booking.title %></h2>
+      <p class="ref"><%= result.booking.booking_ref %></p>
+      <p><%= result.booking.user_name %> · <%= result.booking.seats.map(function(s){ return s.label; }).join(', ') %></p>
+      <p class="muted">Checked in <%= formatDateTime(result.booking.checked_in_at) %></p>
+    <% } else if (result.kind === 'ready') { %>
+      <p class="pill pill-confirmed">Valid ticket</p>
+      <h2><%= result.booking.title %></h2>
+      <p class="ref"><%= result.booking.booking_ref %></p>
+      <p><%= formatDateTime(result.booking.starts_at) %></p>
+      <p><%= result.booking.venue_name %> · <%= result.booking.screen_name %></p>
+      <p class="seats"><%= result.booking.seats.map(function(s){ return s.label; }).join('  ·  ') %></p>
+      <p><%= result.booking.user_name %><% if (result.booking.user_phone) { %> · <%= result.booking.user_phone %><% } %></p>
+      <form method="post" action="/manage/gate/<%= result.booking.booking_ref %>">
+        <button class="btn btn-accent btn-block" type="submit">Admit guest</button>
+      </form>
+    <% } %>
+  </div>
+</div>
+
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<script>
+(function () {
+  var box = document.getElementById('qr-reader');
+  if (!box || typeof Html5Qrcode === 'undefined') return;
+  var scanner = new Html5Qrcode('qr-reader');
+  function go(text) {
+    var match = String(text).match(/\/manage\/gate\/([^/?#]+)/i);
+    var ref = match ? decodeURIComponent(match[1]) : (String(text).toUpperCase().match(/SS-[A-Z0-9]+/) || [''])[0];
+    if (!ref) return;
+    scanner.stop().catch(function () {});
+    window.location.href = '/manage/gate/' + encodeURIComponent(ref);
+  }
+  Html5Qrcode.getCameras().then(function (cams) {
+    if (!cams || !cams.length) return;
+    return scanner.start(
+      { facingMode: 'environment' },
+      { fps: 8, qrbox: { width: 220, height: 220 } },
+      go
+    );
+  }).catch(function () {
+    var hint = document.getElementById('qr-hint');
+    if (hint) hint.textContent = 'Camera not available. Type the booking reference.';
+  });
+})();
+</script>
+<%- include('../partials/panel-shell-end') %>

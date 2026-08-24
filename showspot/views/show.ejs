@@ -1,0 +1,84 @@
+<%- include('partials/head') %>
+<%- include('partials/header') %>
+
+<article class="show-hero">
+  <div class="show-hero-bg" style="background-image:url('<%= bannerUrl(show) %>')"></div>
+  <div class="wrap show-hero-inner">
+    <img class="show-poster" src="<%= posterUrl(show) %>" alt="<%= show.title %>">
+    <div>
+      <p class="eyebrow"><%= typeSingular(show.type) %> · <%= city ? city.name : '' %></p>
+      <h1><%= show.title %></h1>
+      <p class="meta-line">
+        <%= show.genre || '' %>
+        <% if (show.language) { %> · <%= show.language %><% } %>
+        <% if (show.duration_min) { %> · <%= show.duration_min %> min<% } %>
+        <% if (show.age_rating) { %> · <%= show.age_rating %><% } %>
+      </p>
+      <% if (show.avg_rating) { %><p class="rating">★ <%= show.avg_rating %> from <%= show.review_count %> reviews</p><% } %>
+      <p class="synopsis"><%= show.synopsis %></p>
+    </div>
+  </div>
+</article>
+
+<section class="wrap section" id="showtimes">
+  <div class="section-head">
+    <h2>Showtimes in <%= city ? city.name : 'your city' %></h2>
+  </div>
+  <% if (!byVenue.length) { %>
+    <p class="empty">No upcoming times in this city.
+      <% if (otherCities && otherCities.length) { %>
+        Also playing in <%= otherCities.map(c => c.name).join(', ') %>. Switch city from the header.
+      <% } %>
+    </p>
+  <% } %>
+  <% byVenue.forEach(function(v){ %>
+    <div class="venue-block">
+      <div>
+        <h3><%= v.venue_name %></h3>
+        <p class="muted"><%= v.venue_address %> · <%= v.city_name %></p>
+      </div>
+      <div class="time-pills">
+        <% v.times.forEach(function(t){ %>
+          <a class="time-pill" href="/book/<%= t.id %>">
+            <strong><%= formatTime(t.starts_at) %></strong>
+            <span><%= formatDate(t.starts_at) %></span>
+            <em>from <%= money(t.price_regular) %></em>
+          </a>
+        <% }) %>
+      </div>
+    </div>
+  <% }) %>
+</section>
+
+<section class="wrap section" id="reviews">
+  <div class="section-head"><h2>Reviews</h2></div>
+  <% if (user) { %>
+    <form class="review-form card" method="post" action="/show/<%= show.slug %>/reviews">
+      <label>Your rating
+        <select name="rating">
+          <% for (let i = 5; i >= 1; i--) { %>
+            <option value="<%= i %>" <%= userReview && userReview.rating === i ? 'selected' : '' %>><%= i %> star<%= i>1?'s':'' %></option>
+          <% } %>
+        </select>
+      </label>
+      <label class="grow">Comment
+        <input type="text" name="comment" maxlength="800" value="<%= userReview ? userReview.comment : '' %>" placeholder="How was it?">
+      </label>
+      <button class="btn btn-accent" type="submit"><%= userReview ? 'Update' : 'Post' %></button>
+    </form>
+  <% } else { %>
+    <p class="muted"><a href="/login">Sign in</a> to leave a review.</p>
+  <% } %>
+  <div class="review-list">
+    <% reviews.forEach(function(r){ %>
+      <article class="review-item">
+        <strong><%= r.user_name %></strong>
+        <span class="rating">★ <%= r.rating %></span>
+        <p><%= r.comment %></p>
+      </article>
+    <% }) %>
+    <% if (!reviews.length) { %><p class="muted">No reviews yet.</p><% } %>
+  </div>
+</section>
+
+<%- include('partials/footer') %>

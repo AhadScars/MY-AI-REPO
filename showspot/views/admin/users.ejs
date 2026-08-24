@@ -1,0 +1,59 @@
+<%- include('../partials/panel-shell-start', { area: 'admin', title: title }) %>
+<div class="panel-head">
+  <h1>Users</h1>
+  <form class="inline-search" method="get"><input name="q" value="<%= q %>" placeholder="Search name or email"><button class="btn btn-ghost" type="submit">Find</button></form>
+</div>
+<form class="card stack-form compact" method="post" action="/admin/users">
+  <h3>Create user</h3>
+  <div class="form-row">
+    <label>Name <input name="name" required></label>
+    <label>Email <input type="email" name="email" required></label>
+    <label>Password <input name="password" required></label>
+    <label>Phone <input name="phone"></label>
+    <label>Role
+      <select name="role">
+        <option value="user">User</option>
+        <option value="organizer">Organizer</option>
+        <option value="admin">Admin</option>
+      </select>
+    </label>
+    <button class="btn btn-accent" type="submit">Add</button>
+  </div>
+</form>
+<div class="table-wrap">
+  <table>
+    <thead><tr><th>Name</th><th>Email</th><th>Role</th><th>Status</th><th></th></tr></thead>
+    <tbody>
+      <% users.forEach(function(u){ %>
+        <tr>
+          <td><%= u.name %></td>
+          <td><%= u.email %></td>
+          <td>
+            <form method="post" action="/admin/users/<%= u.id %>" class="inline">
+              <select name="role" onchange="this.form.submit()">
+                <option value="user" <%= u.role==='user'?'selected':'' %>>User</option>
+                <option value="organizer" <%= u.role==='organizer'?'selected':'' %>>Organizer</option>
+                <option value="admin" <%= u.role==='admin'?'selected':'' %>>Admin</option>
+              </select>
+            </form>
+          </td>
+          <td>
+            <form method="post" action="/admin/users/<%= u.id %>" class="inline">
+              <select name="status" onchange="this.form.submit()">
+                <option value="active" <%= u.status==='active'?'selected':'' %>>Active</option>
+                <option value="pending" <%= u.status==='pending'?'selected':'' %>>Pending</option>
+                <option value="suspended" <%= u.status==='suspended'?'selected':'' %>>Suspended</option>
+              </select>
+            </form>
+          </td>
+          <td>
+            <form method="post" action="/admin/users/<%= u.id %>" onsubmit="return confirm('Delete this user?')">
+              <button class="btn btn-ghost" name="action" value="delete">Delete</button>
+            </form>
+          </td>
+        </tr>
+      <% }) %>
+    </tbody>
+  </table>
+</div>
+<%- include('../partials/panel-shell-end') %>

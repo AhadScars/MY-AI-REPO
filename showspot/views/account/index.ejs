@@ -1,0 +1,82 @@
+<%- include('../partials/head') %>
+<%- include('../partials/header') %>
+
+<section class="wrap page-head">
+  <div>
+    <p class="eyebrow"><%= user.role %></p>
+    <h1>Hello, <%= user.name.split(' ')[0] %></h1>
+  </div>
+  <form method="post" action="/logout"><button class="btn btn-ghost" type="submit">Sign out</button></form>
+</section>
+
+<%- include('../partials/flash') %>
+
+<section class="wrap account-grid">
+  <div>
+    <h2>Bookings</h2>
+    <% if (!bookings.length) { %><p class="empty">No tickets yet. <a href="/movies">Find a show</a>.</p><% } %>
+    <div class="stack">
+      <% bookings.forEach(function(b){ %>
+        <article class="card booking-row">
+          <img src="<%= posterUrl(b) %>" alt="">
+          <div>
+            <p class="ref"><%= b.booking_ref %></p>
+            <h3><a href="/account/bookings/<%= b.id %>"><%= b.title %></a></h3>
+            <p class="muted"><%= formatDateTime(b.starts_at) %> · <%= b.venue_name %>, <%= b.city_name %></p>
+            <p>
+              <span class="pill pill-<%= b.status %>"><%= b.status %></span>
+              <% if (b.checked_in_at) { %><span class="pill pill-confirmed">Admitted</span><% } %>
+              <%= money(b.total) %>
+            </p>
+          </div>
+          <% if (b.status === 'held' || (b.status === 'confirmed' && new Date(b.starts_at) > new Date())) { %>
+            <form method="post" action="/account/bookings/<%= b.id %>/cancel" onsubmit="return confirm('Cancel this booking?')">
+              <button class="btn btn-ghost" type="submit">Cancel</button>
+            </form>
+          <% } %>
+        </article>
+      <% }) %>
+    </div>
+  </div>
+  <aside>
+    <form class="card stack-form" method="post" action="/account/profile">
+      <h3>Profile</h3>
+      <label>Name <input name="name" value="<%= user.name %>" required></label>
+      <label>Phone <input name="phone" value="<%= user.phone || '' %>"></label>
+      <label>Home city
+        <select name="city_id">
+          <option value="">—</option>
+          <% cities.forEach(function(c){ %>
+            <option value="<%= c.id %>" <%= user.city_id === c.id ? 'selected' : '' %>><%= c.name %></option>
+          <% }) %>
+        </select>
+      </label>
+      <button class="btn btn-accent" type="submit">Save</button>
+    </form>
+    <form class="card stack-form" method="post" action="/account/password">
+      <h3>Password</h3>
+      <label>Current <input type="password" name="current" required></label>
+      <label>New <input type="password" name="next" minlength="6" required></label>
+      <button class="btn btn-ghost" type="submit">Change password</button>
+    </form>
+    <% if (user.role === 'user') { %>
+      <form class="card stack-form" method="post" action="/account/apply-organizer">
+        <h3>List your theatre</h3>
+        <p class="muted tiny">One theatre per organiser. After approval you manage screens and showtimes only for that property.</p>
+        <% if (application && application.status === 'pending') { %>
+          <p class="muted">Application pending review.</p>
+        <% } else if (application && application.status === 'approved') { %>
+          <p class="muted">Approved. Sign out and back in if you do not see the organizer desk.</p>
+        <% } else { %>
+          <label>Company <input name="company" required></label>
+          <label>Why <textarea name="message" rows="3"></textarea></label>
+          <button class="btn btn-accent" type="submit">Apply</button>
+        <% } %>
+      </form>
+    <% } %>
+    <% if (user.role === 'admin') { %><a class="btn btn-accent btn-block" href="/admin">Open admin</a><% } %>
+    <% if (user.role === 'organizer' || user.role === 'admin') { %><a class="btn btn-ghost btn-block" href="/manage">Open organizer desk</a><% } %>
+  </aside>
+</section>
+
+<%- include('../partials/footer') %>
