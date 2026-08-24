@@ -25,8 +25,12 @@ let selectedTrain = null;
 let searchTimer = null;
 let activeSuggest = -1;
 let liveMap = null;
+let trainMarker = null;
 let lastLiveQuery = null;
+let lastLiveData = null;
 let refreshTimer = null;
+let sliderTick = null;
+let isScrubbing = false;
 
 function tickClock() {
   const now = new Date();
@@ -205,10 +209,16 @@ function destroyMap() {
     clearInterval(refreshTimer);
     refreshTimer = null;
   }
+  if (sliderTick) {
+    clearInterval(sliderTick);
+    sliderTick = null;
+  }
   if (liveMap) {
     liveMap.remove();
     liveMap = null;
   }
+  trainMarker = null;
+  isScrubbing = false;
 }
 
 function yearFromStamp(stamp) {
@@ -301,40 +311,255 @@ function routeLatLngs(data) {
     .filter((pair) => Number.isFinite(pair[0]) && Number.isFinite(pair[1]));
 }
 
-function estimateTrainLatLng(data) {
-  const stops = data.stops || [];
-  const route = routeLatLngs(data);
-  const current = latLngOf(data.current_position && data.current_position.coordinates);
-  const last = stops[stops.length - 1];
-  const stillRunning = stops.some((stop) => stop.status === "upcoming");
-  if (last && !stillRunning) {
-    return latLngOf(last.coordinates) || current || route[route.length - 1] || null;
-  }
+function numericKm(stop) {
+  const value = Number(stop && stop.distance_km);
+  return Number.isFinite(value) ? value : null;
+}
 
+function stopsWithKm(stops) {
+  let lastKm = 0;
+  return (stops || []).map((stop, index) => {
+    const known = numericKm(stop);
+    const km = known == null ? (index === 0 ? 0 : lastKm) : known;
+    lastKm = km;
+    return { stop, index, km };
+  });
+}
+
+function fallbackLatLng(item, route, which) {
+  const coords = latLngOf(item && item.stop && item.stop.coordinates);
+  if (coords) return coords;
+  if (!route.length) return null;
+  return which === "end" ? route[route.length - 1] : route[0];
+}
+
+function latLngAtKm(data, km) {
+  const route = routeLatLngs(data);
+  const marked = stopsWithKm(data.stops || []);
+  if (!marked.length) return latLngOf(data.current_position && data.current_position.coordinates);
+  const total = marked[marked.length - 1].km;
+  const target = Math.min(total, Math.max(0, km));
+  let from = marked[0];
+  let to = marked[marked.length - 1];
+  for (let i = 0; i < marked.length - 1; i += 1) {
+    if (target >= marked[i].km && target <= marked[i + 1].km) {
+      from = marked[i];
+      to = marked[i + 1];
+      break;
+    }
+  }
+  const span = (to.km - from.km) || 1;
+  const progress = (target - from.km) / span;
+  const a = fallbackLatLng(from, route, "start") || latLngOf(data.current_position && data.current_position.coordinates);
+  const b = fallbackLatLng(to, route, "end") || a;
+  if (!a) return b;
+  if (!b) return a;
+  return pointAlongRoute(route, a, b, progress) || a;
+}
+
+function journeyState(data) {
+  const stops = data.stops || [];
+  const marked = stopsWithKm(stops);
+  const totalKm = marked.length ? marked[marked.length - 1].km : 0;
+  const year = yearFromStamp(data.date);
   const departedIndex = [...stops].map((stop) => stop.status).lastIndexOf("departed");
   const nextIndex = stops.findIndex((stop) => stop.status === "upcoming" || stop.status === "arrived");
+
+  let km = 0;
+  let segmentProgress = 0;
+  let fromItem = marked[0] || null;
+  let toItem = marked[marked.length - 1] || null;
+  let etaMs = null;
+
+  if (!marked.length) {
+    return { percent: 0, km: 0, totalKm: 0, remainingKm: 0, segmentProgress: 0, fromItem, toItem, departedIndex, nextIndex, marked, latlng: null, etaMs };
+  }
+
   if (departedIndex < 0) {
-    return latLngOf(stops[0] && stops[0].coordinates) || current || route[0] || null;
+    km = 0;
+    toItem = marked[1] || marked[0];
+  } else if (nextIndex < 0 || departedIndex >= marked.length - 1) {
+    km = totalKm;
+    segmentProgress = 1;
+    fromItem = marked[Math.max(0, marked.length - 2)];
+    toItem = marked[marked.length - 1];
+  } else {
+    fromItem = marked[departedIndex];
+    toItem = marked[nextIndex];
+    const startMs = parseTrainTime(fromItem.stop.actual_departure || fromItem.stop.scheduled_departure, year);
+    etaMs = parseTrainTime(toItem.stop.actual_arrival || toItem.stop.scheduled_arrival, year);
+    if (startMs && etaMs && etaMs > startMs) {
+      segmentProgress = (Date.now() - startMs) / (etaMs - startMs);
+    } else if (startMs && Date.now() > startMs) {
+      segmentProgress = 0.28;
+    } else {
+      segmentProgress = 0.04;
+    }
+    segmentProgress = Math.min(0.98, Math.max(0.02, segmentProgress));
+    km = fromItem.km + (toItem.km - fromItem.km) * segmentProgress;
   }
 
-  const fromStop = stops[departedIndex];
-  const toStop = nextIndex >= 0 ? stops[nextIndex] : last;
-  const from = latLngOf(fromStop && fromStop.coordinates) || current;
-  const to = latLngOf(toStop && toStop.coordinates);
-  if (!from && !to) return current || route[0] || null;
-  if (!to) return from || current;
+  const percent = totalKm > 0 ? (km / totalKm) * 100 : 0;
+  return {
+    percent,
+    km,
+    totalKm,
+    remainingKm: Math.max(0, totalKm - km),
+    segmentProgress,
+    fromItem,
+    toItem,
+    departedIndex,
+    nextIndex,
+    marked,
+    latlng: latLngAtKm(data, km),
+    etaMs,
+  };
+}
 
-  const year = yearFromStamp(data.date);
-  const startMs = parseTrainTime(fromStop.actual_departure || fromStop.scheduled_departure, year);
-  const endMs = parseTrainTime(toStop.actual_arrival || toStop.scheduled_arrival, year);
-  let progress = 0.2;
-  if (startMs && endMs && endMs > startMs) {
-    progress = (Date.now() - startMs) / (endMs - startMs);
-  } else if (startMs && Date.now() > startMs) {
-    progress = 0.28;
+function estimateTrainLatLng(data) {
+  return journeyState(data).latlng;
+}
+
+function formatKm(value) {
+  if (!Number.isFinite(value)) return "—";
+  return `${Math.round(value)} km`;
+}
+
+function formatClock(ms) {
+  if (!ms) return "—";
+  return new Intl.DateTimeFormat("en-IN", {
+    timeZone: "Asia/Kolkata",
+    hour: "2-digit",
+    minute: "2-digit",
+    hour12: false,
+  }).format(new Date(ms));
+}
+
+function formatRemain(ms) {
+  if (!ms) return "—";
+  const seconds = Math.round((ms - Date.now()) / 1000);
+  if (seconds <= 0) return "due";
+  const hours = Math.floor(seconds / 3600);
+  const minutes = Math.floor((seconds % 3600) / 60);
+  return hours ? `${hours}h ${minutes}m` : `${minutes} min`;
+}
+
+function nearestStationLabel(state) {
+  if (!state.fromItem || !state.toItem) return "Location unavailable";
+  if (state.departedIndex < 0) return `At ${state.fromItem.stop.name}`;
+  if (state.nextIndex < 0) return `Arrived ${state.toItem.stop.name}`;
+  return `${state.fromItem.stop.name} → ${state.toItem.stop.name}`;
+}
+
+function applySliderVisual(state, dragging) {
+  const fill = document.getElementById("route-fill");
+  const thumb = document.getElementById("train-thumb");
+  const range = document.getElementById("route-range");
+  const kmNow = document.getElementById("stat-km");
+  const remain = document.getElementById("stat-remain");
+  const pct = document.getElementById("stat-pct");
+  const eta = document.getElementById("stat-eta");
+  const where = document.getElementById("slider-where");
+  if (fill) fill.style.width = `${state.percent}%`;
+  if (thumb) {
+    thumb.style.left = `calc(10px + (100% - 20px) * ${state.percent / 100})`;
+    thumb.classList.toggle("dragging", Boolean(dragging));
   }
-  progress = Math.min(0.95, Math.max(0.05, progress));
-  return pointAlongRoute(route, from, to, progress) || from;
+  if (range && !dragging) range.value = String(Math.round(state.percent * 100));
+  if (kmNow) kmNow.textContent = formatKm(state.km);
+  if (remain) remain.textContent = formatKm(state.remainingKm);
+  if (pct) pct.textContent = `${state.percent.toFixed(1)}%`;
+  if (eta) eta.textContent = state.etaMs ? `${formatClock(state.etaMs)} · ${formatRemain(state.etaMs)}` : "—";
+  if (where) where.textContent = nearestStationLabel(state);
+}
+
+function stateFromPercent(data, percent) {
+  const marked = stopsWithKm(data.stops || []);
+  const totalKm = marked.length ? marked[marked.length - 1].km : 0;
+  const km = (Math.min(100, Math.max(0, percent)) / 100) * totalKm;
+  let fromItem = marked[0] || null;
+  let toItem = marked[marked.length - 1] || null;
+  for (let i = 0; i < marked.length - 1; i += 1) {
+    if (km >= marked[i].km && km <= marked[i + 1].km) {
+      fromItem = marked[i];
+      toItem = marked[i + 1];
+      break;
+    }
+  }
+  return {
+    percent,
+    km,
+    totalKm,
+    remainingKm: Math.max(0, totalKm - km),
+    segmentProgress: 0,
+    fromItem,
+    toItem,
+    departedIndex: fromItem ? fromItem.index : -1,
+    nextIndex: toItem ? toItem.index : -1,
+    marked,
+    latlng: latLngAtKm(data, km),
+    etaMs: null,
+  };
+}
+
+function moveTrainOnMap(latlng, label) {
+  if (!liveMap || !latlng) return;
+  if (trainMarker) {
+    trainMarker.setLatLng(latlng);
+    trainMarker.setPopupContent(label);
+  }
+  liveMap.panTo(latlng, { animate: true, duration: 0.35 });
+}
+
+function bindRouteSlider(data) {
+  const range = document.getElementById("route-range");
+  if (!range) return;
+
+  const liveState = () => journeyState(data);
+  applySliderVisual(liveState(), false);
+
+  const preview = (percent) => {
+    const state = stateFromPercent(data, percent);
+    applySliderVisual(state, true);
+    const where = document.getElementById("slider-where");
+    if (where) where.textContent = `Preview · ${formatKm(state.km)} · ${nearestStationLabel(state)}`;
+    moveTrainOnMap(
+      state.latlng,
+      `<strong>${escapeHtml(data.number)}</strong><br>Preview ${formatKm(state.km)}<br>${escapeHtml(nearestStationLabel(state))}`,
+    );
+  };
+
+  range.addEventListener("input", () => {
+    isScrubbing = true;
+    preview(Number(range.value) / 100);
+  });
+
+  range.addEventListener("change", () => {
+    isScrubbing = false;
+    const live = liveState();
+    applySliderVisual(live, false);
+    moveTrainOnMap(
+      live.latlng,
+      `<strong>${escapeHtml(data.number)} ${escapeHtml(data.name || "")}</strong><br>${escapeHtml(liveLocationLabel(data))}`,
+    );
+  });
+
+  const snap = document.getElementById("snap-live");
+  if (snap) {
+    snap.addEventListener("click", () => {
+      isScrubbing = false;
+      const live = liveState();
+      applySliderVisual(live, false);
+      moveTrainOnMap(live.latlng, `<strong>${escapeHtml(data.number)}</strong><br>${escapeHtml(liveLocationLabel(data))}`);
+    });
+  }
+
+  sliderTick = setInterval(() => {
+    if (isScrubbing || !document.getElementById("route-range")) return;
+    const live = liveState();
+    applySliderVisual(live, false);
+    if (trainMarker && live.latlng) trainMarker.setLatLng(live.latlng);
+  }, 1000);
 }
 
 function liveLocationLabel(data) {
@@ -398,7 +623,7 @@ function initLiveMap(data) {
       iconSize: [34, 34],
       iconAnchor: [17, 17],
     });
-    L.marker(trainAt, { icon, zIndexOffset: 600 })
+    trainMarker = L.marker(trainAt, { icon, zIndexOffset: 600 })
       .addTo(liveMap)
       .bindPopup(`<strong>${escapeHtml(data.number)} ${escapeHtml(data.name || "")}</strong><br>${escapeHtml(liveLocationLabel(data))}<br>${escapeHtml((data.current_position && data.current_position.delay) || "")}`)
       .openPopup();
@@ -422,14 +647,23 @@ function initLiveMap(data) {
 
 function renderLive(data) {
   destroyMap();
+  lastLiveData = data;
   const current = data.current_position || {};
   const delay = current.delay || "—";
   const departed = (data.stops || []).filter((s) => s.status === "departed").length;
   const upcoming = (data.stops || []).filter((s) => s.status === "upcoming").length;
-  const trainAt = estimateTrainLatLng(data);
+  const live = journeyState(data);
+  const trainAt = live.latlng;
   const mapsUrl = trainAt
     ? `https://www.google.com/maps?q=${trainAt[0]},${trainAt[1]}`
     : "";
+  const marks = live.marked.map((item) => {
+    const left = live.totalKm > 0 ? (item.km / live.totalKm) * 100 : 0;
+    const klass = item.index === live.nextIndex ? "next" : item.index <= live.departedIndex ? "done" : item.index === live.marked.length - 1 ? "last" : "";
+    return `<span class="route-mark ${klass}" style="left:${left}%" title="${escapeHtml(item.stop.name)} · ${formatKm(item.km)}"></span>`;
+  }).join("");
+  const startName = live.marked[0] ? live.marked[0].stop.code : "SRC";
+  const endName = live.marked.length ? live.marked[live.marked.length - 1].stop.code : "DST";
   const rows = (data.stops || [])
     .map((stop, index) => {
       const klass = stopRowClass(stop, current.code);
@@ -464,6 +698,32 @@ function renderLive(data) {
       <div class="stat"><span>Stops departed</span><b>${departed} / ${data.total_stops || (data.stops || []).length}</b></div>
       <div class="stat"><span>Stops remaining</span><b>${upcoming}</b></div>
     </div>
+    <div class="slider-card">
+      <div class="slider-head">
+        <div>
+          <h3>Exact train location</h3>
+          <p id="slider-where">${escapeHtml(nearestStationLabel(live))}</p>
+        </div>
+        <button type="button" class="map-btn" id="snap-live">Snap to live</button>
+      </div>
+      <div class="slider-stats">
+        <div class="slider-stat"><span>Covered</span><b id="stat-km">${formatKm(live.km)}</b></div>
+        <div class="slider-stat"><span>Remaining</span><b id="stat-remain">${formatKm(live.remainingKm)}</b></div>
+        <div class="slider-stat"><span>Journey</span><b id="stat-pct">${live.percent.toFixed(1)}%</b></div>
+        <div class="slider-stat"><span>ETA next stop</span><b id="stat-eta">${live.etaMs ? `${formatClock(live.etaMs)} · ${formatRemain(live.etaMs)}` : "—"}</b></div>
+      </div>
+      <div class="route-slider">
+        <div class="route-rail"><div class="route-fill" id="route-fill" style="width:${live.percent}%"></div></div>
+        <div class="route-marks">${marks}</div>
+        <div class="train-thumb" id="train-thumb" style="left:calc(10px + (100% - 20px) * ${live.percent / 100})">🚂</div>
+        <input id="route-range" type="range" min="0" max="10000" step="1" value="${Math.round(live.percent * 100)}" aria-label="Train location along route" />
+        <div class="route-labels">
+          <span class="route-label start">${escapeHtml(startName)} · 0</span>
+          <span class="route-label end">${escapeHtml(endName)} · ${Math.round(live.totalKm)}</span>
+        </div>
+      </div>
+      <p class="slider-hint">Drag the slider to scrub the exact km. Release or tap Snap to live to return to the running position.</p>
+    </div>
     <div class="map-card">
       <div class="map-toolbar">
         <div>
@@ -489,7 +749,10 @@ function renderLive(data) {
       </table>
     </div>`;
 
-  requestAnimationFrame(() => initLiveMap(data));
+  requestAnimationFrame(() => {
+    initLiveMap(data);
+    bindRouteSlider(data);
+  });
 
   const refreshBtn = document.getElementById("refresh-live");
   if (refreshBtn) {
