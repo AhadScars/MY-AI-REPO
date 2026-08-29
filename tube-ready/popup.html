@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TubeReady</title>
+    <link rel="stylesheet" href="popup.css" />
+  </head>
+  <body>
+    <div class="app">
+      <header class="top">
+        <div class="brand">
+          <img src="icons/icon32.png" alt="" width="22" height="22" />
+          <div>
+            <strong>TubeReady</strong>
+            <span>YouTube downloader</span>
+          </div>
+        </div>
+        <span class="pill" id="pill">Scanning</span>
+      </header>
+      <div class="engine" id="engine">Checking yt-dlp…</div>
+
+      <section class="empty" id="empty">
+        <div class="radar"></div>
+        <h1>Open a YouTube video</h1>
+        <p>The extension auto-detects the link and gets it ready to download.</p>
+        <form id="paste-form" class="paste">
+          <input id="url" type="url" placeholder="Or paste a YouTube link" autocomplete="off" />
+          <button type="submit">Detect</button>
+        </form>
+      </section>
+
+      <section class="video hidden" id="video">
+        <div class="hero" id="hero">
+          <span class="ready-tag" id="ready-tag">Ready to download</span>
+        </div>
+        <h2 id="title">Video title</h2>
+        <p class="meta" id="meta"></p>
+
+        <div class="label">Quality</div>
+        <div class="chips" id="chips"></div>
+
+        <button class="primary" id="download">Download video</button>
+        <button class="ghost" id="cobalt">Open working Cobalt instance</button>
+        <p class="hint" id="hint">Detected from the current YouTube tab.</p>
+      </section>
+
+      <section class="history hidden" id="history-wrap">
+        <div class="label">Recent</div>
+        <div id="history"></div>
+      </section>
+
+      <footer>
+        <a href="options.html" target="_blank" rel="noreferrer">Settings</a>
+        <span>Alt+Shift+D to download</span>
+      </footer>
+    </div>
+    <script src="detect.js"></script>
+    <script src="popup.js"></script>
+  </body>
+</html>

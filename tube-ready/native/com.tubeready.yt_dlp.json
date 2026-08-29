@@ -1,0 +1,9 @@
+{
+  "name": "com.tubeready.yt_dlp",
+  "description": "TubeReady yt-dlp helper",
+  "path": "C:\\Users\\Shoaib Qazi\\Desktop\\Ai\\tube-ready\\native\\run_host.bat",
+  "type": "stdio",
+  "allowed_origins": [
+    "chrome-extension://moocdlcjbkenfjjhahfecfahlhcggbfo/"
+  ]
+}

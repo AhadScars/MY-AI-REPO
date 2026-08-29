@@ -1,0 +1,14 @@
+[
+  {
+    "id": "tibg10",
+    "code": "TIBG10",
+    "type": "percent",
+    "value": 10,
+    "minSub": 0,
+    "maxUses": 0,
+    "used": 0,
+    "expires": "",
+    "active": true,
+    "note": "Default 10% off"
+  }
+]

@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>TubeReady settings</title>
+    <link rel="stylesheet" href="options.css" />
+  </head>
+  <body>
+    <main>
+      <header>
+        <img src="icons/icon48.png" alt="" width="36" height="36" />
+        <div>
+          <h1>TubeReady</h1>
+          <p>Auto-detect YouTube videos and get them ready to download.</p>
+        </div>
+      </header>
+
+      <section class="helper" id="helper">
+        <h2>yt-dlp helper</h2>
+        <p id="helper-status">Checking…</p>
+        <p>
+          Chrome cannot run yt-dlp itself. Double-click
+          <code>install-host.bat</code> in the TubeReady folder once, then reload the extension.
+          Videos save to <code>Downloads\TubeReady</code>.
+        </p>
+      </section>
+
+      <form id="form">
+        <label>
+          Default quality
+          <select id="quality">
+            <option value="360">360p</option>
+            <option value="480">480p</option>
+            <option value="720">720p</option>
+            <option value="1080">1080p</option>
+            <option value="max">Highest available</option>
+          </select>
+        </label>
+
+        <label>
+          Default type
+          <select id="mode">
+            <option value="video">Video</option>
+            <option value="audio">Audio only</option>
+          </select>
+        </label>
+
+        <label class="check">
+          <input id="showOverlay" type="checkbox" />
+          Show the Ready button on YouTube pages
+        </label>
+
+        <label>
+          Cobalt website (YouTube-capable instance)
+          <select id="cobaltFrontend">
+            <option value="https://cobalt.3kh0.net">cobalt.3kh0.net</option>
+            <option value="https://cobalt.canine.tools">cobalt.canine.tools</option>
+            <option value="https://cobalt.meowing.de">cobalt.meowing.de</option>
+          </select>
+        </label>
+
+        <label>
+          Custom Cobalt API (optional)
+          <input id="cobaltApi" type="url" placeholder="https://your-cobalt-instance.example" />
+        </label>
+
+        <label>
+          Cobalt API key (optional)
+          <input id="cobaltKey" type="password" placeholder="Api-Key token" />
+        </label>
+
+        <button type="submit">Save settings</button>
+        <p class="note" id="note"></p>
+      </form>
+
+      <aside>
+        <h2>How to use</h2>
+        <ol>
+          <li>Open any YouTube video or Short.</li>
+          <li>TubeReady detects the link automatically.</li>
+          <li>Click the red button on the page, or the extension icon.</li>
+          <li>Pick a quality and download.</li>
+        </ol>
+        <p>
+          Downloads use <strong>yt-dlp</strong> after you run <code>install-host.bat</code>.
+          If the helper is missing, TubeReady falls back to in-page streams or a Cobalt instance.
+        </p>
+        <p class="fine">
+          Only save videos you have the right to download — your own uploads,
+          Creative Commons, or other permitted content. YouTube’s terms still apply.
+        </p>
+      </aside>
+    </main>
+    <script src="options.js"></script>
+  </body>
+</html>

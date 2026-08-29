@@ -1,0 +1,38 @@
+[
+  {
+    "id": "how-to-clean-psu",
+    "title": "How To clean PSU",
+    "excerpt": "",
+    "body": "",
+    "cover": "assets/images/hero.jpg",
+    "date": "2026-08-28",
+    "published": true
+  },
+  {
+    "id": "how-we-spec-a-budget-pc",
+    "title": "How we spec a budget PC that will not embarrass you",
+    "excerpt": "The 1080p floor we will actually put our name on — and the corners we refuse to cut.",
+    "cover": "assets/images/pc-budget.jpg",
+    "date": "2026-08-12",
+    "published": true,
+    "body": "A budget PC is not a junk drawer. It is a machine with one job: play and work at 1080p without sounding like a leaf blower or dying in thirteen months.\n\nWe start with the power supply. Gold, named, ATX 3.1. If the unit is a mystery sticker, we will not sell the PC. That rule has lost us a few “cheaper than Amazon” quotes. We still sleep.\n\nNext is the platform. AM5 with a 9600X or a 7600 is the default because you can drop a better GPU in later without throwing the board away. 16GB of DDR5-6000 is the floor. 512GB of QLC storage is not — 1TB TLC is.\n\nThe Pulse 5 is what this process looks like when we stop talking: 9600X, RTX 5060, 16GB, 1TB, 650W Gold. It is not romantic. It is the build we send friends."
+  },
+  {
+    "id": "call-us-before-you-buy-a-5090",
+    "title": "Call us before you buy a 5090",
+    "excerpt": "The card is fine. The rest of the list usually is not. Ten minutes on the phone saves a melted 12V-2×6 and a case that cannot swallow the cooler.",
+    "cover": "assets/images/part-gpu.jpg",
+    "date": "2026-08-20",
+    "published": true,
+    "body": "We will sell you a 5090. We will not sell you a 5090 into a 750W unit, a 330mm case, or a board that shares one power phase with the RGB header.\n\nThat is why Custom Build exists. Pick the parts on the page, then tap Call the owner. Stay on the line. We will read the list back, check length, wattage, and socket, and tell you if you are about to buy a paperweight.\n\nIf you already have a list from a forum, email it or read it to us. We would rather lose a flagship card sale than RMA a toasted connector."
+  },
+  {
+    "id": "what-24-hour-burn-in-actually-means",
+    "title": "What 24-hour burn-in actually means",
+    "excerpt": "Not a sticker. A log. CPU and GPU load, a game pass, and a photo of your unit before it leaves Folsom Street.",
+    "cover": "assets/images/workshop.jpg",
+    "date": "2026-08-04",
+    "published": true,
+    "body": "Every complete PC and every Custom Build with assembly sits on the bench overnight.\n\nWe run a CPU stress, a GPU stress, then a real game. Temps, clocks, and any WHEA or driver drop go in the log. You get that log and a photo. If something is wrong, you never see the box — we fix it first.\n\nThat is the difference between a warehouse sticker and a shop. It is also why custom quotes ship in days, not hours. We will not skip the night to make a same-day promise we cannot keep."
+  }
+]

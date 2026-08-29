@@ -1,0 +1,76 @@
+{
+  "manifest_version": 3,
+  "name": "TubeReady",
+  "version": "1.2.0",
+  "key": "MIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEAvECQ9UPaZFU2/Offhh3YPFmghF/uSL8hfhfJQX3sQhdphzRdHYpXOnKqzb5OnCaTNnzgK3RQLpxdACHdpYsYT+TJQk+bM7ahlEdr2MqeDKLkDzScRCzGeoh/ak1m9B9J6TYgnp3kUnkSPnfNRUnK+3/ebrjgTJEXtdcnxGMvKQVOXjVGPuObw2D+o6k+rAs5favLUjipIzSmS3w5EXCkfxc/ozTG4DgM8kVobDcoSGoSBuGsy02WUQgNNrvMK6SjppQHx9iz83MWlf3W52rYR0MijlYXPmSBF4aomvGtuDih94byGhmMb74SxsHFt1yloBOskhQNL8Wqxtqew4gm/wIDAQAB",
+  "description": "Open YouTube and the video is auto-detected, ready to download with yt-dlp.",
+  "icons": {
+    "16": "icons/icon16.png",
+    "32": "icons/icon32.png",
+    "48": "icons/icon48.png",
+    "128": "icons/icon128.png"
+  },
+  "action": {
+    "default_title": "TubeReady — download this video",
+    "default_popup": "popup.html",
+    "default_icon": {
+      "16": "icons/icon16.png",
+      "32": "icons/icon32.png",
+      "48": "icons/icon48.png"
+    }
+  },
+  "background": {
+    "service_worker": "background.js"
+  },
+  "options_ui": {
+    "page": "options.html",
+    "open_in_tab": true
+  },
+  "permissions": [
+    "storage",
+    "downloads",
+    "tabs",
+    "contextMenus",
+    "scripting",
+    "webRequest",
+    "nativeMessaging"
+  ],
+  "host_permissions": [
+    "*://*.youtube.com/*",
+    "*://*.youtu.be/*",
+    "*://youtu.be/*",
+    "*://*.youtube-nocookie.com/*",
+    "*://*.googlevideo.com/*",
+    "*://*.ytimg.com/*",
+    "https://*/*"
+  ],
+  "content_scripts": [
+    {
+      "matches": [
+        "*://*.youtube.com/*",
+        "*://*.youtube-nocookie.com/*",
+        "*://m.youtube.com/*",
+        "*://music.youtube.com/*"
+      ],
+      "js": ["detect.js", "content.js"],
+      "run_at": "document_idle"
+    }
+  ],
+  "web_accessible_resources": [
+    {
+      "resources": ["inject.js"],
+      "matches": [
+        "*://*.youtube.com/*",
+        "*://*.youtube-nocookie.com/*"
+      ]
+    }
+  ],
+  "commands": {
+    "download-current": {
+      "suggested_key": {
+        "default": "Alt+Shift+D"
+      },
+      "description": "Download the detected YouTube video"
+    }
+  }
+}

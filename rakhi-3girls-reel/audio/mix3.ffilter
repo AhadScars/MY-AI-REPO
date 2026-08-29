@@ -1,0 +1,7 @@
+[0:a]aformat=sample_fmts=fltp:sample_rates=48000:channel_layouts=stereo,volume=1.20[vo];
+[1:a]aformat=sample_fmts=fltp:sample_rates=48000:channel_layouts=stereo,atrim=0:20.08,asetpts=PTS-STARTPTS,volume=0.52,afade=t=in:st=0:d=0.6,afade=t=out:st=18.4:d=1.6[m];
+[2:a]aformat=sample_fmts=fltp:sample_rates=48000:channel_layouts=stereo,volume=0.48,adelay=0|0,apad=pad_dur=18[ch0];
+[3:a]aformat=sample_fmts=fltp:sample_rates=48000:channel_layouts=stereo,volume=0.45,adelay=10100|10100,apad=pad_dur=8[ch1];
+[4:a]aformat=sample_fmts=fltp:sample_rates=48000:channel_layouts=stereo,volume=0.55,adelay=18200|18200[ch2];
+[vo][m][ch0][ch1][ch2]amix=inputs=5:duration=longest:dropout_transition=0:normalize=0:weights=1 0.52 0.26 0.24 0.30[mixed];
+[mixed]alimiter=limit=0.90:attack=5:release=50[aout]

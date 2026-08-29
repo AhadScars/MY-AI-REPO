@@ -1,0 +1,20 @@
+{
+  "name": "TIBGSTORE",
+  "short": "TIBG",
+  "tagline": "Rigs for every budget.",
+  "blurb": "Prebuilt gaming PCs and individual parts. Assembled in-house, stress-tested for 24 hours, then shipped ready to play.",
+  "email": "hello@tibgstore.com",
+  "phone": "9140980834",
+  "phoneHref": "tel:+14155551842",
+  "hours": "Mon–Sat, 10am–7pm",
+  "address": "101/309 Colonel Ganj, Kanpur",
+  "instagram": "https://instagram.com/tibgstore",
+  "youtube": "https://youtube.com/@tibgstore",
+  "whatsapp": "9140980834",
+  "promoCode": "TIBG10",
+  "promoRate": 0.1,
+  "freeShipAt": 99999,
+  "shipFee": 999,
+  "codFee": 500,
+  "assemblyId": "assembly"
+}
