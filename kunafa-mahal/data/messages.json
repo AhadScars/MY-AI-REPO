@@ -1,0 +1,26 @@
+[
+  {
+    "id": "MSG80D48F8F",
+    "createdAt": "2026-08-30T14:31:08Z",
+    "name": "Abdul Ahad",
+    "reach": "abdulindia.scars@gmail.com",
+    "msg": "hello",
+    "read": false
+  },
+  {
+    "id": "MSG943A28B4",
+    "createdAt": "2026-08-30T11:19:49Z",
+    "name": "Shoaib",
+    "reach": "abdulindia.scars@gmail.com",
+    "msg": "Testing the new royal HTML email layout.",
+    "read": false
+  },
+  {
+    "id": "MSGF79189E3",
+    "createdAt": "2026-08-30T08:59:22Z",
+    "name": "Ravi",
+    "reach": "9998887777",
+    "msg": "Do you do party boxes?",
+    "read": false
+  }
+]

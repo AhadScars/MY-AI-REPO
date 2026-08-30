@@ -1,0 +1,13 @@
+{
+  "rewrites": [
+    { "source": "/auth/google", "destination": "/api/auth/google" },
+    { "source": "/auth/google/callback", "destination": "/api/auth/google/callback" }
+  ],
+  "functions": {
+    "api/[...path].py": {
+      "maxDuration": 15,
+      "includeFiles": "{data/**,emails.py,server.py}"
+    }
+  },
+  "regions": ["bom1"]
+}

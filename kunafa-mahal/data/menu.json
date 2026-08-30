@@ -1,0 +1,632 @@
+[
+  {
+    "id": "nabulsi",
+    "name": "Royal Nabulsi Kunafa",
+    "cat": "signature",
+    "price": 279,
+    "desc": "Soft, stretchy cheese wrapped in crispy kunafa, finished with a gentle pour of warm aromatic syrup — truly Lucknow-royal.",
+    "img": "assets/dishes/nabulsi.jpg",
+    "popular": true,
+    "tag": "Signature"
+  },
+  {
+    "id": "gul-kunafa",
+    "name": "Gul-Kunafa",
+    "cat": "signature",
+    "price": 269,
+    "desc": "Kunafa kissed with rose essence, scented like old Lucknow streets in spring.",
+    "img": "assets/dishes/nabulsi.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "ashta",
+    "name": "Ashta-E-Malai Kunafa",
+    "cat": "signature",
+    "price": 289,
+    "desc": "A silky ashta cream centre in crunchy kunafa strands — smooth, subtle and indulgent.",
+    "img": "assets/dishes/lucknowi-malai.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "pista-badami",
+    "name": "Pista-Badami Royale Kunafa",
+    "cat": "signature",
+    "price": 329,
+    "desc": "Rich pistachio crème layered with golden kunafa for a luxurious nutty bite.",
+    "img": "assets/dishes/pista-badami.jpg",
+    "popular": true,
+    "tag": ""
+  },
+  {
+    "id": "nut-salt",
+    "name": "Nut Salt N Soot Kunafa",
+    "cat": "signature",
+    "price": 299,
+    "desc": "Warm molten Nutella wrapped in kunafa — soft, gooey, and a little salty.",
+    "img": "assets/dishes/nutella-silk.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "gulab",
+    "name": "Gulab Jamun Bliss Kunafa",
+    "cat": "fusion",
+    "price": 299,
+    "desc": "Classic gulab jamun folded into traditional Middle Eastern kunafa, soaked in saffron syrup.",
+    "img": "assets/dishes/gulab-jamun.jpg",
+    "popular": true,
+    "tag": "Lucknow"
+  },
+  {
+    "id": "ras-royale",
+    "name": "Ras Royale Kunafa",
+    "cat": "fusion",
+    "price": 309,
+    "desc": "Rasmalai-inspired kunafa with kesar milk and pistachio crumble.",
+    "img": "assets/dishes/lucknowi-malai.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "lucknowi",
+    "name": "Lucknowi Malai Kunafa",
+    "cat": "fusion",
+    "price": 319,
+    "desc": "Rich cream kunafa layered with rabdi — the heart of Awadhi indulgence.",
+    "img": "assets/dishes/lucknowi-malai.jpg",
+    "popular": true,
+    "tag": ""
+  },
+  {
+    "id": "paan",
+    "name": "Paan-E-Khaas Kunafa",
+    "cat": "fusion",
+    "price": 289,
+    "desc": "Betel leaf-infused kunafa with a rose and gulkand centre.",
+    "img": "assets/dishes/paan-khaas.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "nutella-silk",
+    "name": "Nutella Silk Kunafa",
+    "cat": "exotic",
+    "price": 299,
+    "desc": "Warm molten Nutella wrapped in kunafa — soft, gooey, crazy addictive.",
+    "img": "assets/dishes/nutella-silk.jpg",
+    "popular": true,
+    "tag": ""
+  },
+  {
+    "id": "triple-choco",
+    "name": "Triple Chocolate Kunafa",
+    "cat": "exotic",
+    "price": 319,
+    "desc": "A rich hybrid dessert that layers dark, milk and white chocolate through golden kunafa.",
+    "img": "assets/dishes/nutella-silk.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "aam",
+    "name": "Aam-E-Bahaar Kunafa",
+    "cat": "exotic",
+    "price": 309,
+    "desc": "Ripe mango purée whipped with cream inside a fresh crunchy kunafa frame.",
+    "img": "assets/dishes/aam-e-bahaar.jpg",
+    "popular": false,
+    "tag": "Seasonal"
+  },
+  {
+    "id": "caramel",
+    "name": "Caramel Noor Kunafa",
+    "cat": "exotic",
+    "price": 289,
+    "desc": "Buttery caramel folded through crispy kunafa and finished with a warm syrup glaze.",
+    "img": "assets/dishes/lotus-silk.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "blueberry",
+    "name": "Blueberry Shab-E-Jamun",
+    "cat": "exotic",
+    "price": 299,
+    "desc": "Tart blueberry coulis meets velvety cream for a bright, refreshing finish.",
+    "img": "assets/dishes/blueberry.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "choco-lava",
+    "name": "Choco-Lava Kunafa",
+    "cat": "exotic",
+    "price": 309,
+    "desc": "Dark chocolate lava erupts inside delicate kunafa threads — pure drama in every spoon.",
+    "img": "assets/dishes/nutella-silk.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "lotus-silk",
+    "name": "Lotus Silk Kunafa",
+    "cat": "exotic",
+    "price": 299,
+    "desc": "Smooth lotus cream folded into crispy kunafa layers for the perfect dreamy spoon.",
+    "img": "assets/dishes/lotus-silk.jpg",
+    "popular": true,
+    "tag": ""
+  },
+  {
+    "id": "mini-cheese-tub",
+    "name": "Mini Cheese Tub",
+    "cat": "tubs",
+    "price": 199,
+    "desc": "Tiny cup, stretchy cheese, instant happiness.",
+    "img": "assets/dishes/pista-tub.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "nutella-tub",
+    "name": "Nutella Shot Tub",
+    "cat": "tubs",
+    "price": 349,
+    "desc": "A large-format dessert tub designed to emulate the taste of a Nutella shot — layered and shareable.",
+    "img": "assets/dishes/pista-tub.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "tiramisu-tub",
+    "name": "Kunafa Tiramisu Tub",
+    "cat": "tubs",
+    "price": 369,
+    "desc": "Italian tiramisu layered with Middle-Eastern kunafa — the city of nawabs meets Rome.",
+    "img": "assets/dishes/pista-tub.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "lotus-tub",
+    "name": "Lotus Velvet Tub",
+    "cat": "tubs",
+    "price": 349,
+    "desc": "Smooth lotus cream layered with light kunafa crumbs.",
+    "img": "assets/dishes/pista-tub.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "pista-tub",
+    "name": "Pista Royale Tub",
+    "cat": "tubs",
+    "price": 369,
+    "desc": "Rich creamy saffron and pistachio dessert layered with cake, cream and kunafa.",
+    "img": "assets/dishes/pista-tub.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "choco-bomb",
+    "name": "Choco Indulge Kunafa Bomb",
+    "cat": "bombs",
+    "price": 279,
+    "desc": "Crispy buttery kunafa sphere with a molten chocolate heart.",
+    "img": "assets/dishes/kunafa-bomb.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "pista-bomb",
+    "name": "Pistachio Kunafa Bomb",
+    "cat": "bombs",
+    "price": 299,
+    "desc": "Crispy shredded kunafa, sweet pistachio paste and creamy cheese — break and share.",
+    "img": "assets/dishes/kunafa-bomb.jpg",
+    "popular": true,
+    "tag": ""
+  },
+  {
+    "id": "mini-combo",
+    "name": "Assorted Mini Kunafa Combo",
+    "cat": "combos",
+    "price": 399,
+    "desc": "Three bite-sized kunafas — crisp shredded phyllo layered with our best-seller fillings.",
+    "img": "assets/dishes/mini-kunafas.jpg",
+    "popular": true,
+    "tag": ""
+  },
+  {
+    "id": "fifty",
+    "name": "50-50 Kunafa",
+    "cat": "combos",
+    "price": 449,
+    "desc": "A dual plate: pick any two half-kunafas and share the contrast.",
+    "img": "assets/dishes/mini-kunafas.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "experience",
+    "name": "The Kunafa Experience Box",
+    "cat": "combos",
+    "price": 799,
+    "desc": "A luxurious assortment of chocolate, caramel, biscoff and malai kunafas.",
+    "img": "assets/dishes/mini-kunafas.jpg",
+    "popular": false,
+    "tag": "Gift"
+  },
+  {
+    "id": "party",
+    "name": "Royal Kunafa Party Box",
+    "cat": "combos",
+    "price": 1299,
+    "desc": "Signature Nabulsi, pistachio truffle, kunafa tub and shakes — complete palace indulgence.",
+    "img": "assets/dishes/mini-kunafas.jpg",
+    "popular": false,
+    "tag": "Serves 4"
+  },
+  {
+    "id": "me-classic",
+    "name": "Middle Eastern Classic",
+    "cat": "combos",
+    "price": 399,
+    "desc": "Traditional Nabulsi kunafa served with hot Arabic qahwa and dates.",
+    "img": "assets/dishes/qahwa.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "pista-affair",
+    "name": "Kunafa Pistachio Affair",
+    "cat": "combos",
+    "price": 499,
+    "desc": "Break the pistachio kunafa bomb, sip the pista kunafa milkshake.",
+    "img": "assets/dishes/kunafa-bomb.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "tiramisu-brew",
+    "name": "Tiramisu & Brew Combo",
+    "cat": "combos",
+    "price": 449,
+    "desc": "Kunafa tiramisu tub served with a barista-style cappuccino.",
+    "img": "assets/dishes/pista-tub.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "truffle-duo",
+    "name": "Truffle Cappuccino Duo",
+    "cat": "combos",
+    "price": 399,
+    "desc": "Pistachio truffles paired with a smooth cappuccino.",
+    "img": "assets/dishes/qahwa.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "hazel-truffle-4",
+    "name": "Hazelnut Truffle Bites (4)",
+    "cat": "bites",
+    "price": 249,
+    "desc": "Crunchy Nutella core with kunafa flakes and roasted hazelnuts.",
+    "img": "assets/dishes/pistachio-bar.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "pista-truffle-4",
+    "name": "Pistachio Truffle Bites (4)",
+    "cat": "bites",
+    "price": 269,
+    "desc": "Creamy pistachio truffles in a chocolate shell, crushed pistachio garnish.",
+    "img": "assets/dishes/pistachio-bar.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "hazel-mini-bar",
+    "name": "Hazelnut Luxe Mini Bar",
+    "cat": "bites",
+    "price": 199,
+    "desc": "Fusion mini chocolate bar with caramelised kunafa and hazelnut praline.",
+    "img": "assets/dishes/pistachio-bar.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "pista-bar",
+    "name": "Pistachio Luxe Kunafa Bar",
+    "cat": "bites",
+    "price": 349,
+    "desc": "Dubai-inspired bar — milk chocolate, crunchy kunafa pastry and pistachio cream.",
+    "img": "assets/dishes/pistachio-bar.jpg",
+    "popular": true,
+    "tag": "Dubai"
+  },
+  {
+    "id": "cones",
+    "name": "Assorted Kunafa Cones",
+    "cat": "bites",
+    "price": 329,
+    "desc": "Three chocolate-dipped kunafa cones — milk, dark and white, packed with nuts.",
+    "img": "assets/dishes/kunafa-cones.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "rose-koshari",
+    "name": "Royal Rose Velvet Koshari",
+    "cat": "arabic",
+    "price": 329,
+    "desc": "Delicately infused with aromatic rose — royal Middle Eastern sweetness.",
+    "img": "assets/dishes/paan-khaas.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "pista-koshari",
+    "name": "Pista-Biscoff Crunch Koshari",
+    "cat": "arabic",
+    "price": 349,
+    "desc": "Premium pistachio meets caramelised Biscoff in a bold Arabian crunch.",
+    "img": "assets/dishes/lotus-silk.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "choco-koshari",
+    "name": "Triple Chocolate Indulgence Koshari",
+    "cat": "arabic",
+    "price": 349,
+    "desc": "A decadent trio of chocolates layered in a velvety Dubai-inspired texture.",
+    "img": "assets/dishes/nutella-silk.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "hazel-koshari",
+    "name": "Hazel-Kinder Koshari",
+    "cat": "arabic",
+    "price": 339,
+    "desc": "Hazelnut cream and smooth chocolate, crafted with a modern Arabian finish.",
+    "img": "assets/dishes/nutella-silk.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "umm-ali",
+    "name": "Kesari Umm Ali",
+    "cat": "arabic",
+    "price": 279,
+    "desc": "Traditional Egyptian pastry pudding, crispy layers soaked in rich almond-saffron milk.",
+    "img": "assets/dishes/lucknowi-malai.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "choco-kabsa",
+    "name": "Choco Empire Kabsa",
+    "cat": "arabic",
+    "price": 329,
+    "desc": "An intense cocoa dessert layered with richness, inspired by Dubai-style indulgence.",
+    "img": "assets/dishes/nutella-silk.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "falooda-loua",
+    "name": "Falooda Loua",
+    "cat": "arabic",
+    "price": 249,
+    "desc": "A refreshing blend of fruits and falooda textures, inspired by vibrant Middle Eastern glasses.",
+    "img": "assets/dishes/blueberry.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "blue-loua",
+    "name": "Blueberry Delight Loua",
+    "cat": "arabic",
+    "price": 269,
+    "desc": "Smooth creamy dessert with a sweet-tangy blueberry burst.",
+    "img": "assets/dishes/blueberry.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "habba",
+    "name": "Pistachio Cocoa Habba Cake",
+    "cat": "arabic",
+    "price": 749,
+    "desc": "Soft chocolate cake layered with pistachio richness — our celebration habba.",
+    "img": "assets/dishes/pista-tub.jpg",
+    "popular": false,
+    "tag": "Celebrate"
+  },
+  {
+    "id": "salankatia-pista",
+    "name": "Pista Dream Salankatia",
+    "cat": "arabic",
+    "price": 529,
+    "desc": "A pistachio-forward creation with smooth, rich layers — for true lovers of Arabian flavours.",
+    "img": "assets/dishes/pista-badami.jpg",
+    "popular": true,
+    "tag": ""
+  },
+  {
+    "id": "salankatia-nuts",
+    "name": "Nuts Overload Salankatia",
+    "cat": "arabic",
+    "price": 549,
+    "desc": "Crunchy nuts blended with creamy richness, inspired by traditional Arabic dessert textures.",
+    "img": "assets/dishes/pista-badami.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "salankatia-trio",
+    "name": "Signature Trio Salankatia",
+    "cat": "arabic",
+    "price": 579,
+    "desc": "A luxurious trio of flavours on one platter of lavish dessert layers.",
+    "img": "assets/dishes/mini-kunafas.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "salankatia-mango",
+    "name": "Ras-Bhari Mango Salankatia",
+    "cat": "arabic",
+    "price": 549,
+    "desc": "Royal Indian rasmalai and tropical mango, reimagined with a Middle Eastern finish.",
+    "img": "assets/dishes/aam-e-bahaar.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "salankatia-nutella",
+    "name": "Nutella-Pista Affair Salankatia",
+    "cat": "arabic",
+    "price": 569,
+    "desc": "Warm, soft layers filled with molten Nutella and topped with pistachio.",
+    "img": "assets/dishes/nutella-silk.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "shake-nutella",
+    "name": "Nutella Kunafa Milkshake",
+    "cat": "shakes",
+    "price": 249,
+    "desc": "Chocolate-hazelnut shake blended with Middle Eastern dessert textures.",
+    "img": "assets/dishes/biscoff-shake.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "shake-biscoff",
+    "name": "Biscoff Kunafa Milkshake",
+    "cat": "shakes",
+    "price": 249,
+    "desc": "Vanilla ice cream, milk and Biscoff, blended with roasted kunafa strands.",
+    "img": "assets/dishes/biscoff-shake.jpg",
+    "popular": true,
+    "tag": ""
+  },
+  {
+    "id": "shake-pista",
+    "name": "Pista Kunafa Milkshake",
+    "cat": "shakes",
+    "price": 269,
+    "desc": "Sweet pistachio cream, ice cream and crispy kunafa in a branded bottle.",
+    "img": "assets/dishes/biscoff-shake.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "shake-choco",
+    "name": "Chocolate Kunafa Milkshake",
+    "cat": "shakes",
+    "price": 249,
+    "desc": "Rich chocolate, creamy ice cream and the signature kunafa crunch.",
+    "img": "assets/dishes/biscoff-shake.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "viet",
+    "name": "Vietnamese Cold Coffee",
+    "cat": "shakes",
+    "price": 229,
+    "desc": "Bold dark-roasted coffee balanced with sweet condensed milk over ice.",
+    "img": "assets/dishes/biscoff-shake.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "cranberry-brew",
+    "name": "Cranberry Cold Brew",
+    "cat": "coffee",
+    "price": 219,
+    "desc": "Smooth low-acidity cold brew with tart-sweet cranberry.",
+    "img": "assets/dishes/qahwa.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "cold-coffee",
+    "name": "Classic Cold Coffee",
+    "cat": "coffee",
+    "price": 189,
+    "desc": "Creamy, frothy blended coffee — chilled and simple.",
+    "img": "assets/dishes/biscoff-shake.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "qahwa",
+    "name": "Hot Qahwa with Dates",
+    "cat": "coffee",
+    "price": 169,
+    "desc": "Arabic coffee ritual — a symbol of Middle Eastern hospitality, served with dates.",
+    "img": "assets/dishes/qahwa.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "americano-hot",
+    "name": "Hot Americano",
+    "cat": "coffee",
+    "price": 149,
+    "desc": "Bold espresso lengthened with hot water.",
+    "img": "assets/dishes/qahwa.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "americano-iced",
+    "name": "Iced Americano",
+    "cat": "coffee",
+    "price": 159,
+    "desc": "Hot espresso poured over cold water and ice.",
+    "img": "assets/dishes/qahwa.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "cappuccino",
+    "name": "Cappuccino",
+    "cat": "coffee",
+    "price": 179,
+    "desc": "Equal parts espresso, steamed milk and foam.",
+    "img": "assets/dishes/qahwa.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "latte",
+    "name": "Latte",
+    "cat": "coffee",
+    "price": 189,
+    "desc": "A shot of espresso with plenty of steamed milk.",
+    "img": "assets/dishes/qahwa.jpg",
+    "popular": false,
+    "tag": ""
+  },
+  {
+    "id": "mocha",
+    "name": "Café Mocha",
+    "cat": "coffee",
+    "price": 199,
+    "desc": "Espresso, steamed milk and chocolate syrup.",
+    "img": "assets/dishes/qahwa.jpg",
+    "popular": false,
+    "tag": ""
+  }
+]
