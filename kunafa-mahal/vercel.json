@@ -1,13 +1,19 @@
 {
-  "rewrites": [
-    { "source": "/auth/google", "destination": "/api/auth/google" },
-    { "source": "/auth/google/callback", "destination": "/api/auth/google/callback" }
+  "version": 2,
+  "framework": null,
+  "builds": [
+    { "src": "api/[...path].py", "use": "@vercel/python", "config": { "maxLambdaSize": "50mb", "includeFiles": "{data/**,emails.py,server.py}" } },
+    { "src": "*.html", "use": "@vercel/static" },
+    { "src": "css/**", "use": "@vercel/static" },
+    { "src": "js/**", "use": "@vercel/static" },
+    { "src": "assets/**", "use": "@vercel/static" },
+    { "src": "favicon.svg", "use": "@vercel/static" }
   ],
-  "functions": {
-    "api/[...path].py": {
-      "maxDuration": 15,
-      "includeFiles": "{data/**,emails.py,server.py}"
-    }
-  },
-  "regions": ["bom1"]
+  "routes": [
+    { "src": "/api/(.*)", "dest": "/api/[...path].py" },
+    { "src": "/auth/google", "dest": "/api/[...path].py" },
+    { "src": "/auth/google/callback", "dest": "/api/[...path].py" },
+    { "handle": "filesystem" },
+    { "src": "/", "dest": "/index.html" }
+  ]
 }
