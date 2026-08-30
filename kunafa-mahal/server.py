@@ -208,6 +208,38 @@ class Handler(SimpleHTTPRequestHandler):
         self.end_headers()
         self.wfile.write(data)
 
+    def _serve_public(self, path: str) -> bool:
+        rel = "index.html" if path in ("", "/") else path.lstrip("/")
+        file_path = (ROOT / rel).resolve()
+        root = ROOT.resolve()
+        if file_path != root and root not in file_path.parents:
+            self._json(404, {"error": "Unknown route."})
+            return True
+        if file_path.is_dir():
+            file_path = file_path / "index.html"
+        if not file_path.is_file():
+            return False
+        ext = file_path.suffix.lower()
+        types = {
+            ".html": "text/html; charset=utf-8",
+            ".css": "text/css; charset=utf-8",
+            ".js": "application/javascript; charset=utf-8",
+            ".json": "application/json; charset=utf-8",
+            ".svg": "image/svg+xml",
+            ".jpg": "image/jpeg",
+            ".jpeg": "image/jpeg",
+            ".png": "image/png",
+            ".webp": "image/webp",
+            ".ico": "image/x-icon",
+        }
+        data = file_path.read_bytes()
+        self.send_response(200)
+        self.send_header("Content-Type", types.get(ext, "application/octet-stream"))
+        self.send_header("Content-Length", str(len(data)))
+        self.end_headers()
+        self.wfile.write(data)
+        return True
+
     def _raw(self) -> bytes:
         length = int(self.headers.get("Content-Length") or 0)
         return self.rfile.read(length) if length > 0 else b""
@@ -225,6 +257,14 @@ class Handler(SimpleHTTPRequestHandler):
     def do_GET(self):
         parsed = urlparse(self.path)
         path = parsed.path.rstrip("/") or "/"
+        if path not in ("/",) and not path.startswith("/api") and not path.startswith("/auth"):
+            served = self._serve_public(path)
+            if served:
+                return
+        if path.startswith("/api/") is False and path not in ("/api", "/",) and not path.startswith("/auth"):
+            alt = "/api" + path
+            if alt.startswith("/api/"):
+                path = alt
         if path == "/api/health":
             return self._json(200, {
                 "ok": True,
@@ -322,9 +362,9 @@ class Handler(SimpleHTTPRequestHandler):
             })
         if path.startswith("/api/file/"):
             return self._serve_upload(path.rsplit("/", 1)[-1])
-        if _on_vercel():
-            return self._json(404, {"error": "Unknown route."})
-        return super().do_GET()
+        if path in ("/", "/index.html") or not path.startswith("/api"):
+            return self._serve_public(path)
+        return self._json(404, {"error": "Unknown route."})
 
     def do_POST(self):
         parsed = urlparse(self.path)
