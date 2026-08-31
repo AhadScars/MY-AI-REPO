@@ -27,7 +27,7 @@ From the desk you can filter live tickets, open a guest’s thaal, mark cooking 
 
 ### Loyalty points
 
-Every delivery or pickup order earns **100 points**. **100 points = ₹50** on the next bill. Guests tick “Pay with loyalty points” at checkout — points are stored on their mobile number.
+Signed-in orders earn **5%** of the bill as loyalty credit. That rupee balance can be used on the next checkout. Guest orders do not earn credit.
 
 ### Google OAuth
 

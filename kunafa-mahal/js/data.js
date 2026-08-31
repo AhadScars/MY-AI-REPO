@@ -72,11 +72,11 @@ KM.delivery = {
 };
 
 KM.loyalty = {
-  name: "Loyalty points",
-  perOrder: 100,
-  rupeesPer100: 50,
-  rupees(points) { return Math.floor((Number(points) || 0) * this.rupeesPer100 / 100); },
-  points(rupees) { return Math.floor((Number(rupees) || 0) * 100 / this.rupeesPer100); },
+  name: "Loyalty",
+  percent: 5,
+  rupees(points) { return Math.floor(Number(points) || 0); },
+  points(rupees) { return Math.floor(Number(rupees) || 0); },
+  earn(grand) { return Math.floor((Number(grand) || 0) * this.percent / 100); },
 };
 
 KM.promos = {

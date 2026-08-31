@@ -186,7 +186,7 @@
       <div><span>Delivery</span><span>${KM.inr(o.totals?.delivery)}</span></div>
       <div><span>GST</span><span>${KM.inr(o.totals?.gst)}</span></div>
       ${o.totals?.discount ? `<div><span>${o.totals.promoLabel || "Offer"}</span><span>−${KM.inr(o.totals.discount)}</span></div>` : ""}
-      ${o.loyalty?.rupees ? `<div><span>Loyalty (${o.loyalty.used} pts)</span><span>−${KM.inr(o.loyalty.rupees)}</span></div>` : ""}
+      ${o.loyalty?.rupees ? `<div><span>Loyalty</span><span>−${KM.inr(o.loyalty.rupees)}</span></div>` : ""}
       <div class="grand"><span>Total</span><span>${KM.inr(o.totals?.grand)}</span></div>
     </div>
     ${o.status === "delivered" || o.status === "collected"
@@ -198,15 +198,15 @@
       ).join("")}
     </div>
     <p class="muted" style="margin-top:12px">Customer can track this ID on the website.</p>`}
-    ${o.loyalty ? `<p class="notice" style="margin-top:12px">Loyalty: +${o.loyalty.earned} pts${o.loyalty.used ? `, used ${o.loyalty.used} pts (${KM.inr(o.loyalty.rupees)})` : ""}. Balance ${o.loyalty.balance} pts.</p>` : ""}`;
+    ${o.loyalty && (o.loyalty.earned || o.loyalty.used) ? `<p class="notice" style="margin-top:12px">Loyalty: +${KM.inr(o.loyalty.earned)}${o.loyalty.used ? `, used ${KM.inr(o.loyalty.used)}` : ""}. Wallet ${KM.inr(o.loyalty.balance)}.</p>` : ""}`;
 
   const loyaltyPane = () => `
-    <p class="muted">${KM.loyalty.perOrder} points on every delivery or pickup · ${KM.loyalty.perOrder} points = ${KM.inr(KM.loyalty.rupeesPer100)}.</p>
+    <p class="muted">${KM.loyalty.percent}% of every signed-in order is added to the wallet.</p>
     <div class="admin-list">
       ${state.accounts.length ? state.accounts.map((a) => `
         <article class="admin-row">
           <strong>${esc(a.name || "Guest")} · ${esc(a.phone)}</strong>
-          <span>${a.points} points</span>
+          <span>${KM.loyalty.percent}% back</span>
           <b>${KM.inr(a.rupees)}</b>
         </article>`).join("") : `<p class="empty">No loyalty accounts yet. Points are added when a guest places an order.</p>`}
     </div>`;

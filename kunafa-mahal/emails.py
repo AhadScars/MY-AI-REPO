@@ -126,7 +126,7 @@ def order_table(order: dict) -> str:
     if tot.get("discount"):
         extras.append((tot.get("promoLabel") or "Offer", "−" + inr(tot.get("discount"))))
     if tot.get("loyalty") or loy.get("rupees"):
-        extras.append((f"Loyalty ({loy.get('used') or 0} pts)", "−" + inr(tot.get("loyalty") or loy.get("rupees"))))
+        extras.append(("Loyalty", "−" + inr(tot.get("loyalty") or loy.get("rupees"))))
     extra_html = "".join(
         f'<tr><td style="padding:6px 0;color:{MUTED};">{escape(k)}</td>'
         f'<td align="right" style="padding:6px 0;color:{MUTED};">{escape(v)}</td></tr>'
@@ -151,13 +151,13 @@ def loyalty_card(order: dict) -> str:
     if not earned and not used:
         return ""
     bal = loy.get("balance") or 0
-    used_bit = f" · used {used} pts ({inr(loy.get('rupees'))})" if used else ""
+    used_bit = f" · used {inr(loy.get('rupees') or used)}" if used else ""
     return f"""
       <table role="presentation" width="100%" cellpadding="0" cellspacing="0" style="margin:16px 0;background:{CREAM};border-radius:12px;">
         <tr>
           <td style="padding:14px 16px;">
-            <div style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:{MAROON};font-weight:700;">Loyalty points</div>
-            <div style="margin-top:6px;">This order earned <strong>{earned} points</strong>{used_bit}.<br />Balance now <strong>{bal} points</strong> ({inr((bal * 50) // 100)}). 100 points = ₹50.</div>
+            <div style="font-size:12px;letter-spacing:0.16em;text-transform:uppercase;color:{MAROON};font-weight:700;">Loyalty</div>
+            <div style="margin-top:6px;">This order earned <strong>{inr(earned)}</strong> (5%){used_bit}.<br />Balance now <strong>{inr(bal)}</strong>.</div>
           </td>
         </tr>
       </table>

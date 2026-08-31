@@ -118,7 +118,7 @@ KM.authButton = () => {
     const rs = u.loyalty?.rupees || 0;
     return `<div class="google-user">
       <a class="loyalty-chip ${document.body.dataset.page === "orders" ? "on" : ""}" href="orders.html" title="Your orders and loyalty">
-        ${pts} pts · ${KM.inr(rs)}
+        ${KM.inr(rs || pts)} · ${KM.loyalty.percent}%
       </a>
       ${u.picture ? `<img src="${u.picture}" alt="" />` : ""}
       <span class="user-name">${u.name || u.email}</span>

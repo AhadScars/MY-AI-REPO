@@ -83,12 +83,12 @@ function renderHome() {
         <div class="section-head">
           <div class="eyebrow">Palace offer</div>
           <h2>Loyalty points</h2>
-          <p class="muted">Sign in with Google, then every delivery or pickup earns ${KM.loyalty.perOrder} points. ${KM.loyalty.perOrder} points = ${KM.inr(KM.loyalty.rupeesPer100)} on your next bill. Guest orders do not earn points.</p>
+          <p class="muted">Sign in with Google and every delivery or pickup adds ${KM.loyalty.percent}% of the bill to your loyalty wallet. Guest orders do not earn credit.</p>
         </div>
         <div class="grid-3">
-          <article class="stat"><b>${KM.loyalty.perOrder}</b><h3>Points per order</h3><p class="muted">Added to your mobile number after every delivery or pickup.</p></article>
-          <article class="stat"><b>${KM.inr(KM.loyalty.rupeesPer100)}</b><h3>Value of ${KM.loyalty.perOrder} points</h3><p class="muted">Redeem on the next order — full bill or part of it.</p></article>
-          <article class="stat"><b>Pay</b><h3>With points next time</h3><p class="muted">Tick “Pay with loyalty points” at checkout. Leftover points stay on your number.</p></article>
+          <article class="stat"><b>${KM.loyalty.percent}%</b><h3>Back on every order</h3><p class="muted">Added after a signed-in delivery or café pickup.</p></article>
+          <article class="stat"><b>₹</b><h3>Use on the next bill</h3><p class="muted">Redeem all or part of the wallet at checkout.</p></article>
+          <article class="stat"><b>Keep</b><h3>Leftover credit</h3><p class="muted">What you do not use stays on your account.</p></article>
         </div>
       </div>
     </section>
@@ -120,7 +120,7 @@ function renderMenu() {
       <div class="eyebrow">Order online</div>
       <h1>The royal menu</h1>
       <p>Pure vegetarian kunafa, tubs, bombs, Arabic specials and coffee. Delivery across Lucknow or pickup from Hazratganj.</p>
-      <p>Signed-in guests earn ${KM.loyalty.perOrder} points per order. ${KM.loyalty.perOrder} points = ${KM.inr(KM.loyalty.rupeesPer100)} next time.</p>
+      <p>Signed-in guests earn ${KM.loyalty.percent}% of every bill as loyalty credit.</p>
     </div></section>
     <section>
       <div class="wrap">
@@ -237,10 +237,10 @@ function renderCheckout() {
         <label>Notes for the kitchen<textarea name="notes" placeholder="Less syrup, extra pistachio, doorbell instructions…"></textarea></label>
         ${signed ? `<div class="order-card loyalty-box" id="loyalty-box">
           <strong>Loyalty</strong>
-          <p id="loyalty-balance" class="muted">100 pts = ₹50 on the next bill.</p>
+          <p id="loyalty-balance" class="muted">${KM.loyalty.percent}% of this bill is added to your wallet.</p>
           <label class="admin-check" id="loyalty-use-wrap" hidden>
             <input type="checkbox" name="useLoyalty" id="use-loyalty" />
-            Pay with points
+            Use loyalty credit
           </label>
         </div>` : ""}
         <div class="row-2">
@@ -259,8 +259,8 @@ function renderCheckout() {
   const bill = () => {
     const type = form.type.value;
     const t = KM.totals(type === "delivery" ? form.zone.value : "");
-    const use = !!(form.useLoyalty && form.useLoyalty.checked && loyalty.points > 0);
-    const loyaltyRs = use ? Math.min(t.grand, KM.loyalty.rupees(loyalty.points)) : 0;
+    const use = !!(form.useLoyalty && form.useLoyalty.checked && (loyalty.rupees || loyalty.points) > 0);
+    const loyaltyRs = use ? Math.min(t.grand, KM.loyalty.rupees(loyalty.rupees || loyalty.points)) : 0;
     const pointsUsed = KM.loyalty.points(loyaltyRs);
     return { type, t, use, loyaltyRs, pointsUsed, toPay: Math.max(0, t.grand - loyaltyRs) };
   };
@@ -273,10 +273,10 @@ function renderCheckout() {
     const wrap = document.getElementById("loyalty-use-wrap");
     const bal = document.getElementById("loyalty-balance");
     if (wrap && bal) {
-      wrap.hidden = !signed || loyalty.points < 2;
-      bal.textContent = loyalty.points
-        ? `This account has ${loyalty.points} points (${KM.inr(loyalty.rupees)}).`
-        : "No saved points yet — this signed-in order will start the balance.";
+      wrap.hidden = !signed || (loyalty.rupees || loyalty.points) < 1;
+      bal.textContent = (loyalty.rupees || loyalty.points)
+        ? `Wallet ${KM.inr(loyalty.rupees || loyalty.points)} · this order adds ${KM.inr(KM.loyalty.earn(t.grand))}.`
+        : `No credit yet — this order will add ${KM.inr(KM.loyalty.earn(t.grand))} (${KM.loyalty.percent}%).`;
     }
     sum.innerHTML = `
       <div class="eyebrow">Your bill</div>
@@ -288,10 +288,10 @@ function renderCheckout() {
         <div><span>Delivery</span><span>${type === "pickup" ? "—" : KM.inr(t.delivery)}</span></div>
         <div><span>GST 5%</span><span>${KM.inr(t.gst)}</span></div>
         ${t.discount ? `<div><span>${t.promoLabel}</span><span>−${KM.inr(t.discount)}</span></div>` : ""}
-        ${use ? `<div><span>Loyalty (${pointsUsed} pts)</span><span>−${KM.inr(loyaltyRs)}</span></div>` : ""}
+        ${use ? `<div><span>Loyalty</span><span>−${KM.inr(loyaltyRs)}</span></div>` : ""}
         <div class="grand"><span>To pay</span><span>${KM.inr(toPay)}</span></div>
       </div>
-      <p class="muted" style="margin-top:10px">${signed ? `This order earns ${KM.loyalty.perOrder} loyalty points.` : "Guest orders do not earn loyalty points."}</p>
+      <p class="muted" style="margin-top:10px">${signed ? `This order earns ${KM.inr(KM.loyalty.earn(t.grand))} (${KM.loyalty.percent}%).` : "Guest orders do not earn loyalty credit."}</p>
       ${!minOk ? `<p class="notice" style="margin-top:12px">Add ${KM.inr(KM.delivery.minOrder - t.subtotal)} more for delivery.</p>` : ""}
       <p class="muted" style="margin-top:10px">${type === "delivery" && t.zone ? `Arrives in about ${t.zone.eta} minutes.` : "Pickup from Hazratganj when the kitchen marks ready."}</p>`;
     form.querySelector("[type=submit]").disabled = !t.lines.length || !minOk;
@@ -394,7 +394,7 @@ async function renderOrder() {
         <div class="steps-row">
           ${steps.map((s) => `<span class="${s === order.status ? "current" : steps.indexOf(s) < steps.indexOf(order.status) ? "done" : ""}">${KM.stepLabel[s]}</span>`).join("")}
         </div>
-        ${order.loyalty?.earned || order.loyalty?.used ? `<p class="muted">+${order.loyalty.earned} pts${order.loyalty.used ? `, used ${order.loyalty.used}` : ""}. Balance ${order.loyalty.balance}.</p>` : `<p class="muted">${KM.auth?.user ? "" : "Guest orders do not earn loyalty points."}</p>`}
+        ${order.loyalty?.earned || order.loyalty?.used ? `<p class="muted">+${KM.inr(order.loyalty.earned)}${order.loyalty.used ? `, used ${KM.inr(order.loyalty.used)}` : ""}. Wallet ${KM.inr(order.loyalty.balance)}.</p>` : `<p class="muted">${KM.auth?.user ? "" : "Guest orders do not earn loyalty credit."}</p>`}
         <a class="btn btn-maroon btn-block" href="track.html?id=${order.id}">Track this order</a>
         ${KM.auth?.user ? `<a class="btn btn-outline-dark btn-block" href="orders.html" style="margin-top:10px">All orders</a>` : ""}
       </aside>
@@ -463,7 +463,7 @@ async function renderOrders() {
     <section class="page-hero"><div class="wrap">
       <div class="eyebrow">${KM.auth.user.email}</div>
       <h1>Your orders</h1>
-      <p>${loy.points} pts · ${KM.inr(loy.rupees)} ready on the next bill</p>
+      <p>${KM.inr(loy.rupees || loy.points)} in loyalty · ${KM.loyalty.percent}% back on each order</p>
     </div></section>
     <section class="checkout-page"><div class="wrap checkout-grid">
       <div class="order-card checkout-panel">
@@ -484,14 +484,13 @@ async function renderOrders() {
       </div>
       <aside class="order-card checkout-panel checkout-bill">
         <div class="eyebrow">Loyalty</div>
-        <h2>${loy.points} pts</h2>
+        <h2>${KM.inr(loy.rupees || loy.points)}</h2>
         <div class="totals">
-          <div><span>Worth</span><span>${KM.inr(loy.rupees)}</span></div>
-          <div><span>Per order</span><span>+${KM.loyalty.perOrder}</span></div>
+          <div><span>Back per order</span><span>${KM.loyalty.percent}%</span></div>
         </div>
-        <h3>Last points</h3>
+        <h3>Last credit</h3>
         ${loy.history?.length ? `<div class="totals">${loy.history.slice(0, 6).map((h) => `
-          <div><span>${h.orderId || "—"}</span><span>+${h.earned || 0}${h.used ? `/−${h.used}` : ""}</span></div>`).join("")}</div>` : `<p class="muted">None yet.</p>`}
+          <div><span>${h.orderId || "—"}</span><span>+${KM.inr(h.earned || 0)}${h.used ? `/−${KM.inr(h.used)}` : ""}</span></div>`).join("")}</div>` : `<p class="muted">None yet.</p>`}
         <a class="btn btn-maroon btn-block" href="checkout.html" style="margin-top:16px">Order again</a>
       </aside>
     </div></section>`;

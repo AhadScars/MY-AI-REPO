@@ -57,8 +57,7 @@ def _ensure_runtime() -> None:
             src, dest = SEED / name, DATA / name
             if src.exists() and not dest.exists():
                 dest.write_bytes(src.read_bytes())
-POINTS_PER_ORDER = 100
-RUPEES_PER_100_POINTS = 50
+LOYALTY_PERCENT = 5
 PORT = 4173
 MAX_IMAGE = 8 * 1024 * 1024
 ALLOWED_EXT = {".jpg", ".jpeg", ".png", ".webp"}
@@ -950,31 +949,48 @@ def _norm_phone(val: str) -> str:
 
 
 def _rupees_from_points(points: int) -> int:
-    return (int(points or 0) * RUPEES_PER_100_POINTS) // 100
+    return int(points or 0)
+
+
+def _loyalty_earn(grand: int) -> int:
+    return max(0, (int(grand or 0) * LOYALTY_PERCENT) // 100)
+
+
+def _migrate_loyalty_acct(acct: dict) -> dict:
+    if not acct:
+        return {"points": 0, "history": [], "scheme": "pct5"}
+    if acct.get("scheme") == "pct5":
+        return acct
+    old = int(acct.get("points") or 0)
+    acct["points"] = (old * 50) // 100
+    acct["scheme"] = "pct5"
+    return acct
 
 
 def _loyalty_public(acct: dict) -> dict:
-    points = int((acct or {}).get("points") or 0)
+    acct = _migrate_loyalty_acct(dict(acct or {}))
+    points = int(acct.get("points") or 0)
     return {
-        "phone": (acct or {}).get("phone") or "",
-        "email": (acct or {}).get("email") or "",
+        "phone": acct.get("phone") or "",
+        "email": acct.get("email") or "",
         "points": points,
-        "rupees": _rupees_from_points(points),
-        "name": (acct or {}).get("name") or "",
+        "rupees": points,
+        "percent": LOYALTY_PERCENT,
+        "name": acct.get("name") or "",
     }
 
 
 def _loyalty_lookup(book: dict, phone: str = "", email: str = "") -> tuple[str, dict | None]:
     email = (email or "").strip().lower()
     if phone and phone in book:
-        return phone, book[phone]
+        return phone, _migrate_loyalty_acct(book[phone])
     if email:
         for key, rec in book.items():
             if (rec.get("email") or "").strip().lower() == email:
-                return key, rec
+                return key, _migrate_loyalty_acct(rec)
         email_key = "e:" + email
         if email_key in book:
-            return email_key, book[email_key]
+            return email_key, _migrate_loyalty_acct(book[email_key])
     return "", None
 
 
@@ -992,7 +1008,8 @@ def _apply_loyalty(order: dict, redeem: bool, requested: int) -> None:
     key, acct = _loyalty_lookup(book, phone, email)
     if not acct:
         key = phone or (("e:" + email) if email else "")
-        acct = {"phone": phone, "email": email, "points": 0, "name": "", "history": []}
+        acct = {"phone": phone, "email": email, "points": 0, "name": "", "history": [], "scheme": "pct5"}
+    acct = _migrate_loyalty_acct(acct)
     acct["name"] = order.get("name") or acct.get("name") or ""
     if email:
         acct["email"] = email
@@ -1001,22 +1018,20 @@ def _apply_loyalty(order: dict, redeem: bool, requested: int) -> None:
     used = 0
     rupees = 0
     identified = bool(phone or email)
+    grand = int((order.get("totals") or {}).get("grand") or 0)
     if redeem and identified and int(acct.get("points") or 0) > 0:
-        grand = int((order.get("totals") or {}).get("grand") or 0)
-        max_rs = min(grand, _rupees_from_points(acct["points"]))
+        max_rs = min(grand, int(acct["points"]))
         if requested > 0:
-            max_rs = min(max_rs, _rupees_from_points(requested))
+            max_rs = min(max_rs, int(requested))
         rupees = max(0, max_rs)
-        used = rupees * (100 // RUPEES_PER_100_POINTS)
-        if used > int(acct["points"]):
-            used = int(acct["points"]) - (int(acct["points"]) % 2)
-            rupees = _rupees_from_points(used)
+        used = rupees
         acct["points"] = int(acct["points"]) - used
         order.setdefault("totals", {})["loyalty"] = rupees
         order["totals"]["grand"] = max(0, grand - rupees)
         if order["totals"]["grand"] == 0:
             order["pay"] = "loyalty"
-    earned = POINTS_PER_ORDER if identified else 0
+    earn_base = int((order.get("totals") or {}).get("grand") or 0) + rupees
+    earned = _loyalty_earn(earn_base) if identified else 0
     acct["points"] = int(acct.get("points") or 0) + earned
     history = acct.setdefault("history", [])
     history.insert(0, {
