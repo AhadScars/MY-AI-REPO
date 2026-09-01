@@ -1,0 +1,339 @@
+================================================================================
+KUNAFA MAHAL — HOW TO CHANGE EACH PART OF THE CODE
+================================================================================
+
+Folder: kunafa-mahal
+
+After you change a FILE, do this:
+  • js / css / html     → save, then hard-refresh the browser (Ctrl + Shift + R)
+  • server.py / emails.py / .env  → restart the server (see bottom of this file)
+  • Live Vercel site    → push to GitHub and Redeploy, and update Vercel env vars
+    if you changed .env keys
+
+
+--------------------------------------------------------------------------------
+1) CAFÉ NAME, PHONE, WHATSAPP, ADDRESS, MAP
+--------------------------------------------------------------------------------
+FILE:  js/data.js
+LOOK FOR:  KM.brand = { ... }
+
+Change these lines:
+  name          → café name
+  tagline       → big home headline
+  subtitle      → line under the headline
+  description   → about text
+  heritage      → longer story text
+  phone         → +91XXXXXXXXXX  (no spaces, used for Call button)
+  phoneDisplay  → how it looks on the site  (+91 73070 97771)
+  whatsapp      → https://wa.me/91XXXXXXXXXX
+  maps          → Google Maps share link
+  mapsEmbed     → Google Maps embed URL (the iframe)
+  address / area / city / pincode / fullAddress
+  hours         → short hours line
+  hoursNote     → extra line (last call, open all days)
+  fssai         → licence number
+
+Hours table (if used):
+  KM.hours = [ { day: "Monday", open: "12:00", close: "23:45" }, ... ]
+
+
+--------------------------------------------------------------------------------
+2) LOYALTY  (now 5% of every signed-in order)
+--------------------------------------------------------------------------------
+You MUST change TWO places so the site and kitchen stay in sync.
+
+A) What the website shows
+   FILE:  js/data.js
+   LOOK FOR:  KM.loyalty = { percent: 5, ... }
+   Change:    percent: 5    →  e.g. 10 for 10%
+
+B) What the kitchen actually awards
+   FILE:  server.py
+   LOOK FOR:  LOYALTY_PERCENT = 5
+   Change:    to the SAME number as percent in data.js
+
+Then restart the server.
+
+Notes:
+  • Only Google-signed-in orders earn loyalty. Guest orders earn 0.
+  • Credit is rupees. A ₹1000 bill at 5% adds ₹50 to the wallet.
+  • Old balances were converted so their rupee value stayed the same.
+  • Do not change only one file.
+
+
+--------------------------------------------------------------------------------
+3) DELIVERY FEES, GST, MINIMUM ORDER
+--------------------------------------------------------------------------------
+FILE:  js/data.js
+LOOK FOR:  KM.delivery = { ... }
+
+  minOrder    → minimum cart for delivery (now 199)
+  packaging   → packing charge (now 10)
+  gstRate     → GST (now 0.05 meaning 5%)
+  freeAbove   → free delivery above this amount (now 599)
+  fee         → default fee (zones below override this)
+
+Areas and fees:
+  KM.delivery.zones = [
+    { id: "hazratganj", name: "Hazratganj", eta: 20, fee: 29 },
+    ...
+  ]
+  eta = minutes, fee = rupees.
+
+To add an area: copy one line, give a new id, name, eta, fee.
+
+
+--------------------------------------------------------------------------------
+4) PROMO / COUPON CODES
+--------------------------------------------------------------------------------
+FILE:  js/data.js
+LOOK FOR:  KM.promos = { ... }
+
+Example:
+  ROYAL50: { type: "flat", value: 50, min: 399, label: "₹50 off above ₹399" }
+
+  type   → "flat" (₹ off) or "percent" (% off)
+  value  → 50 means ₹50 or 10 means 10%
+  min    → cart must be at least this
+  label  → text shown on the bill
+
+To add a code: add a new line with a NEW name in CAPITALS.
+To remove a code: delete that line.
+
+Checkout box hint text is in js/app.js (search ROYAL50).
+
+
+--------------------------------------------------------------------------------
+5) MENU — PRICE, NAME, PHOTO, NEW DISH
+--------------------------------------------------------------------------------
+EASIEST: open  admin.html  → Menu tab → edit price / photo / name.
+That writes data/menu.json and the public menu updates.
+
+BY HAND:
+  FILE:  data/menu.json     (what the live menu uses after the server starts)
+  ALSO:  js/data.js  KM.menu = [ ... ]  (fallback if the API is down)
+
+One dish looks like:
+  {
+    "id": "nabulsi",
+    "name": "Royal Nabulsi Kunafa",
+    "cat": "signature",
+    "price": 279,
+    "img": "assets/dishes/nabulsi.jpg",
+    "desc": "Short description",
+    "popular": true,
+    "tag": "Signature"
+  }
+
+  price  → number only, no ₹
+  cat    → must match a category id (see below)
+  img    → path under assets/dishes/ or assets/uploads/
+
+Categories:
+  FILE:  js/data.js   KM.categories = [ ... ]
+  ALSO:  server.py    MENU_CATS = { "signature", "fusion", ... }
+  If you add a new category, add it in BOTH places.
+
+
+--------------------------------------------------------------------------------
+6) COLOURS / THEME
+--------------------------------------------------------------------------------
+FILE:  css/styles.css
+LOOK FOR:  :root {  at the top
+
+  --maroon       #961b27    main brand
+  --maroon-dark  #6a0e16    header menu
+  --maroon-deep  #4a0a10    dark cards / contact panel
+  --maroon-ink   #2c070b    footer
+  --cream        #f6ede4    light text / buttons
+  --gold         #c4a35a    chips, accents
+  --whatsapp     #20b038    WhatsApp button
+
+Change the hex codes. The rest of the site uses these names.
+
+
+--------------------------------------------------------------------------------
+7) LOGO AND PHOTOS
+--------------------------------------------------------------------------------
+  Logo (header + footer):     assets/brand/logo.jpg
+  Dish photos:                assets/dishes/
+  New photos from admin:      assets/uploads/
+
+Replace logo.jpg with the same file name, or change the path in
+  js/ui.js   (search assets/brand/logo.jpg)
+
+
+--------------------------------------------------------------------------------
+8) ADMIN LOGIN (KITCHEN DESK)
+--------------------------------------------------------------------------------
+FILE:  server.py
+LOOK FOR:
+  ADMIN_USER = "admin"
+  ADMIN_PASS = "Kunafa@7771"
+
+Change those two strings. Restart the server.
+
+Open:  http://localhost:4173/admin.html
+  or:  https://your-vercel-site.vercel.app/admin.html
+
+Staff can also sign in with the café Gmail if ADMIN_EMAIL / SMTP_TO
+in .env matches that Gmail.
+
+
+--------------------------------------------------------------------------------
+9) EMAILS (order mail to café and guest)
+--------------------------------------------------------------------------------
+FILE:  .env     (never put this file on GitHub)
+
+  SMTP_USER     Gmail address
+  SMTP_PASS     Gmail App Password (16 letters, not the normal password)
+  SMTP_FROM     how the From line looks
+  SMTP_TO       where new orders go (usually the same Gmail)
+  ADMIN_EMAIL   Gmail that may open admin
+
+Email HTML layout:  emails.py
+After .env change: restart the server.
+
+
+--------------------------------------------------------------------------------
+10) GOOGLE SIGN-IN
+--------------------------------------------------------------------------------
+FILE:  .env
+
+  GOOGLE_CLIENT_ID
+  GOOGLE_CLIENT_SECRET
+  GOOGLE_REDIRECT_URI
+  SITE_URL
+
+Local:
+  SITE_URL=http://localhost:4173
+  GOOGLE_REDIRECT_URI=http://localhost:4173/auth/google/callback
+
+Live (example):
+  SITE_URL=https://kunafa-mahal-vert.vercel.app
+  GOOGLE_REDIRECT_URI=https://kunafa-mahal-vert.vercel.app/auth/google/callback
+
+In Google Cloud → Credentials → Web client, add the SAME redirect URI
+and the site origin (http://localhost:4173 and/or the Vercel https URL).
+
+On Vercel you must ALSO paste these keys in:
+  Vercel → Project → Settings → Environment Variables
+  then Redeploy.
+
+
+--------------------------------------------------------------------------------
+11) WHICH FILE IS WHICH PAGE
+--------------------------------------------------------------------------------
+Pages are HTML shells. The content is drawn by js/app.js.
+
+  index.html      home          →  function renderHome()
+  menu.html       menu          →  function renderMenu()
+  cart.html       cart          →  function renderCartPage()
+  checkout.html   checkout      →  function renderCheckout()
+  order.html      ticket        →  function renderOrder()
+  orders.html     my orders     →  function renderOrders()
+  track.html      track         →  function renderTrack()
+  about.html      story         →  function renderAbout()
+  contact.html    visit         →  function renderContact()
+  admin.html      kitchen desk  →  js/admin.js
+
+Header and footer (every page):  js/ui.js
+  KM.renderHeader()
+  KM.renderFooter()
+  WhatsApp float icon:  KM.icons.wa   in js/ui.js
+
+
+--------------------------------------------------------------------------------
+12) WHATSAPP FLOAT BUTTON
+--------------------------------------------------------------------------------
+Icon picture:   js/ui.js    KM.icons.wa   (the SVG)
+Position:       css/styles.css    .wa-float
+  right: 18px; bottom: 18px;     (lower right)
+Number:         js/data.js        KM.brand.whatsapp
+
+
+--------------------------------------------------------------------------------
+13) CONTACT PAGE TEXT
+--------------------------------------------------------------------------------
+FILE:  js/app.js
+LOOK FOR:  function renderContact()
+
+Hours line on that page is written in the HTML there
+(search  12:00 pm – 11:45 pm).
+Address / phone come from js/data.js (KM.brand).
+
+
+--------------------------------------------------------------------------------
+14) SERVER PORT
+--------------------------------------------------------------------------------
+FILE:  server.py
+LOOK FOR:  PORT = 4173
+Change the number, then start the server again.
+Open:  http://localhost:NEWPORT
+
+
+--------------------------------------------------------------------------------
+15) DATA FILES (orders, messages, loyalty)
+--------------------------------------------------------------------------------
+  data/menu.json       public menu
+  data/orders.json     all tickets
+  data/loyalty.json    wallets
+  data/messages.json   contact-form inbox
+  data/gallery.json    unused on the public site now
+
+Do not delete the files. You can open them in a text editor if you must.
+
+
+--------------------------------------------------------------------------------
+16) RUN / RESTART THE LOCAL SERVER
+--------------------------------------------------------------------------------
+In a terminal:
+
+  cd kunafa-mahal
+  python3 server.py
+
+Windows: double-click run.bat
+
+Then open http://localhost:4173
+
+If the port is busy, stop the old server or change PORT (section 14).
+
+
+--------------------------------------------------------------------------------
+17) VERCEL (LIVE SITE)
+--------------------------------------------------------------------------------
+1. Push this folder to GitHub.
+2. Vercel project root must be  kunafa-mahal
+3. Copy every key from .env into Vercel → Environment Variables
+4. SITE_URL and GOOGLE_REDIRECT_URI must be the live https URL
+5. Redeploy after env changes
+
+Config file:  vercel.json
+API on Vercel:  api/[...path].py  (uses server.py)
+
+Note: Vercel disk is not permanent. Menu shipped in data/menu.json is
+included. Live orders / new admin photos can reset when the function sleeps.
+
+
+--------------------------------------------------------------------------------
+QUICK LIST
+--------------------------------------------------------------------------------
+Want to change...              Open this file                 Change this
+--------------------------     ---------------------------    ---------------------------
+Phone / WhatsApp / address     js/data.js                     KM.brand
+Loyalty %                      js/data.js AND server.py       percent  AND  LOYALTY_PERCENT
+Delivery area / fee            js/data.js                     KM.delivery.zones
+GST / packing / min order      js/data.js                     KM.delivery
+Coupon                         js/data.js                     KM.promos
+Dish price                     admin.html  or  data/menu.json price
+Colours                        css/styles.css                 :root
+Logo                           assets/brand/logo.jpg
+Admin password                 server.py                      ADMIN_PASS
+Gmail / Google login           .env                           SMTP_*  GOOGLE_*
+Home page text                 js/app.js                      renderHome()
+Contact page                   js/app.js                      renderContact()
+Header / footer                js/ui.js                       renderHeader / renderFooter
+
+================================================================================
+END
+================================================================================
